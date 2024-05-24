@@ -12,44 +12,40 @@ import (
 	_ "github.com/joho/godotenv/autoload"
 )
 
-type Service interface {
-	Health() map[string]string
-}
+// type Service interface {
+// 	Health() map[string]string
+// 	CreateTeam(teamName string, membersName []string, membersEmail []string) (bool, error)
+// }
 
-type service struct {
-	db *sql.DB
-}
+var db *sql.DB
 
 var (
-	database   = os.Getenv("DB_DATABASE")
-	password   = os.Getenv("DB_PASSWORD")
-	username   = os.Getenv("DB_USERNAME")
-	port       = os.Getenv("DB_PORT")
-	host       = os.Getenv("DB_HOST")
-	dbInstance *service
+	database = os.Getenv("DB_DATABASE")
+	password = os.Getenv("DB_PASSWORD")
+	username = os.Getenv("DB_USERNAME")
+	port     = os.Getenv("DB_PORT")
+	host     = os.Getenv("DB_HOST")
 )
 
-func New() Service {
-	// Reuse Connection
-	if dbInstance != nil {
-		return dbInstance
-	}
+func InitializeDB() {
 	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", username, password, host, port, database)
-	db, err := sql.Open("pgx", connStr)
+	var err error
+	db, err = sql.Open("pgx", connStr)
 	if err != nil {
 		log.Fatal(err)
 	}
-	dbInstance = &service{
-		db: db,
+
+	err = db.Ping()
+	if err != nil {
+		log.Fatal(err)
 	}
-	return dbInstance
 }
 
-func (s *service) Health() map[string]string {
+func Health() map[string]string {
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 
-	err := s.db.PingContext(ctx)
+	err := db.PingContext(ctx)
 	if err != nil {
 		log.Fatalf(fmt.Sprintf("db down: %v", err))
 	}
@@ -57,4 +53,52 @@ func (s *service) Health() map[string]string {
 	return map[string]string{
 		"message": "It's healthy",
 	}
+}
+
+func CreateTeam(teamName string, membersName []string, membersEmail []string) (bool, error) {
+	tx, err := db.Begin()
+	if err != nil {
+		return false, err
+	}
+
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+			panic(r)
+		}
+	}()
+
+	query_team := `INSERT INTO teams (name) VALUES ($1) RETURNING id`
+	var teamID int
+	err = tx.QueryRow(query_team, teamName).Scan(&teamID)
+	if err != nil {
+		tx.Rollback()
+		return false, fmt.Errorf("could not insert team: %v", err)
+	}
+
+	//TODO: add signup_ip later
+	query_member := `INSERT INTO users (email_id, name, team_id) VALUES ($1, $2, $3)`
+
+	stmt, err := tx.Prepare(query_member)
+	if err != nil {
+		tx.Rollback()
+		return false, fmt.Errorf("could not prepare statement for inserting users: %v", err)
+	}
+	defer stmt.Close()
+
+	// Inserting each member
+	for i, name := range membersName {
+		email := membersEmail[i]
+		_, err = stmt.Exec(name, email, teamID)
+		if err != nil {
+			tx.Rollback()
+			return false, fmt.Errorf("could not insert user: %v", err)
+		}
+	}
+
+	if err = tx.Commit(); err != nil {
+		return false, fmt.Errorf("could not commit transaction: %v", err)
+	}
+
+	return true, nil
 }

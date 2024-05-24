@@ -6,14 +6,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (s *Server) RegisterRoutes() http.Handler {
-	r := gin.Default()
+func (s *Server) RegisterRoutes() {
 
-	r.GET("/", s.HelloWorldHandler)
-
-	r.GET("/health", s.healthHandler)
-
-	return r
+	s.GET("/", s.HelloWorldHandler)
+	s.GET("/health", s.healthHandler)
 }
 
 func (s *Server) HelloWorldHandler(c *gin.Context) {

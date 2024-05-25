@@ -1,6 +1,7 @@
 package database
 
 import (
+	"database/sql"
 	"fmt"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
@@ -77,10 +78,19 @@ func GetTeam(email string) (Team, error) {
 		}
 	}()
 
-	query := `SELECT t.id, t.name, array_arg(u.email_id) AS members_email, array_arg(u.name) AS members_name FROM users u JOIN teams t ON u.team_id = t.id WHERE u.team_id = (SELECT team_id from users WHERE email_id = $1) GROUP BY t.id, t.name`
-	err = tx.QueryRow(query, email).Scan(&data)
+	query := `SELECT t.id, t.name, array_agg(u.email_id) AS members_email, array_agg(u.name) AS members_name 
+				FROM users u 
+				JOIN teams t ON u.team_id = t.id 
+				WHERE t.id = (SELECT team_id FROM users WHERE email_id = $1)
+				GROUP BY t.id, t.name`
+
+	err = tx.QueryRow(query, email).Scan(&data.TeamId, &data.TeamName, &data.MembersEmail, &data.MembersName)
 	if err != nil {
 		tx.Rollback()
+		if err == sql.ErrNoRows {
+			fmt.Println("No team found for the email:", email)
+			return data, fmt.Errorf("no team found for the email: %v", email)
+		}
 		return data, fmt.Errorf("could not get team: %v", err)
 	}
 	if err = tx.Commit(); err != nil {

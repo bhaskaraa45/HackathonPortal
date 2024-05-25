@@ -26,8 +26,11 @@ func (s *Server) RegisterRoutes() {
 
 	s.GET("/", s.HelloWorldHandler)
 	s.GET("/health", s.healthHandler)
+	s.GET("/team", controllers.HandleGetTeam)
 	s.POST("/team", controllers.HandleTeamRegister)
-	s.GET("/team", controllers.HandleTeamRegister)
+	s.GET("/question", controllers.HandleGetQuestion)
+	s.POST("/question", controllers.HandleSubmitAnswer)
+	s.GET("/user", controllers.HandleGetUser)
 }
 
 func (s *Server) HelloWorldHandler(c *gin.Context) {

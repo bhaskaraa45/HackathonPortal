@@ -49,7 +49,7 @@ func CreateTeam(teamName string, membersName []string, membersEmail []string) (b
 	// Inserting each member
 	for i, name := range membersName {
 		email := membersEmail[i]
-		_, err = stmt.Exec(name, email, teamID)
+		_, err = stmt.Exec(email, name, teamID)
 		if err != nil {
 			tx.Rollback()
 			return false, fmt.Errorf("could not insert user: %v", err)

@@ -16,17 +16,21 @@ type TeamData struct {
 	MembersEmail []string `json:"members_email"`
 }
 
+type TempStruct struct {
+	Email string `json:"email_id"`
+}
+
 func HandleTeamRegister(c *gin.Context) {
 	var data TeamData
 	err := json.NewDecoder(c.Request.Body).Decode(&data)
 	if err != nil {
-		resp := internal.CustomResponse("ivalid json data!", http.StatusBadRequest)
+		resp := internal.CustomResponse("invalid json data!", http.StatusBadRequest)
 		c.JSON(http.StatusBadRequest, resp)
 		return
 	}
 
 	if data.TeamName == "" || len(data.MembersEmail) == 0 || len(data.MembersName) == 0 || len(data.MembersEmail) != len(data.MembersName) {
-		resp := internal.CustomResponse("ivalid json data!", http.StatusBadRequest)
+		resp := internal.CustomResponse("invalid json data!", http.StatusBadRequest)
 		c.JSON(http.StatusBadRequest, resp)
 		return
 	}
@@ -39,9 +43,27 @@ func HandleTeamRegister(c *gin.Context) {
 	}
 
 	if res {
-		resp := internal.CustomResponse("Successfully Team Registered", http.StatusBadRequest)
+		resp := internal.CustomResponse("Successfully Team Registered", http.StatusOK)
 		c.JSON(http.StatusOK, resp)
 		return
 	}
+}
 
+func HandleGetTeam(c *gin.Context) {
+	var email TempStruct
+	err := json.NewDecoder(c.Request.Body).Decode(&email)
+	if err != nil {
+		resp := internal.CustomResponse("invalid json data!", http.StatusBadRequest)
+		c.JSON(http.StatusBadRequest, resp)
+		return
+	}
+
+	team, err := database.GetTeam(email.Email)
+	if err != nil {
+		resp := internal.CustomResponse(("failed to fetch data"), http.StatusInternalServerError)
+		c.JSON(http.StatusBadRequest, resp)
+		return
+	}
+
+	c.JSON(http.StatusOK, team)
 }

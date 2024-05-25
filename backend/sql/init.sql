@@ -23,7 +23,9 @@ CREATE TABLE questions(
 
 CREATE TABLE submissions(
     team_id INTEGER PRIMARY KEY,
-    rounds VARCHAR[]
+    round_one VARCHAR,
+    round_two VARCHAR,
+    round_three VARCHAR
 );
 
 -- a foreign key constraint to link users.team_id with teams.id
@@ -37,3 +39,6 @@ ALTER TABLE submissions
 ADD CONSTRAINT fk_submissions_team
 FOREIGN KEY (team_id)
 REFERENCES teams(id);
+
+-- Add 'ADMIN' team by default
+INSERT INTO teams (name) VALUES ('ADMIN');

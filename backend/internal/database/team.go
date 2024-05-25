@@ -1,58 +1,17 @@
 package database
 
 import (
-	"context"
-	"database/sql"
 	"fmt"
-	"log"
-	"os"
-	"time"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 	_ "github.com/joho/godotenv/autoload"
 )
 
-// type Service interface {
-// 	Health() map[string]string
-// 	CreateTeam(teamName string, membersName []string, membersEmail []string) (bool, error)
-// }
-
-var db *sql.DB
-
-var (
-	database = os.Getenv("DB_DATABASE")
-	password = os.Getenv("DB_PASSWORD")
-	username = os.Getenv("DB_USERNAME")
-	port     = os.Getenv("DB_PORT")
-	host     = os.Getenv("DB_HOST")
-)
-
-func InitializeDB() {
-	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", username, password, host, port, database)
-	var err error
-	db, err = sql.Open("pgx", connStr)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = db.Ping()
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-func Health() map[string]string {
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
-	defer cancel()
-
-	err := db.PingContext(ctx)
-	if err != nil {
-		log.Fatalf(fmt.Sprintf("db down: %v", err))
-	}
-
-	return map[string]string{
-		"message": "It's healthy",
-	}
+type Team struct {
+	TeamId       int      `json:"id"`
+	TeamName     string   `json:"name"`
+	MembersEmail []string `json:"members_email"`
+	MembersName  []string `json:"members_name"`
 }
 
 func CreateTeam(teamName string, membersName []string, membersEmail []string) (bool, error) {
@@ -101,4 +60,32 @@ func CreateTeam(teamName string, membersName []string, membersEmail []string) (b
 	}
 
 	return true, nil
+}
+
+func GetTeam(email string) (Team, error) {
+	var data Team
+
+	tx, err := db.Begin()
+	if err != nil {
+		return data, err
+	}
+
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+			panic(r)
+		}
+	}()
+
+	query := `SELECT t.id, t.name, array_arg(u.email_id) AS members_email, array_arg(u.name) AS members_name FROM users u JOIN teams t ON u.team_id = t.id WHERE u.team_id = (SELECT team_id from users WHERE email_id = $1) GROUP BY t.id, t.name`
+	err = tx.QueryRow(query, email).Scan(&data)
+	if err != nil {
+		tx.Rollback()
+		return data, fmt.Errorf("could not get team: %v", err)
+	}
+	if err = tx.Commit(); err != nil {
+		return data, fmt.Errorf("could not commit transaction: %v", err)
+	}
+
+	return data, nil
 }

@@ -20,13 +20,14 @@ func (s *Server) RegisterRoutes() {
 			c.AbortWithStatus(http.StatusOK)
 			return
 		}
-		
+
 		c.Next()
 	})
 
 	s.GET("/", s.HelloWorldHandler)
 	s.GET("/health", s.healthHandler)
-	s.POST("/register", controllers.HandleTeamRegister)
+	s.POST("/team", controllers.HandleTeamRegister)
+	s.GET("/team", controllers.HandleTeamRegister)
 }
 
 func (s *Server) HelloWorldHandler(c *gin.Context) {

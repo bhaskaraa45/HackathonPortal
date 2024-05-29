@@ -4,7 +4,7 @@ import SuperTokensReact from 'supertokens-auth-react';
 import { frontendConfig } from './supertoken';
 
 async function GoogleSignOut() {
-    // SuperTokensReact.init(frontendConfig())
+    SuperTokensReact.init(frontendConfig())
     await signOut();
 }
 

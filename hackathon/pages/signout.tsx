@@ -1,3 +1,5 @@
+import makeApiCallWithRetry from "@/app/api/makeCall";
+import makeApiCall from "@/app/api/makeCall";
 import GoogleSignOut from "@/app/config/signout";
 import React from "react";
 
@@ -5,7 +7,7 @@ import React from "react";
 const Login: React.FC = () => {
     return (
         <div style={divStyle}>
-            <button style={googleButtonStyle} onClick={GoogleSignOut}>
+            <button style={googleButtonStyle} onClick={getUser}>
                 <img
                     src="https://developers.google.com/identity/images/g-logo.png"
                     alt="Google logo"
@@ -15,6 +17,14 @@ const Login: React.FC = () => {
             </button>
         </div>
     );
+}
+
+const getUser = async () => {
+    const data = await makeApiCallWithRetry("http://localhost:8080/team/promote", {
+        method: 'POST',
+        body: { 'team_id': 1 }
+    })
+    console.log(data)
 }
 
 

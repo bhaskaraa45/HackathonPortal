@@ -8,12 +8,18 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/supertokens/supertokens-golang/recipe/session"
+	"github.com/supertokens/supertokens-golang/recipe/thirdparty"
 )
 
 type TeamData struct {
 	TeamName     string   `json:"team_name"`
 	MembersName  []string `json:"members_name"`
 	MembersEmail []string `json:"members_email"`
+}
+
+type TeamPromoteData struct {
+	TeamID int `json:"team_id"`
 }
 
 type TempStruct struct {
@@ -50,15 +56,16 @@ func HandleTeamRegister(c *gin.Context) {
 }
 
 func HandleGetTeam(c *gin.Context) {
-	var email TempStruct
-	err := json.NewDecoder(c.Request.Body).Decode(&email)
+	sessionContainer := session.GetSessionFromRequestContext(c.Request.Context())
+	userID := sessionContainer.GetUserID()
+	info, err := thirdparty.GetUserByID(userID)
 	if err != nil {
-		resp := internal.CustomResponse("invalid json data!", http.StatusBadRequest)
+		resp := internal.CustomResponse(("session expired"), http.StatusBadRequest)
 		c.JSON(http.StatusBadRequest, resp)
 		return
 	}
 
-	team, err := database.GetTeam(email.Email)
+	team, err := database.GetTeam(info.Email)
 	if err != nil {
 		resp := internal.CustomResponse(("failed to fetch data"), http.StatusInternalServerError)
 		c.JSON(http.StatusBadRequest, resp)
@@ -68,6 +75,44 @@ func HandleGetTeam(c *gin.Context) {
 	c.JSON(http.StatusOK, team)
 }
 
-func HandleRoundPromotion(c *gin.Context){
-	
+func HandleRoundPromotion(c *gin.Context) {
+	sessionContainer := session.GetSessionFromRequestContext(c.Request.Context())
+	userID := sessionContainer.GetUserID()
+	info, err := thirdparty.GetUserByID(userID)
+	if err != nil {
+		resp := internal.CustomResponse(("session expired"), http.StatusBadRequest)
+		c.JSON(http.StatusBadRequest, resp)
+		return
+	}
+
+	user, err := database.GetUserByEmail(info.Email)
+
+	if err !=nil {
+		resp := internal.CustomResponse(("unauthorized user"), http.StatusUnauthorized)
+		c.JSON(http.StatusUnauthorized, resp)
+		return
+	}
+
+	if !user.IsAdmin {
+		resp := internal.CustomResponse(("unauthorized user"), http.StatusUnauthorized)
+		c.JSON(http.StatusUnauthorized, resp)
+		return
+	}
+
+	var data TeamPromoteData
+	err = json.NewDecoder(c.Request.Body).Decode(&data)
+	if err != nil {
+		resp := internal.CustomResponse("invalid json data!", http.StatusBadRequest)
+		c.JSON(http.StatusBadRequest, resp)
+		return
+	}
+
+	result := database.PromoteTeam(data.TeamID)
+
+	if !result {
+		resp := internal.CustomResponse("failed to promote data, please try again later", http.StatusInternalServerError)
+		c.JSON(http.StatusInternalServerError, resp)
+		return
+	}
+
 }

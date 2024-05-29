@@ -7,6 +7,8 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/supertokens/supertokens-golang/recipe/session"
+	"github.com/supertokens/supertokens-golang/recipe/session/sessmodels"
 	"github.com/supertokens/supertokens-golang/supertokens"
 )
 
@@ -28,29 +30,29 @@ func (s *Server) RegisterRoutes() {
 
 	// CORS
 	s.Use(cors.New(cors.Config{
-        AllowOrigins: []string{"http://localhost:3000"},
-        AllowMethods: []string{"GET", "POST", "DELETE", "PUT", "OPTIONS"},
-        AllowHeaders: append([]string{"Content-Type", "Authorization"},
-            supertokens.GetAllCORSHeaders()...),
-        AllowCredentials: true,
-    }))
+		AllowOrigins: []string{"http://localhost:3000"},
+		AllowMethods: []string{"GET", "POST", "DELETE", "PUT", "OPTIONS"},
+		AllowHeaders: append([]string{"Content-Type", "Authorization"},
+			supertokens.GetAllCORSHeaders()...),
+		AllowCredentials: true,
+	}))
 
-    s.Use(func(c *gin.Context) {
-        supertokens.Middleware(http.HandlerFunc(
-            func(rw http.ResponseWriter, r *http.Request) {
-                c.Next()
-            })).ServeHTTP(c.Writer, c.Request)
-        c.Abort()
-    })
+	s.Use(func(c *gin.Context) {
+		supertokens.Middleware(http.HandlerFunc(
+			func(rw http.ResponseWriter, r *http.Request) {
+				c.Next()
+			})).ServeHTTP(c.Writer, c.Request)
+		c.Abort()
+	})
 
-	s.GET("/", s.HelloWorldHandler)
-	s.GET("/health", s.healthHandler)
-	s.GET("/team", controllers.HandleGetTeam)
-	// s.GET("/team", controllers.HandleGetTeam)
-	s.POST("/team", controllers.HandleTeamRegister)
-	s.GET("/question", controllers.HandleGetQuestion)
-	s.POST("/question", controllers.HandleSubmitAnswer)
-	s.GET("/user", controllers.HandleGetUser)
+	s.GET("/", verifySession(nil), s.HelloWorldHandler)
+	s.GET("/health", verifySession(nil), s.healthHandler)
+	s.GET("/team", verifySession(nil), controllers.HandleGetTeam)
+	s.POST("/team", verifySession(nil), controllers.HandleTeamRegister)
+	s.POST("/team/promote", verifySession(nil), controllers.HandleRoundPromotion)
+	s.GET("/question", verifySession(nil), controllers.HandleGetQuestion)
+	s.POST("/question", verifySession(nil), controllers.HandleSubmitAnswer)
+	s.GET("/user", verifySession(nil), controllers.HandleGetUser)
 }
 
 func (s *Server) HelloWorldHandler(c *gin.Context) {
@@ -62,4 +64,14 @@ func (s *Server) HelloWorldHandler(c *gin.Context) {
 
 func (s *Server) healthHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, database.Health())
+}
+
+func verifySession(options *sessmodels.VerifySessionOptions) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		session.VerifySession(options, func(rw http.ResponseWriter, r *http.Request) {
+			c.Request = c.Request.WithContext(r.Context())
+			c.Next()
+		})(c.Writer, c.Request)
+		c.Abort()
+	}
 }

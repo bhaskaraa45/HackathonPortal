@@ -24,10 +24,10 @@ func GetUserByEmail(email string) (User, error) {
 		}
 	}()
 	query := `SELECT id, name, email_id, team_id, isAdmin FROM users WHERE email_id = $1`
-	err = tx.QueryRow(query, email).Scan(&data)
+	err = tx.QueryRow(query, email).Scan(&data.Id, &data.Name, &data.Email, &data.TeamId, &data.IsAdmin)
 	if err != nil {
 		tx.Rollback()
-		return data, fmt.Errorf("could not get question: %v", err)
+		return data, fmt.Errorf("could not get user: %v", err)
 	}
 	if err = tx.Commit(); err != nil {
 		return data, fmt.Errorf("could not commit transaction: %v", err)

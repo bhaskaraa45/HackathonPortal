@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"log"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 	_ "github.com/joho/godotenv/autoload"
@@ -98,4 +99,36 @@ func GetTeam(email string) (Team, error) {
 	}
 
 	return data, nil
+}
+
+func PromoteTeam(teamId int) bool {
+	tx, err := db.Begin()
+	if err != nil {
+		log.Println("Error beginning transaction:", err)
+		return false
+	}
+
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+			panic(r)
+		}
+	}()
+
+	query := `UPDATE teams SET current_round = current_round + 1 WHERE id = $1`
+
+	_, err = tx.Exec(query, teamId)
+	if err != nil {
+		log.Println("Error executing update:", err)
+		tx.Rollback()
+		return false
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		log.Println("Error committing transaction:", err)
+		return false
+	}
+
+	return true
 }

@@ -1,15 +1,11 @@
+import GoogleSignOut from "@/app/config/signout";
 import React from "react";
-import ThirdParty, {
-    Google,
-    Github,
-    Apple,
-    signOut
-} from 'supertokens-auth-react/recipe/thirdparty';
+
 
 const Login: React.FC = () => {
     return (
         <div style={divStyle}>
-            <button style={googleButtonStyle} onClick={onClickEvent}>
+            <button style={googleButtonStyle} onClick={GoogleSignOut}>
                 <img
                     src="https://developers.google.com/identity/images/g-logo.png"
                     alt="Google logo"
@@ -21,10 +17,7 @@ const Login: React.FC = () => {
     );
 }
 
-async function onClickEvent () {
-    await signOut();
-    window.location.href = "/auth";
-}
+
 
 const divStyle: React.CSSProperties = {
     display: 'flex',

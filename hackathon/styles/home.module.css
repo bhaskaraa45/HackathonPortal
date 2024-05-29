@@ -3,7 +3,8 @@
     position: relative;
     width: 100%;
     height: 100vh;
-    overflow: hidden; /* Hide overflow to avoid horizontal scrolling */
+    overflow: hidden;
+    /* Hide overflow to avoid horizontal scrolling */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,6 +34,7 @@
     z-index: 2;
     /* padding: 16px;  */
 }
+
 .menuButton {
     position: relative;
     left: 22%;
@@ -76,9 +78,9 @@
     font-style: normal;
     font-size: calc(0.8rem + 2vw);
     color: #323232;
+    z-index: 3;
 }
 
-/* Register Button */
 /* Register Button */
 .register {
     position: absolute;
@@ -104,11 +106,13 @@
     font-size: calc(0.4rem + 2vw);
     color: #ffffff;
     z-index: 4;
-    cursor: pointer; /* Change cursor on hover */
+    cursor: pointer;
+    /* Change cursor on hover */
 }
 
 .registerText:hover {
-    text-decoration: underline; /* Add underline on hover */
+    text-decoration: underline;
+    /* Add underline on hover */
 }
 
 /* E-Cell Logo */
@@ -119,7 +123,98 @@
     left: 41px;
     top: 32px;
     background: url("https://s3-alpha-sig.figma.com/img/e79e/2a1d/3219687af019e93fd354ef562c3de362?Expires=1717977600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kK5rmG4pPZM9l3aQqXtv0gQuv9i2KaBcNivupfkbDIZg7H672yGTUFspPEcMykm3c56ythRkqCT5tB3Sac4qRyVPcWDqZyHemkE6EzxjXktflQtc41H77I-VuVwMiN9U4PzU1bwv~PG~CsGOnDRhOEgXGtaRPPclLo99YO5ovdgM47KzieKRqtod6gJG~vMQe1ySnBKTk~A9WBP6Il0tvjxcjTRLnEfJqYz5O96m9S7Wyl6CBBtlSlK0nAd0WMQhyJMyF4aKkAeLxfbn0BeMLP-NbL-5Cl3So5fHMgbjvG1Ih1Z8MMXYrWEdEirTLau1kPqmXripNBit85O6ChsilQ__");
-    background-size: cover; /* Ensure the image covers the entire element */
+    background-size: cover;
+    /* Ensure the image covers the entire element */
     background-repeat: no-repeat;
     z-index: 5;
+}
+
+/* Mobile styles */
+@media only screen and (max-width: 1000px) {
+    .ellipse1 {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        left: 0%;
+        top: 0%;
+        border-radius: 0%;
+        background: linear-gradient(180.03deg, #788BFF 49.97%, #BFD7FF 99.97%);
+        z-index: 1;
+    }
+
+    .rectangle1 {
+        /* display: none; */
+        position: absolute;
+        width: 88px;
+        height: 100%;
+        top: 0px;
+        right: 0px;
+        background: transparent;
+        border-radius: 18px;
+        z-index: 1;
+    }
+
+    .countdownBOX {
+        position: absolute;
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: 700;
+        font-size: calc(1rem + 8.3vw);
+        color: #FFFFFF;
+        z-index: 3;
+        left: auto;
+    }
+
+    .starttext {
+        position: absolute;
+        bottom: countdown;
+        left: auto;
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-size: calc(1rem + 1.8vw);
+        color: #FFFFFF;
+        z-index: 3;
+        margin-top: 45px;
+        text-align: center;
+    }
+
+    .register {
+        position: absolute;
+        width: 220px;
+        height: 220px;;
+        left: auto;
+        border-radius: 50%;
+        background: linear-gradient(180deg, #5465FF 23.01%, #9BB1FF 100%);
+        box-shadow: 0px 40px 40px rgba(84, 101, 255, 0.28);
+        z-index: 3;
+        bottom: auto;
+        margin-top: 90px;
+    }
+
+    .description {
+        display: none;
+        position: absolute;
+        left: auto;
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-size: calc(0.8rem + 2vw);
+        color: #323232;
+        z-index: 3;
+        bottom: 17%;
+    }
+
+    .registerText {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        top: 41%;
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: 700;
+        font-size: calc(0.9rem + 1vw);
+        color: #ffffff;
+        z-index: 4;
+        cursor: pointer;
+    }
+
 }

@@ -38,6 +38,9 @@ export default function Home() {
 
     return (
         <div className={styles.container}>
+            <div className={styles.countdownBOX}>
+                {countdown}
+            </div>
             <div className={styles.ellipse1}></div>
             <div className={styles.rectangle1}>
                 <div className={styles.menuButton} onClick={handleHamburgerClick}>
@@ -48,16 +51,14 @@ export default function Home() {
                 <b>Buckle up!</b> <br />
                 Hackathon will start in
             </div>
-            <div className={styles.countdownBOX}>
-                {countdown}
-            </div>
+            
             <div className={styles.description}>
                 Hack your <b>future,</b><br />
                 <b>Prizes, Jobs & Glory</b> <br />
                 awaits you....
             </div>
-            <div className={styles.register} onClick={handleRegisterClick}>
-                <div className={styles.registerText}>
+            <div className={styles.register}>
+                <div className={styles.registerText} onClick={handleRegisterClick}>
                     Register now!
                 </div>
             </div>

@@ -72,7 +72,7 @@
 /* Description */
 .description {
     position: absolute;
-    left: 64px;
+    left: 2%;
     bottom: 15%;
     font-family: 'Montserrat';
     font-style: normal;
@@ -103,7 +103,7 @@
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 700;
-    font-size: calc(0.4rem + 2vw);
+    font-size: calc(0.9rem + 1.6vw);
     color: #ffffff;
     z-index: 4;
     cursor: pointer;
@@ -112,7 +112,6 @@
 
 .registerText:hover {
     text-decoration: underline;
-    /* Add underline on hover */
 }
 
 /* E-Cell Logo */
@@ -124,13 +123,12 @@
     top: 32px;
     background: url("https://s3-alpha-sig.figma.com/img/e79e/2a1d/3219687af019e93fd354ef562c3de362?Expires=1717977600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kK5rmG4pPZM9l3aQqXtv0gQuv9i2KaBcNivupfkbDIZg7H672yGTUFspPEcMykm3c56ythRkqCT5tB3Sac4qRyVPcWDqZyHemkE6EzxjXktflQtc41H77I-VuVwMiN9U4PzU1bwv~PG~CsGOnDRhOEgXGtaRPPclLo99YO5ovdgM47KzieKRqtod6gJG~vMQe1ySnBKTk~A9WBP6Il0tvjxcjTRLnEfJqYz5O96m9S7Wyl6CBBtlSlK0nAd0WMQhyJMyF4aKkAeLxfbn0BeMLP-NbL-5Cl3So5fHMgbjvG1Ih1Z8MMXYrWEdEirTLau1kPqmXripNBit85O6ChsilQ__");
     background-size: cover;
-    /* Ensure the image covers the entire element */
     background-repeat: no-repeat;
     z-index: 5;
 }
 
 /* Mobile styles */
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 850px) {
     .ellipse1 {
         position: absolute;
         height: 100%;
@@ -211,10 +209,22 @@
         font-family: 'Montserrat';
         font-style: normal;
         font-weight: 700;
-        font-size: calc(0.9rem + 1vw);
+        font-size: calc(1.6rem);
         color: #ffffff;
         z-index: 4;
         cursor: pointer;
     }
 
+    .ecellLogo {
+        position: absolute;
+        width: 39px;
+        height: 60px;
+        left: 16px;
+        top: 16px;
+        background: url("https://s3-alpha-sig.figma.com/img/e79e/2a1d/3219687af019e93fd354ef562c3de362?Expires=1717977600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kK5rmG4pPZM9l3aQqXtv0gQuv9i2KaBcNivupfkbDIZg7H672yGTUFspPEcMykm3c56ythRkqCT5tB3Sac4qRyVPcWDqZyHemkE6EzxjXktflQtc41H77I-VuVwMiN9U4PzU1bwv~PG~CsGOnDRhOEgXGtaRPPclLo99YO5ovdgM47KzieKRqtod6gJG~vMQe1ySnBKTk~A9WBP6Il0tvjxcjTRLnEfJqYz5O96m9S7Wyl6CBBtlSlK0nAd0WMQhyJMyF4aKkAeLxfbn0BeMLP-NbL-5Cl3So5fHMgbjvG1Ih1Z8MMXYrWEdEirTLau1kPqmXripNBit85O6ChsilQ__");
+        background-size: cover;
+        background-repeat: no-repeat;
+        z-index: 5;
+    }
+    
 }

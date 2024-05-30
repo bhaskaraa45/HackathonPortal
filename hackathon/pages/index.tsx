@@ -6,7 +6,7 @@ export default function Home() {
     const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
-        const targetDate = new Date('2024-06-01T00:00:00').getTime();
+        const targetDate = new Date('2024-06-15T00:00:00').getTime();
 
         const interval = setInterval(() => {
             const now = new Date().getTime();

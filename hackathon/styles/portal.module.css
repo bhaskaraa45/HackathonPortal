@@ -1,0 +1,20 @@
+.container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar {
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    background: linear-gradient(180deg, #5465FF 0%, #788BFF 100%);
+    left: 0;
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
+}

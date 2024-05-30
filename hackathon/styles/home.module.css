@@ -59,6 +59,7 @@
     width: 400px;
 }
 
+
 .menuButton {
     position: relative;
     left: 21.5px;
@@ -68,19 +69,58 @@
     cursor: pointer;
 }
 
+.menuOptions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    position: absolute;
+    font-size: 24px;
+    font-weight: 700;
+    font-family: 'Montserrat';
+    font-style: normal;
+    left: 26px;
+    top: 90px;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.menuOptionsVisible {
+    animation: slideIn 1s forwards;
+}
+
+.menuOptionsHidden {
+    animation: slideOut 1s forwards;
+}
+
+.menuOptions ol li {
+    cursor: pointer;
+    transition: text-decoration 0.3s ease;
+}
+
+.menuOptions ol li:hover {
+    text-decoration: underline;
+    color: #000;
+}
+
+.displayNONE {
+    display: none;
+}
+
+
 /* Countdown BOX */
 .countdownBOX {
     position: absolute;
-    /* top: 229px; */
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 700;
-    font-size: calc(0.8rem + 8.5vw);
+    font-size: calc(1rem + 15.5vh);
     color: #FFFFFF;
     z-index: 3;
     top: 0;
     margin-top: 175px;
-    transform: translate(18%);
+    transform: translate(17%);
     transition: margin-top 1s ease, transform 1s ease, font-size 1s ease;
 }
 
@@ -97,7 +137,7 @@
     margin-top: 85px;
     font-family: 'Montserrat';
     font-style: normal;
-    font-size: calc(0.8rem + 2vw);
+    font-size: calc(0.9rem + 3.5vh);
     color: #FFFFFF;
     z-index: 3;
     transition: margin-top 1s ease, transform 1s ease, text-align 1s ease;
@@ -177,14 +217,14 @@
     height: 72px;
     left: 41px;
     top: 32px;
-    background: url("https://s3-alpha-sig.figma.com/img/e79e/2a1d/3219687af019e93fd354ef562c3de362?Expires=1717977600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kK5rmG4pPZM9l3aQqXtv0gQuv9i2KaBcNivupfkbDIZg7H672yGTUFspPEcMykm3c56ythRkqCT5tB3Sac4qRyVPcWDqZyHemkE6EzxjXktflQtc41H77I-VuVwMiN9U4PzU1bwv~PG~CsGOnDRhOEgXGtaRPPclLo99YO5ovdgM47KzieKRqtod6gJG~vMQe1ySnBKTk~A9WBP6Il0tvjxcjTRLnEfJqYz5O96m9S7Wyl6CBBtlSlK0nAd0WMQhyJMyF4aKkAeLxfbn0BeMLP-NbL-5Cl3So5fHMgbjvG1Ih1Z8MMXYrWEdEirTLau1kPqmXripNBit85O6ChsilQ__");
+    background: url("../public/ecell.png");
     background-size: cover;
     background-repeat: no-repeat;
     z-index: 5;
 }
 
-@media only screen and (max-width: 1100px),
-screen and (max-height: 645px) {
+@media only screen and (max-width: 1150px),
+screen and (max-height: 205px) {
     .circleContainer {
         height: 100%;
         width: 100%;
@@ -213,8 +253,7 @@ screen and (max-height: 645px) {
         box-shadow: none;
     }
 
-    .rectangle1,
-    .rectangle1AFTERCLICK {
+    .rectangle1 {
         position: fixed;
         width: 88px;
         height: 100%;
@@ -222,12 +261,23 @@ screen and (max-height: 645px) {
         right: 0px;
         background: transparent;
         border-radius: 18px;
-        z-index: 1;
+        z-index: 5;
         transition: width 1s ease;
         transform: translateX(0%);
     }
 
-    
+    .rectangle1AFTERCLICK {
+        position: fixed;
+        width: 42%;
+        height: 100%;
+        top: 0px;
+        right: 0px;
+        background: linear-gradient(180deg, #5465FF 0%, #788BFF 100%);
+        border-radius: 18px;
+        z-index: 5;
+        transition: width 1s ease;
+        transform: translateX(0%);
+    }
 
     .countdownBOX {
         font-size: calc(1rem + 8.3vw);
@@ -260,6 +310,7 @@ screen and (max-height: 645px) {
 
     .register,
     .registerAFTERCLICK {
+        position: relative;
         width: 220px;
         height: 220px;
         min-height: 220px;
@@ -269,7 +320,8 @@ screen and (max-height: 645px) {
         margin-top: 90px;
         transition: all 1s ease;
         transform: translateX(0%);
-        /* margin-bottom: 50px; */
+        margin-bottom: 50px;
+
     }
 
     .description,
@@ -294,5 +346,39 @@ screen and (max-height: 645px) {
         height: 60px;
         left: 16px;
         top: 16px;
+    }
+
+    .menuOptionsVisible {
+        animation: slideIn 0.5s forwards;
+    }
+
+    .menuOptionsHidden {
+        animation: slideOut 1.5s forwards;
+    }
+
+
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(100%);
+        opacity: 0;
     }
 }

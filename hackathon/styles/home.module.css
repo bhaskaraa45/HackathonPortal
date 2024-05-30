@@ -1,72 +1,112 @@
 /* Container styles */
 .container {
     position: relative;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
-    overflow: hidden;
-    /* Hide overflow to avoid horizontal scrolling */
+    overflow-x: hidden;
+    overflow-y: auto;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.circleContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 1s ease, height 1s ease, width 1s ease, box-shadow 1s ease;
+}
+
+.circleContainerAFTERCLICK {
+    height: 100%;
+}
+
 /* Ellipse 1 */
 .ellipse1 {
     position: absolute;
-    height: 175%;
-    left: 25%;
-    top: -773px;
+    height: 1841px;
     border-radius: 50%;
     aspect-ratio: 1;
     background: linear-gradient(180.03deg, #788BFF 49.97%, #BFD7FF 99.97%);
     z-index: 1;
+    transition: transform 1s ease, height 1s ease, width 1s ease, box-shadow 1s ease;
+    transform: translate(25%, -25%);
+}
+
+.ellipse1AFTERCLICK {
+    height: 100%;
+    border-radius: 50%;
+    transform: translateX(-15%);
+    box-shadow: 0px 40px 40px rgba(84, 101, 255, 0.27);
 }
 
 /* Rectangle 1 */
 .rectangle1 {
-    position: absolute;
+    position: fixed;
     width: 88px;
     height: 100%;
     top: 0px;
     right: 0px;
     background: linear-gradient(180deg, #5465FF 0%, #788BFF 100%);
-    border-radius: 18px;
-    z-index: 2;
-    /* padding: 16px;  */
+    border-top-left-radius: 18px;
+    border-bottom-left-radius: 18px;
+    z-index: 4;
+    transition: width 1s ease;
+}
+
+.rectangle1AFTERCLICK {
+    width: 400px;
 }
 
 .menuButton {
     position: relative;
-    left: 22%;
-    top: 25px;
-    width: 55px;
-    height: 50px;
+    left: 21.5px;
+    top: 30px;
+    width: 45px;
+    height: 10px;
     cursor: pointer;
 }
 
 /* Countdown BOX */
 .countdownBOX {
     position: absolute;
-    left: 35%;
-    top: 229px;
+    /* top: 229px; */
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 700;
     font-size: calc(0.8rem + 8.5vw);
     color: #FFFFFF;
     z-index: 3;
+    top: 0;
+    margin-top: 175px;
+    transform: translate(18%);
+    transition: margin-top 1s ease, transform 1s ease, font-size 1s ease;
+}
+
+.countdownBOXAFTERCLICK {
+    margin-top: 260px;
+    transform: translateX(-18%);
+    font-size: calc(0.3rem + 7.2vw);
 }
 
 /* Start Text */
 .starttext {
     position: absolute;
-    left: 36%;
-    top: 115px;
+    top: 0;
+    margin-top: 85px;
     font-family: 'Montserrat';
     font-style: normal;
     font-size: calc(0.8rem + 2vw);
     color: #FFFFFF;
     z-index: 3;
+    transition: margin-top 1s ease, transform 1s ease, text-align 1s ease;
+}
+
+.starttextAFTERCLICK {
+    margin-top: 135px;
+    text-align: center;
+    transform: translateX(-22%);
 }
 
 /* Description */
@@ -79,20 +119,36 @@
     font-size: calc(0.8rem + 2vw);
     color: #323232;
     z-index: 3;
+    transition: all 1s ease;
+}
+
+.descriptionAFTERCLICK {
+    display: none;
 }
 
 /* Register Button */
 .register {
-    position: absolute;
-    width: 392px;
-    height: 391px;
-    left: 35%;
-    bottom: 80px;
+    position: relative;
+    height: calc(15vh + 10vw);
+    min-height: 300px;
+    aspect-ratio: 1;
     border-radius: 50%;
     background: linear-gradient(180deg, #5465FF 23.01%, #9BB1FF 100%);
     box-shadow: 0px 40px 40px rgba(84, 101, 255, 0.28);
     z-index: 3;
+    top: calc(120px + 7vh);
+    left: calc(-140px);
+    transition: all 1s ease;
 }
+
+.registerAFTERCLICK {
+    top: auto;
+    left: auto;
+    margin-top: auto;
+    margin-bottom: 50px;
+    transform: translateX(-42%);
+}
+
 
 /* Register Text */
 .registerText {
@@ -103,11 +159,11 @@
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 700;
-    font-size: calc(0.9rem + 1.6vw);
+    font-size: calc(calc(0.9rem + 1.3vw));
     color: #ffffff;
     z-index: 4;
     cursor: pointer;
-    /* Change cursor on hover */
+    transition: text-decoration 1s ease;
 }
 
 .registerText:hover {
@@ -116,7 +172,7 @@
 
 /* E-Cell Logo */
 .ecellLogo {
-    position: absolute;
+    position: fixed;
     width: 47px;
     height: 72px;
     left: 41px;
@@ -127,22 +183,39 @@
     z-index: 5;
 }
 
-/* Mobile styles */
-@media only screen and (max-width: 850px) {
-    .ellipse1 {
-        position: absolute;
+@media only screen and (max-width: 1100px),
+screen and (max-height: 645px) {
+    .circleContainer {
         height: 100%;
         width: 100%;
-        left: 0%;
-        top: 0%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform 1s ease, height 1s ease, width 1s ease, box-shadow 1s ease;
+    }
+
+    .ellipse1 {
+        height: 100%;
+        width: 100%;
         border-radius: 0%;
         background: linear-gradient(180.03deg, #788BFF 49.97%, #BFD7FF 99.97%);
         z-index: 1;
+        transform: translate(0%);
+        transition: transform 1s ease, height 1s ease, width 1s ease, box-shadow 1s ease;
     }
 
-    .rectangle1 {
-        /* display: none; */
-        position: absolute;
+    .ellipse1AFTERCLICK {
+        height: 100%;
+        width: 100%;
+        border-radius: 0%;
+        transform: translate(0%);
+        box-shadow: none;
+    }
+
+    .rectangle1,
+    .rectangle1AFTERCLICK {
+        position: fixed;
         width: 88px;
         height: 100%;
         top: 0px;
@@ -150,46 +223,57 @@
         background: transparent;
         border-radius: 18px;
         z-index: 1;
+        transition: width 1s ease;
+        transform: translateX(0%);
     }
 
+    
+
     .countdownBOX {
-        position: absolute;
-        font-family: 'Montserrat';
-        font-style: normal;
-        font-weight: 700;
         font-size: calc(1rem + 8.3vw);
-        color: #FFFFFF;
-        z-index: 3;
         left: auto;
+        margin-top: 205px;
+        text-align: center;
+        transform: translate(0%);
+        transition: margin-top 1s ease, transform 1s ease, font-size 1s ease;
+    }
+
+    .countdownBOXAFTERCLICK {
+        margin-top: 205px;
+        transform: translate(0%);
+        font-size: calc(1rem + 8.3vw);
     }
 
     .starttext {
-        position: absolute;
-        bottom: countdown;
         left: auto;
-        font-family: 'Montserrat';
-        font-style: normal;
         font-size: calc(1rem + 1.8vw);
-        color: #FFFFFF;
-        z-index: 3;
-        margin-top: 45px;
+        margin-top: 145px;
         text-align: center;
+        transition: margin-top 1s ease, transform 1s ease, text-align 1s ease;
     }
 
-    .register {
-        position: absolute;
+    .starttextAFTERCLICK {
+        margin-top: 145px;
+        text-align: center;
+        transform: translate(0%);
+    }
+
+    .register,
+    .registerAFTERCLICK {
         width: 220px;
-        height: 220px;;
+        height: 220px;
+        min-height: 220px;
         left: auto;
         border-radius: 50%;
-        background: linear-gradient(180deg, #5465FF 23.01%, #9BB1FF 100%);
-        box-shadow: 0px 40px 40px rgba(84, 101, 255, 0.28);
-        z-index: 3;
-        bottom: auto;
+        top: 0;
         margin-top: 90px;
+        transition: all 1s ease;
+        transform: translateX(0%);
+        /* margin-bottom: 50px; */
     }
 
-    .description {
+    .description,
+    .descriptionAFTERCLICK {
         display: none;
         position: absolute;
         left: auto;
@@ -202,29 +286,13 @@
     }
 
     .registerText {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        top: 41%;
-        font-family: 'Montserrat';
-        font-style: normal;
-        font-weight: 700;
         font-size: calc(1.6rem);
-        color: #ffffff;
-        z-index: 4;
-        cursor: pointer;
     }
 
     .ecellLogo {
-        position: absolute;
         width: 39px;
         height: 60px;
         left: 16px;
         top: 16px;
-        background: url("https://s3-alpha-sig.figma.com/img/e79e/2a1d/3219687af019e93fd354ef562c3de362?Expires=1717977600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kK5rmG4pPZM9l3aQqXtv0gQuv9i2KaBcNivupfkbDIZg7H672yGTUFspPEcMykm3c56ythRkqCT5tB3Sac4qRyVPcWDqZyHemkE6EzxjXktflQtc41H77I-VuVwMiN9U4PzU1bwv~PG~CsGOnDRhOEgXGtaRPPclLo99YO5ovdgM47KzieKRqtod6gJG~vMQe1ySnBKTk~A9WBP6Il0tvjxcjTRLnEfJqYz5O96m9S7Wyl6CBBtlSlK0nAd0WMQhyJMyF4aKkAeLxfbn0BeMLP-NbL-5Cl3So5fHMgbjvG1Ih1Z8MMXYrWEdEirTLau1kPqmXripNBit85O6ChsilQ__");
-        background-size: cover;
-        background-repeat: no-repeat;
-        z-index: 5;
     }
-    
 }

@@ -30,7 +30,7 @@ func (s *Server) RegisterRoutes() {
 
 	// CORS
 	s.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"http://localhost:3000"},
+		AllowOrigins: []string{"http://localhost:3000", "https://ecell.bhaskaraa45.me"},
 		AllowMethods: []string{"GET", "POST", "DELETE", "PUT", "OPTIONS"},
 		AllowHeaders: append([]string{"Content-Type", "Authorization"},
 			supertokens.GetAllCORSHeaders()...),

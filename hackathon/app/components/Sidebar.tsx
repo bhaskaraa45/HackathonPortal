@@ -80,11 +80,6 @@ export default function Sidebar({ isLoading }: { isLoading: boolean }) {
             >
 
                 <div className="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-between">
-                    {/* <div className='logoINDashboard  mb-4'>
-                        <img src='/ecell.png'></img>
-                        <hr style={{ "width": "1px", "height": "20px", "display": "inline-block;" }}></hr>
-                    </div>
-                    <hr className="my-2" /> */}
 
                     <div className="flex items-center justify-center mb-4">
                         <div className="logoINDashboardECELL">
@@ -178,12 +173,11 @@ export default function Sidebar({ isLoading }: { isLoading: boolean }) {
                         </li>
                     </ul>
                     <div className="mt-auto">
-                        <a href='/' className="backtohome cursor-pointer flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <Link href='/' className="backtohome cursor-pointer flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <span className="ml-3">Back to Home Page</span>
-                        </a>
+                        </Link>
                     </div>
                 </div>
-
             </aside>
         </div>
     );

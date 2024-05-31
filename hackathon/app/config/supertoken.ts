@@ -21,8 +21,8 @@ export function setRouter(
 
 const appInfo = {
     appName: 'Hackathon E-Cell',
-    apiDomain: 'http://localhost:8080',
-    websiteDomain: 'http://localhost:3000',
+    apiDomain: process.env.BACKEND_URL ?? 'http://localhost:8080',
+    websiteDomain: process.env.FRONTEN_URL ?? 'http://localhost:3000',
     apiBasePath: '/auth',
     websiteBasePath: '/login',
 };

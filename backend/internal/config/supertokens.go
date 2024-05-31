@@ -21,8 +21,8 @@ func InitSuperTokesn() {
 		},
 		AppInfo: supertokens.AppInfo{
 			AppName:         "hackathon",
-			APIDomain:       "http://localhost:8080",
-			WebsiteDomain:   "http://localhost:3000",
+			APIDomain:       os.Getenv("BACKEND_URL"),
+			WebsiteDomain:   os.Getenv("FRONTEND_URL"),
 			APIBasePath:     &apiBasePath,
 			WebsiteBasePath: &websiteBasePath,
 		},

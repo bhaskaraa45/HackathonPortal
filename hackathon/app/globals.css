@@ -201,6 +201,26 @@ table.table>tr {
   z-index: 5;
 }
 
+.logoINDashboardECELL {
+  width: 280px;
+  height: 76px;
+}
+
+.Hamburger {
+  color: white;
+}
+
+
+@media only screen and (max-width: 1150px) {
+  .ecellLogo {
+    display: none;
+  }
+
+  .Hamburger {
+    color: black;
+  }
+}
+
 
 
 @media only screen and (max-width: 640px) {

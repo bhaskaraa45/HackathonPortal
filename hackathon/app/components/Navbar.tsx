@@ -1,13 +1,13 @@
 import styles from '../../styles/home.module.css'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 
 type NavbarProp = {
     onMenuClick: Function
+    isHome: boolean
 }
 
-
-export default function Navbar({ onMenuClick }: NavbarProp) {
+export default function Navbar({ onMenuClick, isHome }: NavbarProp) {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const handleHamburgerClick = () => {
@@ -15,10 +15,30 @@ export default function Navbar({ onMenuClick }: NavbarProp) {
         onMenuClick(!menuOpen);
     };
 
+    const ref = useRef(null);
+
+    useEffect(() => {
+        const handleOutSideClick = (event: MouseEvent) => {
+            const sidebarElement = document.getElementById('navbar');
+            if (sidebarElement && !sidebarElement.contains(event.target as Node)) {
+                console.log("Outside Clicked. ");
+                setMenuOpen(false);
+                onMenuClick(false);
+            }
+        };
+
+        window.addEventListener("mousedown", handleOutSideClick);
+
+        return () => {
+            window.removeEventListener("mousedown", handleOutSideClick);
+        };
+    }, [ref]);
+
+
     return (
-        <div className={`${styles.rectangle1} ${menuOpen ? styles.rectangle1AFTERCLICK : ''}`}>
-            <div className={styles.menuButton} onClick={handleHamburgerClick}>
-                <svg fill="#ffffff" viewBox="0 0 24.00 24.00" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" strokeWidth="0.00024" transform="rotate(0)matrix(1, 0, 0, 1, 0, 0)">
+        <div id="navbar" className={`${styles.rectangle1} ${menuOpen ? styles.rectangle1AFTERCLICK : ''}`}>
+            <div className={`${styles.menuButton} navbar`} onClick={handleHamburgerClick}>
+                <svg className='Hamburger' fill={menuOpen ? 'white' : isHome ? 'white' : 'currentColor'} viewBox="0 0 24.00 24.00" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" strokeWidth="0.00024" transform="rotate(0)matrix(1, 0, 0, 1, 0, 0)">
                     <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                     <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="0.048"></g>
                     <g id="SVGRepo_iconCarrier">
@@ -52,7 +72,7 @@ export default function Navbar({ onMenuClick }: NavbarProp) {
                         </Link>
                     </li>
                     <li>
-                        <Link href="https://discord.com/"  target='_blank'>
+                        <Link href="https://discord.com/" target='_blank'>
                             Discord
                         </Link>
                     </li>
@@ -66,3 +86,4 @@ export default function Navbar({ onMenuClick }: NavbarProp) {
         </div>
     );
 }
+

@@ -10,11 +10,11 @@ const FAQsPage: React.FC = () => {
         setMenuOpen(newMenuState);
     };
     return (
-        <div>
+        <div className='FaqBackground'>
             <div className="ecellLogo"></div>
             <Flex height="100vh">
-                <Navbar onMenuClick={handleMenuClick} />
-                <Box minHeight="100vh" flex="1" className="contentContainer">
+                <Navbar onMenuClick={handleMenuClick} isHome={false}/>
+                <Box minHeight="100vh" flex="1" className="faqContainer">
                     <FaqSection />
                 </Box>
             </Flex>

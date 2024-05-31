@@ -8,9 +8,9 @@ const Dashboard = () => {
 
     useEffect(() => {
         async function checkAuth() {
-            const status =await getSessionStatus()
+            const status = await getSessionStatus()
             if (status) {
-                router.push('/dashboard/portal');
+                router.replace('/dashboard/portal');
             } else {
                 router.push('/login');
             }

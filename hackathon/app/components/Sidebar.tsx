@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { signOut } from "supertokens-auth-react/recipe/thirdparty";
 import { useRouter } from 'next/router';
 import SignOutModal from './signOutModal';
-
+import { Flex } from '@chakra-ui/react';
 
 export default function Sidebar({ isLoading }: { isLoading: boolean }) {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -78,8 +78,24 @@ export default function Sidebar({ isLoading }: { isLoading: boolean }) {
                     } sm:translate-x-0`}
                 aria-label="Sidenav"
             >
-                {/* <div className="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 sidebar"> */}
-                <div className="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 sidebar">
+
+                <div className="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-between">
+                    {/* <div className='logoINDashboard  mb-4'>
+                        <img src='/ecell.png'></img>
+                        <hr style={{ "width": "1px", "height": "20px", "display": "inline-block;" }}></hr>
+                    </div>
+                    <hr className="my-2" /> */}
+
+                    <div className="flex items-center justify-center mb-4">
+                        <div className="logoINDashboardECELL">
+                            <img src='/ecell.png'></img>
+                        </div>
+                        <div className="h-8 border-l border-gray-400 mx-4"></div>
+                        <div className="logoINDashboardNPCI">
+                            <img src='/npci.png'></img>
+                        </div>
+                    </div>
+                    <hr className="my-2" />
                     <ul className="space-y-2">
                         <li>
                             <Link href={`${isLoading ? "" : "/dashboard/portal"}`} className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -161,17 +177,9 @@ export default function Sidebar({ isLoading }: { isLoading: boolean }) {
                             </div>
                         </li>
                     </ul>
-                    <div>
+                    <div className="mt-auto">
                         <a href='/' className="backtohome cursor-pointer flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            {/* <svg
-                                className="w-8 h-6 text-gray-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M2.22222 2.22222H10V0H2.22222C1 0 0 1 0 2.22222V17.7778C0 19 1 20 2.22222 20H10V17.7778H2.22222V2.22222ZM20 10L15.5556 5.55556V8.88889H6.66667V11.1111H15.5556V14.4444L20 10Z"
-                                />
-                            </svg> */}
                             <span className="ml-3">Back to Home Page</span>
-
                         </a>
                     </div>
                 </div>

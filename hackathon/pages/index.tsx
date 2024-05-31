@@ -53,7 +53,7 @@ export default function Home() {
                 </div>
             </div>
 
-            <Navbar onMenuClick={handleMenuClick} />
+            <Navbar onMenuClick={handleMenuClick} isHome={true} />
 
             <div className={`${styles.starttext} ${menuOpen ? styles.starttextAFTERCLICK : ''}`}>
                 <b>Buckle up!</b> <br />

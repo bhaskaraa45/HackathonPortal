@@ -11,7 +11,7 @@ function Portal() {
 
         <div className="dashboardBG">
             <Flex height="100vh">
-                <Sidebar />
+                <Sidebar isLoading={false}/>
                 <Box flex="1" ml="16rem" className="contentContainer">
                 </Box>
             </Flex>

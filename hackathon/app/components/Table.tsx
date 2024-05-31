@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 type Team = {
     rank: number;
     name: string;
-    currentRound: string;
+    currentRound: number;
 };
 
 type LeaderboardProps = {
@@ -24,14 +24,7 @@ const Table: React.FC<LeaderboardProps> = ({ teams }) => {
     const [data, setData] = useState<Team[]>(teams);
 
     useEffect(() => {
-        // Uncomment the following lines if you want to fetch data from an API
-        // const getLeaderboard = async () => {
-        //   const res = await axios.get(`${API_URL}/leaderboard`);
-        //   setData(res.data);
-        // };
-        // getLeaderboard();
-        // const refresh = setInterval(getLeaderboard, 5000);
-        // return () => clearInterval(refresh);
+
     }, []);
 
     return (
@@ -39,8 +32,8 @@ const Table: React.FC<LeaderboardProps> = ({ teams }) => {
             <thead className="tableheading">
                 <tr>
                     <th>Rank</th>
-                    <th>Team Name</th>
-                    <th>Current Round</th>
+                    <th>Team</th>
+                    <th>Round</th>
                 </tr>
             </thead>
             <tbody>

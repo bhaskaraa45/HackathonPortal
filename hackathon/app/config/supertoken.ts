@@ -6,6 +6,7 @@ import ThirdParty, {
 import Session from 'supertokens-auth-react/recipe/session';
 import { useRouter } from 'next/navigation';
 import { SuperTokensConfig } from 'supertokens-auth-react/lib/build/types';
+import SuperTokensReact from 'supertokens-auth-react';
 
 const routerInfo: { router?: ReturnType<typeof useRouter>; pathName?: string } =
     {};
@@ -56,4 +57,9 @@ export const frontendConfig = (): SuperTokensConfig => {
             };
         },
     };
+}
+
+export async function getSessionStatus() {
+    SuperTokensReact.init(frontendConfig())
+    return await Session.doesSessionExist()
 }

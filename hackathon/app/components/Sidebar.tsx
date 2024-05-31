@@ -1,8 +1,14 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { signOut } from "supertokens-auth-react/recipe/thirdparty";
+import { useRouter } from 'next/router';
+import SignOutModal from './signOutModal';
 
-export default function Sidebar() {
+
+export default function Sidebar({ isLoading }: { isLoading: boolean }) {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
+    const [isModalVisible, setModalVisible] = useState(false);
+    const router = useRouter();
 
     const handleClickOutside = (event: MouseEvent) => {
         const sidebarElement = document.getElementById('default-sidebar');
@@ -26,8 +32,22 @@ export default function Sidebar() {
         };
     }, [isSidebarOpen]);
 
+    const handleSignOut = async () => {
+        setModalVisible(true);
+    };
+
+    const confirmSignOut = async () => {
+        await signOut();
+        window.location.href = '/';
+    };
+
     return (
         <div className='sidebarContainer'>
+            <SignOutModal
+                isVisible={isModalVisible}
+                onClose={() => setModalVisible(false)}
+                onConfirm={confirmSignOut}
+            />
             <button
                 data-drawer-target="default-sidebar"
                 data-drawer-toggle="default-sidebar"
@@ -62,7 +82,7 @@ export default function Sidebar() {
                 <div className="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 sidebar">
                     <ul className="space-y-2">
                         <li>
-                            <Link href="/portal" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <Link href={`${isLoading ? "" : "/dashboard/portal"}`} className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <svg
                                     className="w-8 h-6 text-gray-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                     fill="currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +110,7 @@ export default function Sidebar() {
 
 
                         <li>
-                            <Link href="/myteam" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <Link href={`${isLoading ? "" : "/dashboard/myteam"}`} className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <svg
                                     className="w-8 h-5 text-gray-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                     viewBox="0 0 20 15" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -104,7 +124,7 @@ export default function Sidebar() {
 
 
                         <li>
-                            <Link href="/leaderboard" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <Link href={`${isLoading ? "" : "/dashboard/leaderboard"}`} className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <svg
                                     className="w-8 h-8 text-gray-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 
@@ -128,7 +148,7 @@ export default function Sidebar() {
                         </li>
 
                         <li>
-                            <Link href="/" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <div onClick={handleSignOut} className="cursor-pointer flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <svg
                                     className="w-8 h-6 text-gray-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                     viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -138,10 +158,24 @@ export default function Sidebar() {
                                 </svg>
                                 <span className="ml-3">Sign out</span>
 
-                            </Link>
+                            </div>
                         </li>
                     </ul>
+                    <div>
+                        <a href='/' className="backtohome cursor-pointer flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            {/* <svg
+                                className="w-8 h-6 text-gray-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M2.22222 2.22222H10V0H2.22222C1 0 0 1 0 2.22222V17.7778C0 19 1 20 2.22222 20H10V17.7778H2.22222V2.22222ZM20 10L15.5556 5.55556V8.88889H6.66667V11.1111H15.5556V14.4444L20 10Z"
+                                />
+                            </svg> */}
+                            <span className="ml-3">Back to Home Page</span>
+
+                        </a>
+                    </div>
                 </div>
+
             </aside>
         </div>
     );

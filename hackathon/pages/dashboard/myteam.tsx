@@ -3,8 +3,9 @@ import React from "react";
 import styles from '../styles/portal.module.css'
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import MembersList from "@/app/components/team";
+import ProtectedRoute from "@/app/components/protectedRoutes";
 
-export default function MyTeam() {
+function MyTeam() {
 
     const members = [
         { name: 'Neil Sims', email: 'email@gmail.com', isLeader: true },
@@ -18,7 +19,7 @@ export default function MyTeam() {
     return (
         <div className="dashboardBG">
             <Flex height="100vh">
-                <Sidebar />
+                <Sidebar isLoading={false}/>
                 <Box minHeight="100vh" flex="1" className="contentContainer">
                     <Flex align="center"
                         justify="space-between"
@@ -27,7 +28,7 @@ export default function MyTeam() {
                         <Heading as="h1" size="lg" textAlign="center" className="heading">
                             TEAM: team_name
                         </Heading>
-                        <Heading size="lg"  textAlign="center" className="subheading">
+                        <Heading size="lg" textAlign="center" className="subheading">
                             MEMBERS
                         </Heading>
                         <div className="membersListContainer">
@@ -39,3 +40,5 @@ export default function MyTeam() {
         </div>
     );
 }
+
+export default ProtectedRoute(MyTeam);

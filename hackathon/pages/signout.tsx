@@ -1,6 +1,5 @@
 import makeApiCallWithRetry from "@/app/api/makeCall";
 import makeApiCall from "@/app/api/makeCall";
-import GoogleSignOut from "@/app/config/signout";
 import React from "react";
 
 
@@ -26,8 +25,6 @@ const getUser = async () => {
     })
     console.log(data)
 }
-
-
 
 const divStyle: React.CSSProperties = {
     display: 'flex',

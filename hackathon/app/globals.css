@@ -36,15 +36,8 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Montserrat', sans-serif;
-  background: #E2FDFF;
+  background: #e2e4ff;
 }
-
-/* .sidebar{
-  background-color: #12173b;
-} */
-
-
-/* .leaderboard  START*/
 
 .sidebarContainer {
   display: flex;
@@ -170,9 +163,45 @@ table.table>tr {
   /* font-style: normal; */
   margin-left: 8rem;
 }
-.membersListContainer{
+
+.membersListContainer {
   margin-left: 8rem;
 }
+
+.backtohome {
+  display: flex;
+}
+
+.faqsContainer {
+  position: relative;
+  z-index: 2;
+  left: 0;
+}
+
+.background {
+  position: fixed;
+  height: 1841px;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  background-image: linear-gradient(180.03deg, #788bff 49.97%, #bfd7ff 99.97%);
+  z-index: 1;
+  transition: transform 1s ease, height 1s ease, width 1s ease, box-shadow 1s ease;
+  transform: translate(-40%, -25%);
+}
+
+.ecellLogo {
+  position: fixed;
+  width: 47px;
+  height: 72px;
+  left: 41px;
+  top: 32px;
+  background: url("../public/ecell.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 5;
+}
+
+
 
 @media only screen and (max-width: 640px) {
   .contentContainer {
@@ -206,10 +235,19 @@ table.table>tr {
     margin-top: 2.2rem;
     text-align: center;
   }
+
   .centerContainer {
     max-width: none;
   }
-  .membersListContainer{
+
+  .membersListContainer {
     margin-left: 0px;
+  }
+
+  .ecellLogo {
+    width: 39px;
+    height: 60px;
+    left: 16px;
+    top: 16px;
   }
 }

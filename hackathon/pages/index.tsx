@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../styles/home.module.css';
 import Navbar from '@/app/components/Navbar';
+import Head from 'next/head';
 
 export default function Home() {
     const [countdown, setCountdown] = useState('00:00:00:00');
@@ -39,36 +40,37 @@ export default function Home() {
     };
 
 
-
     return (
-        <div className={styles.container}>
-            <div className={styles.ecellLogo}></div>
-
-            <div className={`${styles.circleContainer} ${menuOpen ? styles.circleContainerAFTERCLICK : ''}`}>
-                <div className={`${styles.ellipse1} ${menuOpen ? styles.ellipse1AFTERCLICK : ''}`}></div>
-                <div className={`${styles.register} ${menuOpen ? styles.registerAFTERCLICK : ''}`}>
-                    <div className={styles.registerText} onClick={handleRegisterClick}>
-                        Register now!
+        <>
+            <div className={styles.container}>
+                <div className={styles.ecellLogo}></div>
+                <div className={`${styles.circleContainer} ${menuOpen ? styles.circleContainerAFTERCLICK : ''}`}>
+                    <div className={`${styles.ellipse1} ${menuOpen ? styles.ellipse1AFTERCLICK : ''}`}></div>
+                    <div className={`${styles.register} ${menuOpen ? styles.registerAFTERCLICK : ''}`}>
+                        <div className={styles.registerText} onClick={handleRegisterClick}>
+                            Register now!
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <Navbar onMenuClick={handleMenuClick} isHome={true} />
+                <Navbar onMenuClick={handleMenuClick} isHome={true} />
 
-            <div className={`${styles.starttext} ${menuOpen ? styles.starttextAFTERCLICK : ''}`}>
-                <b>Buckle up!</b> <br />
-                Hackathon will start in
-            </div>
-            <div className={`${styles.countdownBOX} ${menuOpen ? styles.countdownBOXAFTERCLICK : ''}`}>
-                {countdown}
-            </div>
+                <div className={`${styles.starttext} ${menuOpen ? styles.starttextAFTERCLICK : ''}`}>
+                    <b>Buckle up!</b> <br />
+                    Hackathon will start in
+                </div>
+                <div className={`${styles.countdownBOX} ${menuOpen ? styles.countdownBOXAFTERCLICK : ''}`}>
+                    {countdown}
+                </div>
 
-            <div className={`${styles.description} ${menuOpen ? styles.descriptionAFTERCLICK : ''}`}>
-                Hack your <b>future,</b><br />
-                <b>Prizes, Jobs & Glory</b> <br />
-                awaits you....
-            </div>
+                <div className={`${styles.description} ${menuOpen ? styles.descriptionAFTERCLICK : ''}`}>
+                    Hack your <b>future,</b><br />
+                    <b>Prizes, Jobs & Glory</b> <br />
+                    awaits you....
+                </div>
 
-        </div >
+            </div >
+        </>
+
     );
 }

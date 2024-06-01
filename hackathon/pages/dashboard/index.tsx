@@ -2,7 +2,7 @@ import ProtectedRoute from '@/app/components/protectedRoutes';
 import { getSessionStatus } from '@/app/config/supertoken';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import Head from 'next/head';
+import CustomHead from '@/app/components/customHead';
 
 const Dashboard = () => {
     const router = useRouter();
@@ -20,12 +20,7 @@ const Dashboard = () => {
     }, [router]);
     return (
         <>
-            <Head>
-                <title>
-                    Hackathon Dashboard | E-Cell IIT Hyderabad - NPCI
-                </title>
-                <meta name="description" content="Welcome to the Dashboard of E-Cell IIT Hyderabad & NPCI collaborative Hackathon." />
-            </Head>
+            <CustomHead title='Hackathon Dashboard | E-Cell IIT Hyderabad - NPCI' description='Welcome to the Dashboard of E-Cell IIT Hyderabad & NPCI collaborative Hackathon.' />
         </>
     );
 };

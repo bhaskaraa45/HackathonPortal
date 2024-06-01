@@ -72,11 +72,6 @@ export default function Navbar({ onMenuClick, isHome }: NavbarProp) {
                         </Link>
                     </li>
                     <li>
-                        <Link href="https://discord.com/" target='_blank'>
-                            Discord
-                        </Link>
-                    </li>
-                    <li>
                         <Link href="/admin">
                             Admin
                         </Link>

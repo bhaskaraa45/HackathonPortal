@@ -129,7 +129,7 @@ table.table>tr {
 
 .contentContainer {
   position: absolute;
-  width: 100%;
+  width: 100vw;
   height: 100%;
   overflow: auto;
   padding: 12px;
@@ -210,7 +210,61 @@ table.table>tr {
   color: white;
 }
 
+.problem_heading {
+  text-overflow: ellipsis;
+  letter-spacing: 1px;
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 700;
+  font-family: 'Montserrat';
+  font-style: normal;
+  /* margin-left: 8rem; */
+  /* margin-bottom: 3px; */
+}
 
+.statement {
+  width: 100%;
+  text-overflow: ellipsis;
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 400;
+  font-family: 'Montserrat';
+  font-style: normal;
+  /* margin-left: 8rem; */
+  margin-bottom: 26px;
+}
+
+.problem_points {
+  width: 100%;
+  text-overflow: ellipsis;
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 400;
+  font-family: 'Montserrat';
+  font-style: normal;
+  margin-left: 3rem;
+  list-style-type: circle;
+}
+
+.problem_list {
+  margin-bottom: 26px;
+}
+
+
+.submitButton {
+  background-color: #2f5b98;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.answer_submission {
+  position: fixed;
+  bottom: 0.1rem;
+  width: calc(100vw - 16.1rem);
+  left: 16rem;
+  z-index: 1000;
+}
 
 
 @media only screen and (max-width: 1150px) {
@@ -221,8 +275,30 @@ table.table>tr {
   .Hamburger {
     color: black;
   }
-}
 
+  .problem_heading {
+    font-size: 1.5rem;
+    margin-left: 2rem;
+  }
+
+  .statement {
+    font-size: 1.2rem;
+    margin-left: 2rem;
+    margin-bottom: 26px;
+  }
+
+  .problem_points {
+    font-size: 1.2rem;
+    margin-left: 5rem;
+    list-style-type: circle;
+  }
+
+  .problem_list {
+    margin-bottom: 26px;
+  }
+
+
+}
 
 
 @media only screen and (max-width: 640px) {
@@ -271,5 +347,38 @@ table.table>tr {
     height: 60px;
     left: 16px;
     top: 16px;
+  }
+
+  .problem_heading {
+    font-size: 1.5rem;
+    margin-left: 0;
+  }
+
+  .statement {
+    font-size: 1.2rem;
+    margin-left: 0;
+    margin-bottom: 26px;
+  }
+
+  .problem_points {
+    font-size: 1.2rem;
+    margin-left: 0;
+    list-style-type: circle;
+  }
+
+  .problem_list {
+    margin-bottom: 26px;
+  }
+
+  .submitButton {
+    background-color: #1f2937;
+    color: white;
+    /* Ensure the text color is white for better contrast */
+  }
+
+  .answer_submission {
+    width: 100%;
+    left: 0px;
+    bottom: 0px;
   }
 }

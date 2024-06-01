@@ -8,15 +8,15 @@ const Dashboard = () => {
     const router = useRouter();
 
     useEffect(() => {
-        async function checkAuth() {
-            const status = await getSessionStatus()
-            if (status) {
-                router.replace('/dashboard/portal');
-            } else {
-                router.push('/login');
-            }
-        }
-        checkAuth();
+        // async function checkAuth() {
+        //     const status = await getSessionStatus()
+        //     if (status) {
+        //         router.replace('/dashboard/portal');
+        //     } else {
+        //         router.push('/login');
+        //     }
+        // }
+        // checkAuth();
     }, [router]);
     return (
         <>

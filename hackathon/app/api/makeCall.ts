@@ -28,26 +28,26 @@ async function makeApiCall(url: string, options: ApiCallOptions) {
     }
 }
 
-const makeApiCallWithRetry = async (url: string, options: ApiCallOptions) => {
-    try {
-        const response = await makeApiCall(url, options);
-        return response;
-    } catch (error) {
-        if (error instanceof Error && error.message === "try refresh token") {
-            try {
-                // Attempt to refresh the session
-                await Session.attemptRefreshingSession();
+// const makeApiCallWithRetry = async (url: string, options: ApiCallOptions) => {
+//     try {
+//         const response = await makeApiCall(url, options);
+//         return response;
+//     } catch (error) {
+//         if (error instanceof Error && error.message === "try refresh token") {
+//             try {
+//                 // Attempt to refresh the session
+//                 await Session.attemptRefreshingSession();
                 
-                const response = await makeApiCall(url, options);
-                return response;
-            } catch (refreshError) {
-                console.error("Session refresh failed:", refreshError);
-                throw refreshError;
-            }
-        } else {
-            throw error;
-        }
-    }
-};
+//                 const response = await makeApiCall(url, options);
+//                 return response;
+//             } catch (refreshError) {
+//                 console.error("Session refresh failed:", refreshError);
+//                 throw refreshError;
+//             }
+//         } else {
+//             throw error;
+//         }
+//     }
+// };
 
-export default makeApiCallWithRetry;
+export default makeApiCall;

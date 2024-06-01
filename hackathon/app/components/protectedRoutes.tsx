@@ -1,24 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../hooks/useAuth';
 import LoadingPortal from './loadingPortal';
+import NotRegisteredModal from './notRegistered';
+import { signOut } from 'supertokens-auth-react/recipe/thirdparty';
 
 const ProtectedRoute = (WrappedComponent: React.ComponentType) => {
   const Wrapper: React.FC = (props) => {
-    const { isAuthenticated, loading } = useAuth();
+    const { isSessionExists, isAuthenticated, loading } = useAuth();
+    const [isModalVisible, setModalVisible] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
-      if (!loading && !isAuthenticated) {
+      if (!loading && !isSessionExists) {
         router.push('/login');
       }
-    }, [loading, isAuthenticated, router]);
+    }, [loading, isSessionExists, router]);
 
     if (loading) {
       return <LoadingPortal />;
     }
-
-    return isAuthenticated ? <WrappedComponent {...props} /> : null;
+    const onClose = async () => {
+      await signOut();
+      setModalVisible(false);
+      router.replace("/")
+    };
+    return (
+      <>
+        {isAuthenticated ? (
+          <WrappedComponent {...props} />
+        ) : isSessionExists ? (
+          <NotRegisteredModal isVisible={true} onClose={onClose} />
+        ) : null}
+      </>
+    );
   };
 
   return Wrapper;

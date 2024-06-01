@@ -1,20 +1,34 @@
 import { useEffect, useState } from 'react';
 import Session from 'supertokens-auth-react/recipe/session';
-import { frontendConfig } from '../config/supertoken';
+import axios from 'axios';
 
 export const useAuth = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isSessionExists, setIsSessionExists] = useState(false);
     const [loading, setLoading] = useState(true);
+
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
     useEffect(() => {
         async function checkAuth() {
-            const sessionExists = await Session.doesSessionExist();
-            setIsAuthenticated(sessionExists);
-            setLoading(false);
+            try {
+                const sessionExists = await Session.doesSessionExist();
+                setIsSessionExists(sessionExists);
+                if (sessionExists) {
+                    const response = await axios.get(`${backendUrl}/me`);
+                    if (response.status === 200) {
+                        setIsAuthenticated(true);
+                    }
+                }
+            } catch (error) {
+                console.error("Error checking authentication:", error);
+            } finally {
+                setLoading(false);
+            }
         }
 
         checkAuth();
     }, []);
 
-    return { isAuthenticated, loading };
+    return { isSessionExists, isAuthenticated, loading };
 };

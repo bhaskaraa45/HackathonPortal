@@ -82,13 +82,16 @@ export default function Sidebar({ isLoading }: { isLoading: boolean }) {
                 <div className="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-between">
 
                     <div className="flex items-center justify-center mb-4">
-                        <div className="logoINDashboardECELL">
+                        <div>
+                            <img src='/ecell_npci.png'></img>
+                        </div>
+                        {/* <div className="logoINDashboardECELL">
                             <img src='/ecell.png'></img>
                         </div>
                         <div className="h-8 border-l border-gray-400 mx-4"></div>
                         <div className="logoINDashboardNPCI">
                             <img src='/npci.png'></img>
-                        </div>
+                        </div> */}
                     </div>
                     <hr className="my-2" />
                     <ul className="space-y-2">

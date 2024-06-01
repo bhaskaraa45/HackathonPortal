@@ -217,8 +217,8 @@
     height: 72px;
     left: 41px;
     top: 32px;
-    background: url("../public/ecell.png");
-    background-size: cover;
+    background: url("../public/logo_blue.png");
+    background-size: contain;
     background-repeat: no-repeat;
     z-index: 5;
 }

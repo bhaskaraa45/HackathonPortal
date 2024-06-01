@@ -19,10 +19,11 @@ export function setRouter(
     routerInfo.pathName = pathName;
 }
 
+
 const appInfo = {
     appName: 'Hackathon E-Cell',
-    apiDomain: process.env.BACKEND_URL ?? 'https://api-ecell.bhaskaraa45.me',
-    websiteDomain: process.env.FRONTEN_URL ?? 'https://ecell.bhaskaraa45.me',
+    apiDomain: process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:8080',
+    websiteDomain: process.env.NEXT_PUBLIC_FRONTEND_URL ?? 'http://localhost:8080',
     apiBasePath: '/auth',
     websiteBasePath: '/login',
 };
@@ -34,7 +35,19 @@ export const frontendConfig = (): SuperTokensConfig => {
             ThirdParty.init({
                 style: `
                     [data-supertokens~=superTokensBranding] {
-                        display: none;}`,
+                        display: none;
+                    }
+                    
+                    [data-supertokens~=headerTitle] {
+                        visibility: hidden;
+                    }
+                    [data-supertokens~=headerTitle]:after {
+                        visibility: visible;
+                        content: "Sign In To Continue";
+                        display:flex;
+                        justify-content:center;
+                    }
+                    `,
                 signInAndUpFeature: {
                     providers: [
                         Google.init(),

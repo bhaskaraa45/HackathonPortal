@@ -4,7 +4,6 @@ import (
 	"os"
 
 	"github.com/supertokens/supertokens-golang/recipe/dashboard"
-	"github.com/supertokens/supertokens-golang/recipe/dashboard/dashboardmodels"
 	"github.com/supertokens/supertokens-golang/recipe/session"
 	"github.com/supertokens/supertokens-golang/recipe/thirdparty"
 	"github.com/supertokens/supertokens-golang/recipe/thirdparty/tpmodels"
@@ -27,12 +26,7 @@ func InitSuperTokesn() {
 			WebsiteBasePath: &websiteBasePath,
 		},
 		RecipeList: []supertokens.Recipe{
-			dashboard.Init(&dashboardmodels.TypeInput{
-				Admins: &[]string{
-					os.Getenv("ADMIN_1"),
-				},
-			}),
-			// dashboard.Init(nil),
+			dashboard.Init(nil),
 			thirdparty.Init(&tpmodels.TypeInput{
 				SignInAndUpFeature: tpmodels.TypeInputSignInAndUp{
 					Providers: []tpmodels.ProviderInput{

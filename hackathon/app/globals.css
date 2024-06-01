@@ -195,7 +195,7 @@ table.table>tr {
   height: 72px;
   left: 41px;
   top: 32px;
-  background: url("../public/ecell.png");
+  background: url("../public/logo_blue.png");
   background-size: cover;
   background-repeat: no-repeat;
   z-index: 5;
@@ -209,6 +209,8 @@ table.table>tr {
 .Hamburger {
   color: white;
 }
+
+
 
 
 @media only screen and (max-width: 1150px) {

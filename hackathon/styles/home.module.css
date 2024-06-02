@@ -211,7 +211,7 @@
 }
 
 /* E-Cell Logo */
-.ecellLogo {
+/* .ecellLogo {
     position: fixed;
     width: 47px;
     height: 72px;
@@ -221,7 +221,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     z-index: 5;
-}
+} */
 
 @media only screen and (max-width: 1150px),
 screen and (max-height: 205px) {
@@ -337,12 +337,12 @@ screen and (max-height: 205px) {
         font-size: calc(1.6rem);
     }
 
-    .ecellLogo {
+    /* .ecellLogo {
         width: 39px;
         height: 60px;
         left: 16px;
         top: 16px;
-    }
+    } */
 
     .menuOptionsVisible {
         animation: slideIn 0.5s forwards;

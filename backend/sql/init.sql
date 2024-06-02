@@ -10,7 +10,7 @@ CREATE TABLE users (
 
 CREATE TABLE teams (
     id SERIAL PRIMARY KEY,
-    name VARCHAR NOT NULL,
+    name VARCHAR NOT NULL UNIQUE,
     current_round INTEGER NOT NULL DEFAULT 1,
     last_submission INTEGER
 );

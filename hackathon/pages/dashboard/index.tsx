@@ -1,22 +1,22 @@
 import ProtectedRoute from '@/app/components/protectedRoutes';
-import { getSessionStatus } from '@/app/config/supertoken';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import CustomHead from '@/app/components/customHead';
+import Session from 'supertokens-auth-react/recipe/session';
 
 const Dashboard = () => {
     const router = useRouter();
 
     useEffect(() => {
-        // async function checkAuth() {
-        //     const status = await getSessionStatus()
-        //     if (status) {
-        //         router.replace('/dashboard/portal');
-        //     } else {
-        //         router.push('/login');
-        //     }
-        // }
-        // checkAuth();
+        async function checkAuth() {
+            const status = await await Session.doesSessionExist()
+            if (status) {
+                router.replace('/dashboard/portal');
+            } else {
+                router.push('/login');
+            }
+        }
+        checkAuth();
     }, [router]);
     return (
         <>

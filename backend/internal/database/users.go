@@ -35,3 +35,30 @@ func GetUserByEmail(email string) (User, error) {
 
 	return data, nil
 }
+
+func UserExists(email string) bool {
+	tx, err := db.Begin()
+	if err != nil {
+		return false
+	}
+
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+			panic(r)
+		} else if err != nil {
+			tx.Rollback()
+		} else {
+			tx.Commit()
+		}
+	}()
+
+	query := `SELECT EXISTS (SELECT 1 FROM users WHERE email_id = $1 AND team_id > 1)`
+	var exists bool
+	err = tx.QueryRow(query, email).Scan(&exists)
+	if err != nil {
+		return false
+	}
+
+	return exists
+}

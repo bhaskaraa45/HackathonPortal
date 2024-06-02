@@ -43,7 +43,7 @@ export default function Home() {
     return (
         <>
             <div className={styles.container}>
-                <div className={styles.ecellLogo}></div>
+                <div className='ecellLogo'></div>
                 <div className={`${styles.circleContainer} ${menuOpen ? styles.circleContainerAFTERCLICK : ''}`}>
                     <div className={`${styles.ellipse1} ${menuOpen ? styles.ellipse1AFTERCLICK : ''}`}></div>
                     <div className={`${styles.register} ${menuOpen ? styles.registerAFTERCLICK : ''}`}>

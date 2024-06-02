@@ -6,7 +6,6 @@ import ThirdParty, {
 import Session from 'supertokens-auth-react/recipe/session';
 import { useRouter } from 'next/navigation';
 import { SuperTokensConfig } from 'supertokens-auth-react/lib/build/types';
-import SuperTokensReact from 'supertokens-auth-react';
 
 const routerInfo: { router?: ReturnType<typeof useRouter>; pathName?: string } =
     {};
@@ -31,6 +30,20 @@ const appInfo = {
 export const frontendConfig = (): SuperTokensConfig => {
     return {
         appInfo,
+        getRedirectionURL: async (context) => {
+            if (context.action === "SUCCESS" && context.newSessionCreated) {
+                if (context.redirectToPath !== undefined) {
+                    return context.redirectToPath;
+                }
+                if (context.createdNewUser) {
+                    '/'
+                } else {
+                    '/'
+                }
+                return "/";
+            }
+            return undefined;
+        },
         recipeList: [
             ThirdParty.init({
                 style: `
@@ -70,9 +83,4 @@ export const frontendConfig = (): SuperTokensConfig => {
             };
         },
     };
-}
-
-export async function getSessionStatus() {
-    SuperTokensReact.init(frontendConfig())
-    return await Session.doesSessionExist()
 }

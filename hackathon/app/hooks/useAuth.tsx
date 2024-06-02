@@ -15,7 +15,7 @@ export const useAuth = () => {
                 const sessionExists = await Session.doesSessionExist();
                 setIsSessionExists(sessionExists);
                 if (sessionExists) {
-                    const response = await axios.get(`${backendUrl}/me`);
+                    const response = await axios.get(`${backendUrl}/exists`);
                     if (response.status === 200) {
                         setIsAuthenticated(true);
                     }

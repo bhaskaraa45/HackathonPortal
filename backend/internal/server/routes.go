@@ -52,7 +52,8 @@ func (s *Server) RegisterRoutes() {
 	s.POST("/team/promote", verifySession(nil), controllers.HandleRoundPromotion)
 	s.GET("/question", verifySession(nil), controllers.HandleGetQuestion)
 	s.POST("/question", verifySession(nil), controllers.HandleSubmitAnswer)
-	s.GET("/user", verifySession(nil), controllers.HandleGetUser)
+	s.GET("/me", verifySession(nil), controllers.HandleGetUser)
+	s.GET("/exists", verifySession(nil), controllers.HandleUserExists)
 }
 
 func (s *Server) HelloWorldHandler(c *gin.Context) {

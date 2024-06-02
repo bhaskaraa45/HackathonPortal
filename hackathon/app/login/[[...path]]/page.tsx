@@ -11,7 +11,7 @@ export default function Auth() {
     if (
       SuperTokens.canHandleRoute([ThirdPartyPreBuiltUI]) === false
     ) {
-      redirectToAuth({ redirectBack: false });
+      redirectToAuth({ redirectBack: true });
     }
   }, []);
 

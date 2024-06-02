@@ -196,9 +196,10 @@ table.table>tr {
   left: 41px;
   top: 32px;
   background: url("../public/logo_blue.png");
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   z-index: 5;
+  cursor: pointer;
 }
 
 .logoINDashboardECELL {

@@ -42,7 +42,7 @@ const RegistrationForm: React.FC = () => {
   const [teamName, setTeamName] = useState<string>('');
   const [members, setMembers] = useState<string[]>(['']);
   const [showOtp, setShowOtp] = React.useState(false);
-  const handleShoOtpClick = () => setShowOtp(!showOtp);
+  const handleShowOtpClick = () => setShowOtp(!showOtp);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => setLeaderEmail(e.target.value);
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => setLeaderName(e.target.value);
@@ -93,7 +93,7 @@ const RegistrationForm: React.FC = () => {
           {activeStep === 0 && (
             <Stack spacing={3}>
               <FormControl>
-                <FormLabel>Enter Leader's Name</FormLabel>
+                <FormLabel>Enter Leader&apos;s Name</FormLabel>
                 <InputGroup>
                   <InputLeftElement pointerEvents='none'>
                     <svg className="w-4 h-4 text-gray-800" fill="#currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 492.332 492.332">
@@ -121,7 +121,7 @@ const RegistrationForm: React.FC = () => {
                 </InputGroup>
                 <Spacer height='18px'></Spacer>
 
-                <FormLabel>Enter Leader's Email</FormLabel>
+                <FormLabel>Enter Leader&apos;s Email</FormLabel>
                 <InputGroup>
                   <InputLeftElement pointerEvents='none'>
                     <svg className="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
@@ -159,7 +159,7 @@ const RegistrationForm: React.FC = () => {
                   </InputLeftElement>
                   <Input _hover={{ borderColor: 'black' }} borderColor='black' focusBorderColor='black' type={showOtp ? 'text' : 'password'} placeholder='XXXXXX' />
                   <InputRightElement width='4.5rem'>
-                    <Button h='1.75rem' size='sm' onClick={handleShoOtpClick} color='#2b388f' background='#e2e4ff' _hover={{ background: 'grey', color: 'white' }}>
+                    <Button h='1.75rem' size='sm' onClick={handleShowOtpClick} color='#2b388f' background='#e2e4ff' _hover={{ background: 'grey', color: 'white' }}>
                       {showOtp ? 'Hide' : 'Show'}
                     </Button>
                   </InputRightElement>
@@ -180,8 +180,8 @@ const RegistrationForm: React.FC = () => {
                 <FormLabel>Enter Team Name</FormLabel>
                 <InputGroup>
                   <InputLeftElement pointerEvents='none'>
-                    <svg className="w-6 h-6 text-gray-800" fill="#currentColor" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 372.483 372.483">
+                    <svg className="w-6 h-6 text-gray-800" fill="#currentColor" height="200px" width="200px" version="1.1" id="Layer_1"
+                      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 372.483 372.483">
                       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
                       <g id="SVGRepo_iconCarrier">
@@ -255,7 +255,7 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
       {membersData.map((member, index) => (
         <Box key={index}>
           <FormControl>
-            <FormLabel>Enter Member {index + 1}'s Name</FormLabel>
+            <FormLabel>Enter Member {index + 1}&apos;s Name</FormLabel>
             <InputGroup>
               <InputLeftElement pointerEvents='none'>
                 <svg className="w-4 h-4 text-gray-800" fill="#currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 492.332 492.332">
@@ -282,7 +282,7 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
               />
             </InputGroup>
 
-            <FormLabel>Enter Member {index + 1}'s Email</FormLabel>
+            <FormLabel>Enter Member {index + 1}&apos;s Email</FormLabel>
             <InputGroup>
               <InputLeftElement pointerEvents='none'>
                 <svg className="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">

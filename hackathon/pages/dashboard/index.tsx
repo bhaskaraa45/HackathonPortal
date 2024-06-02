@@ -9,12 +9,12 @@ const Dashboard = () => {
 
     useEffect(() => {
         async function checkAuth() {
-            const status = await await Session.doesSessionExist()
-            if (status) {
-                router.replace('/dashboard/portal');
-            } else {
-                router.push('/login');
-            }
+            // const status = await Session.doesSessionExist()
+            // if (status) {
+            router.replace('/dashboard/portal');
+            // } else {
+            // router.push('/login');
+            // }
         }
         checkAuth();
     }, [router]);
@@ -25,4 +25,5 @@ const Dashboard = () => {
     );
 };
 
-export default ProtectedRoute(Dashboard);
+// export default ProtectedRoute(Dashboard);
+export default Dashboard;

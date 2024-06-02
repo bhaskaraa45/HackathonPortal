@@ -291,6 +291,10 @@ table.table>tr {
   font-size: 10rem;
 }
 
+.customModal{
+  background: #1f2937;
+}
+
 @media only screen and (max-width: 1150px) {
   .ecellLogo {
     display: none;

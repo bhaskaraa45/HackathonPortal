@@ -4,6 +4,7 @@ import Table from '@/app/components/Table';
 import { Box, Flex, Heading } from '@chakra-ui/react';
 import ProtectedRoute from '@/app/components/protectedRoutes';
 import CustomHead from '@/app/components/customHead';
+import AdminSideBar from '@/app/components/adminSidebar';
 
 const teams = [
     { rank: 1, name: 'Team A', currentRound: 1 },
@@ -38,9 +39,10 @@ const teams = [
 const LeaderboardPage: React.FC = () => {
     return (
         <div className="dashboardBG">
-            <CustomHead title='Hackathon Dashboard | E-Cell IIT Hyderabad - NPCI' description='Welcome to the Dashboard of E-Cell IIT Hyderabad & NPCI collaborative Hackathon.' />
+            <CustomHead title='Hackathon Admin | E-Cell IIT Hyderabad - NPCI' description='Welcome to the Dashboard of E-Cell IIT Hyderabad & NPCI collaborative Hackathon.' />
+
             <Flex height="100vh">
-                <Sidebar isLoading={false} />
+                <AdminSideBar isLoading={false} />
                 <Box minHeight="100vh" flex="1" className="contentContainer">
                     <Heading as="h1" size="lg" mb="36px" textAlign="center" className="heading">
                         LEADERBOARD
@@ -55,4 +57,3 @@ const LeaderboardPage: React.FC = () => {
 };
 
 export default LeaderboardPage;
-// export default ProtectedRoute(LeaderboardPage);

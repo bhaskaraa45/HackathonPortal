@@ -38,4 +38,5 @@ function Portal() {
     );
 }
 
-export default ProtectedRoute(Portal);
+// export default ProtectedRoute(Portal);
+export default Portal;

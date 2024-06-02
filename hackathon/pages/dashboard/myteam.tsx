@@ -44,4 +44,5 @@ function MyTeam() {
     );
 }
 
-export default ProtectedRoute(MyTeam);
+export default MyTeam;
+// export default ProtectedRoute(MyTeam);

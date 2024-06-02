@@ -70,6 +70,7 @@
 }
 
 .menuOptions {
+    color: white;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -262,6 +263,7 @@ screen and (max-height: 205px) {
         z-index: 5;
         transition: width 1s ease;
         transform: translateX(0%);
+        /* color: red; */
     }
 
     .rectangle1AFTERCLICK {

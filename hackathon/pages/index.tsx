@@ -31,8 +31,7 @@ export default function Home() {
     }, []);
 
     const handleRegisterClick = () => {
-        alert("Register button clicked!");
-        // You can add your registration logic here
+        window.location.href = '/register'
     };
 
     const handleMenuClick = (newMenuState: boolean) => {

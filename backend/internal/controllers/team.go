@@ -41,7 +41,10 @@ func HandleTeamRegister(c *gin.Context) {
 		return
 	}
 
-	res, err := database.CreateTeam(data.TeamName, data.MembersName, data.MembersEmail)
+	ip := c.ClientIP()
+	userAgent := c.Request.UserAgent()
+
+	res, err := database.CreateTeam(data.TeamName, data.MembersName, data.MembersEmail, ip, userAgent)
 
 	if err != nil || !res {
 		c.AbortWithError(http.StatusInternalServerError, errors.New("internal server error"))
@@ -87,7 +90,7 @@ func HandleRoundPromotion(c *gin.Context) {
 
 	user, err := database.GetUserByEmail(info.Email)
 
-	if err !=nil {
+	if err != nil {
 		resp := internal.CustomResponse(("unauthorized user"), http.StatusUnauthorized)
 		c.JSON(http.StatusUnauthorized, resp)
 		return

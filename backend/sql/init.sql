@@ -6,6 +6,7 @@ CREATE TABLE users (
     isAdmin BOOLEAN DEFAULT FALSE,
     last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     signup_ip VARCHAR(45)
+    user_agent VARCHAR(45)
 );
 
 CREATE TABLE teams (
@@ -29,7 +30,6 @@ CREATE TABLE submissions(
     round_three VARCHAR
     last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 );
-
 
 
 -- a foreign key constraint to link users.team_id with teams.id

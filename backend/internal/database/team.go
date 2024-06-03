@@ -16,7 +16,7 @@ type Team struct {
 	MembersName  []string `json:"members_name"`
 }
 
-func CreateTeam(teamName string, membersName []string, membersEmail []string) (bool, error) {
+func CreateTeam(teamName string, membersName []string, membersEmail []string, signup_ip string, useragent string) (bool, error) {
 	tx, err := db.Begin()
 	if err != nil {
 		return false, err
@@ -38,7 +38,7 @@ func CreateTeam(teamName string, membersName []string, membersEmail []string) (b
 	}
 
 	//TODO: add signup_ip later
-	query_member := `INSERT INTO users (email_id, name, team_id) VALUES ($1, $2, $3)`
+	query_member := `INSERT INTO users (email_id, name, team_id, signup_ip, user_agent) VALUES ($1, $2, $3, $4, $5)`
 
 	stmt, err := tx.Prepare(query_member)
 	if err != nil {
@@ -50,7 +50,7 @@ func CreateTeam(teamName string, membersName []string, membersEmail []string) (b
 	// Inserting each member
 	for i, name := range membersName {
 		email := membersEmail[i]
-		_, err = stmt.Exec(email, name, teamID)
+		_, err = stmt.Exec(email, name, teamID, signup_ip, useragent)
 		if err != nil {
 			tx.Rollback()
 			return false, fmt.Errorf("could not insert user: %v", err)

@@ -70,6 +70,7 @@ func HandleSessionUser(c *gin.Context) {
 	}
 
 	isEligible := utils.VerifyIITHEmail(info.Email)
+	isRegisterd, isAdmin := database.UserExists(info.Email)
 
-	c.JSON(http.StatusOK, gin.H{"email": info.Email, "isEligible": isEligible})
+	c.JSON(http.StatusOK, gin.H{"email": info.Email, "isEligible": isEligible, "isRegisterd": isRegisterd, "isAdmin": isAdmin})
 }

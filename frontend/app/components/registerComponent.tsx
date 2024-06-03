@@ -77,6 +77,10 @@ const RegistrationForm: React.FC = () => {
     if (await Session.doesSessionExist()) {
       if (leaderEmail === '') {
         const user = await getSessionUser();
+        if (user.isRegisterd) {
+          user.isAdmin ? router.replace('/admin') : router.replace('/dashboard')
+          return;
+        }
         if (!user.isEligible) {
           setShowModal(true);
         } else {

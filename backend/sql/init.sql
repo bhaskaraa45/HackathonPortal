@@ -13,6 +13,7 @@ CREATE TABLE teams (
     name VARCHAR NOT NULL UNIQUE,
     current_round INTEGER NOT NULL DEFAULT 1,
     last_submission INTEGER
+    last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 );
 
 CREATE TABLE questions(
@@ -26,7 +27,10 @@ CREATE TABLE submissions(
     round_one VARCHAR,
     round_two VARCHAR,
     round_three VARCHAR
+    last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 );
+
+
 
 -- a foreign key constraint to link users.team_id with teams.id
 ALTER TABLE users

@@ -6,6 +6,7 @@ import ThirdParty, {
 import Session from 'supertokens-auth-react/recipe/session';
 import { useRouter } from 'next/navigation';
 import { SuperTokensConfig } from 'supertokens-auth-react/lib/build/types';
+import { getUserStatus } from '../api/auth';
 
 const routerInfo: { router?: ReturnType<typeof useRouter>; pathName?: string } =
     {};
@@ -17,7 +18,6 @@ export function setRouter(
     routerInfo.router = router;
     routerInfo.pathName = pathName;
 }
-
 
 const appInfo = {
     appName: 'Hackathon E-Cell',
@@ -35,12 +35,15 @@ export const frontendConfig = (): SuperTokensConfig => {
                 if (context.redirectToPath !== undefined) {
                     return context.redirectToPath;
                 }
-                if (context.createdNewUser) {
-                    '/'
+
+                const status = await getUserStatus();
+                if (status === 0) {
+                    return "/register"
+                } else if (status === 1) {
+                    return "/admin"
                 } else {
-                    '/'
+                    return "/dashboard"
                 }
-                return "/";
             }
             return undefined;
         },
@@ -84,3 +87,4 @@ export const frontendConfig = (): SuperTokensConfig => {
         },
     };
 }
+

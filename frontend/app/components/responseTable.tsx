@@ -1,6 +1,5 @@
 import { Button, useDisclosure } from "@chakra-ui/react";
 import React, { useState } from "react";
-import CustomModal from "./customModal";
 import SignOutModal from "./signOutModal";
 
 type ResponseProp = {

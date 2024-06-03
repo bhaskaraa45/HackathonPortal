@@ -4,16 +4,33 @@ import { useEffect } from 'react';
 import { redirectToAuth } from 'supertokens-auth-react';
 import SuperTokens from 'supertokens-auth-react/ui';
 import { ThirdPartyPreBuiltUI } from 'supertokens-auth-react/recipe/thirdparty/prebuiltui';
+import Session from 'supertokens-auth-react/recipe/session';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 export default function Auth() {
-  // if the user visits a page that is not handled by us (like /auth/random), then we redirect them back to the auth page.
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   useEffect(() => {
-    if (
-      SuperTokens.canHandleRoute([ThirdPartyPreBuiltUI]) === false
-    ) {
-      redirectToAuth({ redirectBack: true });
-    }
-  }, []);
+    const redirectTo = searchParams?.get('redirectTo');
+    console.log(redirectTo)
+
+    const checkSessionAndRedirect = async () => {
+      if (SuperTokens.canHandleRoute([ThirdPartyPreBuiltUI]) === false) {
+        redirectToAuth({ redirectBack: true, queryParams: { redirectTo: redirectTo } });
+      } 
+      // else {
+      //   const sessionExists = await Session.doesSessionExist();
+      //   if (sessionExists) {
+      //     if (redirectTo) {
+      //       router.replace(redirectTo);
+      //     }
+      //   }
+      // }
+    };
+
+    checkSessionAndRedirect();
+  }, [searchParams, router]);
 
   if (typeof window !== 'undefined') {
     return SuperTokens.getRoutingComponent([ThirdPartyPreBuiltUI]);

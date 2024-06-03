@@ -54,6 +54,7 @@ func (s *Server) RegisterRoutes() {
 	s.POST("/question", verifySession(nil), controllers.HandleSubmitAnswer)
 	s.GET("/me", verifySession(nil), controllers.HandleGetUser)
 	s.GET("/exists", verifySession(nil), controllers.HandleUserExists)
+	s.GET("/session-info", verifySession(nil), controllers.HandleSessionUser)
 }
 
 func (s *Server) HelloWorldHandler(c *gin.Context) {

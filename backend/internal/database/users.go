@@ -36,10 +36,10 @@ func GetUserByEmail(email string) (User, error) {
 	return data, nil
 }
 
-func UserExists(email string) bool {
+func UserExists(email string) (bool, bool) {
 	tx, err := db.Begin()
 	if err != nil {
-		return false
+		return false, false
 	}
 
 	defer func() {
@@ -53,12 +53,13 @@ func UserExists(email string) bool {
 		}
 	}()
 
-	query := `SELECT EXISTS (SELECT 1 FROM users WHERE email_id = $1 AND team_id > 1)`
+	query := `SELECT EXISTS (SELECT 1 FROM users WHERE email_id = $1 ), isAdmin FROM users WHERE email_id = $1`
 	var exists bool
-	err = tx.QueryRow(query, email).Scan(&exists)
+	var isAdmin bool
+	err = tx.QueryRow(query, email).Scan(&exists, &isAdmin)
 	if err != nil {
-		return false
+		return false, false
 	}
 
-	return exists
+	return exists, isAdmin
 }

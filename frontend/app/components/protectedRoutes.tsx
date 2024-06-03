@@ -13,7 +13,10 @@ const ProtectedRoute = (WrappedComponent: React.ComponentType) => {
 
     useEffect(() => {
       if (!loading && !isSessionExists) {
-        router.push('/login');
+        router.push({
+          pathname: '/login',
+          query: {redirectTo: router.asPath }
+        });
       }
     }, [loading, isSessionExists, router]);
 

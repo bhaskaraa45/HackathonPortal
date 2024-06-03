@@ -3,6 +3,7 @@ package controllers
 import (
 	"HackathonNPCI/internal"
 	"HackathonNPCI/internal/database"
+	"HackathonNPCI/internal/utils"
 	"fmt"
 	"net/http"
 
@@ -46,9 +47,7 @@ func HandleUserExists(c *gin.Context) {
 		return
 	}
 	fmt.Println(info.Email)
-	exits := database.UserExists(info.Email)
-
-	print(exits)
+	exits, isAdmin := database.UserExists(info.Email)
 
 	if !exits {
 		resp := internal.CustomResponse(("user does not exists"), http.StatusBadRequest)
@@ -56,6 +55,21 @@ func HandleUserExists(c *gin.Context) {
 		return
 	}
 
-	resp := internal.CustomResponse(("user exists"), http.StatusOK)
-	c.JSON(http.StatusOK, resp)
+	// resp := internal.CustomResponse(("user exists"), http.StatusOK)
+	c.JSON(http.StatusOK, gin.H{"isAdmin": isAdmin})
+}
+
+func HandleSessionUser(c *gin.Context) {
+	sessionContainer := session.GetSessionFromRequestContext(c.Request.Context())
+	userID := sessionContainer.GetUserID()
+	info, err := thirdparty.GetUserByID(userID)
+	if err != nil {
+		resp := internal.CustomResponse(("session expired"), http.StatusUnauthorized)
+		c.JSON(http.StatusUnauthorized, resp)
+		return
+	}
+
+	isEligible := utils.VerifyIITHEmail(info.Email)
+
+	c.JSON(http.StatusOK, gin.H{"email": info.Email, "isEligible": isEligible})
 }

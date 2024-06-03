@@ -157,7 +157,7 @@
     bottom: 15%;
     font-family: 'Montserrat';
     font-style: normal;
-    font-size: calc(0.8rem + 2vw);
+    font-size: calc(0.8rem + 1.8vw);
     color: #323232;
     z-index: 3;
     transition: all 0.5s ease;
@@ -176,9 +176,9 @@
     border-radius: 50%;
     background: linear-gradient(180deg, #5465FF 23.01%, #9BB1FF 100%);
     box-shadow: 0px 40px 40px rgba(84, 101, 255, 0.28);
-    z-index: 3;
-    top: calc(120px + 7vh);
-    left: calc(-140px);
+    z-index: 5;
+    top: calc(110px + 7vh);
+    left: calc(-100px);
     transition: all 1s ease;
 }
 

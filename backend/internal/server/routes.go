@@ -49,7 +49,7 @@ func (s *Server) RegisterRoutes() {
 	s.GET("/health", verifySession(nil), s.healthHandler)
 	s.GET("/team", verifySession(nil), controllers.HandleGetTeam)
 	s.POST("/team", verifySession(nil), controllers.HandleTeamRegister)
-	s.POST("/team/promote", verifySession(nil), controllers.HandleRoundPromotion)
+	s.POST("/promote", verifySession(nil), controllers.HandleRoundPromotion)
 	s.GET("/question", verifySession(nil), controllers.HandleGetQuestion)
 	s.POST("/question", verifySession(nil), controllers.HandleSubmitAnswer)
 	s.GET("/me", verifySession(nil), controllers.HandleGetUser)

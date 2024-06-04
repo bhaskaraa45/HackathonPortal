@@ -132,6 +132,10 @@ func HandleRoundPromotion(c *gin.Context) {
 		return
 	}
 
+	msg := fmt.Sprintf("team_id: %v sucessfully promoted to next round!", data.TeamID)
+
+	resp := internal.CustomResponse(msg, http.StatusOK)
+	c.JSON(http.StatusOK, resp)
 }
 
 func HandleGetAllTeam(c *gin.Context) {

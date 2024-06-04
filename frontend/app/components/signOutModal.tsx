@@ -14,7 +14,7 @@ export default function SignOutModal({ isVisible, onClose, onConfirm, title }: S
 
     return (
         <div id="popup-modal" className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="relative p-4 w-full max-w-md max-h-full">
+            <div className="relative p-4 w-full max-w-lg max-h-full">
                 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <button
                         type="button"

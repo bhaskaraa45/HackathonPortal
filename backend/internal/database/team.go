@@ -119,7 +119,7 @@ func PromoteTeam(teamId int) bool {
 		}
 	}()
 
-	query := `UPDATE teams SET current_round = current_round + 1 WHERE id = $1`
+	query := `UPDATE teams SET current_round = current_round + 1 WHERE id = $1 AND current_round < 3`
 
 	_, err = tx.Exec(query, teamId)
 	if err != nil {

@@ -21,11 +21,9 @@ type Team = {
 const LeaderboardPage: React.FC = () => {
     const [teams, setTeams] = useState<Team[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [hasError, setHasError] = useState(false);
 
     const getData = async () => {
         setIsLoading(true);
-        setHasError(false);
         try {
             const resp = await makeApiCall('leaderboard', { method: 'GET' });
             const data: Team[] = resp as Team[];
@@ -34,7 +32,6 @@ const LeaderboardPage: React.FC = () => {
             setTeams(data);
         } catch (error) {
             console.error('Error fetching data:', error);
-            setHasError(true);
         } finally {
             setIsLoading(false);
         }

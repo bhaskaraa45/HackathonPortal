@@ -21,11 +21,6 @@ const Record: React.FC<Team> = ({ rank, name, currentRound }) => {
 };
 
 const Table: React.FC<LeaderboardProps> = ({ teams }) => {
-    const [data, setData] = useState<Team[]>(teams);
-
-    useEffect(() => {
-
-    }, []);
 
     return (
         <table className="table">
@@ -37,8 +32,8 @@ const Table: React.FC<LeaderboardProps> = ({ teams }) => {
                 </tr>
             </thead>
             <tbody>
-                {data.length > 0 &&
-                    data.map((team) => (
+                {teams.length > 0 &&
+                    teams.map((team) => (
                         <Record
                             key={team.rank}
                             rank={team.rank}

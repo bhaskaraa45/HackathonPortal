@@ -55,6 +55,7 @@ func (s *Server) RegisterRoutes() {
 	s.GET("/me", verifySession(nil), controllers.HandleGetUser)
 	s.GET("/exists", verifySession(nil), controllers.HandleUserExists)
 	s.GET("/session-info", verifySession(nil), controllers.HandleSessionUser)
+	s.GET("/leaderboard", verifySession(nil), controllers.HandleGetLeaderboard)
 }
 
 func (s *Server) HelloWorldHandler(c *gin.Context) {

@@ -80,7 +80,7 @@ func HandleGetTeam(c *gin.Context) {
 		switch {
 		case errors.Is(err, sql.ErrNoRows):
 			statusCode = http.StatusNotFound
-			resp = internal.CustomResponse(("no question found"), statusCode)
+			resp = internal.CustomResponse(("no team found"), statusCode)
 		default:
 			statusCode = http.StatusInternalServerError
 			resp = internal.CustomResponse(("failed to fetch data"), statusCode)

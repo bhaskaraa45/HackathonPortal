@@ -27,8 +27,7 @@ function MyTeam() {
 
         try {
             const response = await makeApiCall("team", { method: "GET" });
-             console.log(response)
-            setJsonData(response as TeamData);
+            setJsonData(response.data as TeamData);
         } catch (error) {
             console.error("Error fetching data:", error);
         } finally {

@@ -4,9 +4,9 @@ import SignOutModal from "./signOutModal";
 
 type ResponseProp = {
     teamName: string;
-    round_one: string;
-    round_two: string;
-    round_three: string;
+    round_one: string | null;
+    round_two: string | null;
+    round_three: string | null;
     teamId: number;
 };
 
@@ -20,13 +20,14 @@ export function ResponseTable({ tableProp }: FinalProp) {
 
 
     const handlePromoteModal = (id: number) => {
-        setSelectedTeam(id)
+        setSelectedTeam(id);
         setIsPromoteVis(true);
     }
 
     const onPromoteConfirm = () => {
-        setIsPromoteVis(false)
-        console.log(`ID: ${selectedTeam}`)
+        setIsPromoteVis(false);
+        console.log(`ID: ${selectedTeam}`);
+        // Add your promote logic here
     }
 
     return (
@@ -39,7 +40,7 @@ export function ResponseTable({ tableProp }: FinalProp) {
                                 Team Name
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Rounde 1
+                                Round 1
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Round 2
@@ -59,19 +60,31 @@ export function ResponseTable({ tableProp }: FinalProp) {
                                     {team.teamName}
                                 </th>
                                 <td className="px-6 py-4">
-                                    <a className='text-blue-600' href={team.round_one} target="_blank">
-                                        Open
-                                    </a>
+                                    {team.round_one ? (
+                                        <a className="text-blue-600" href={team.round_one} target="_blank">
+                                            Open
+                                        </a>
+                                    ) : (
+                                        <span className="text-gray-400">No Submission</span>
+                                    )}
                                 </td>
                                 <td className="px-6 py-4">
-                                    <a className='text-blue-600' href={team.round_two} target="_blank">
-                                        Open
-                                    </a>
+                                    {team.round_two ? (
+                                        <a className="text-blue-600" href={team.round_two} target="_blank">
+                                            Open
+                                        </a>
+                                    ) : (
+                                        <span className="text-gray-400">No Submission</span>
+                                    )}
                                 </td>
                                 <td className="px-6 py-4">
-                                    <a className='text-blue-600' href={team.round_three} target="_blank">
-                                        Open
-                                    </a>
+                                    {team.round_three ? (
+                                        <a className="text-blue-600" href={team.round_three} target="_blank">
+                                            Open
+                                        </a>
+                                    ) : (
+                                        <span className="text-gray-400">No Submission</span>
+                                    )}
                                 </td>
                                 <td className="px-6 py-4">
                                     <Button onClick={() => handlePromoteModal(team.teamId)} className='text-blue-600 underline'>
@@ -88,7 +101,7 @@ export function ResponseTable({ tableProp }: FinalProp) {
                 isVisible={isPromoteVis}
                 title={"Are you sure you want to promote this team to next round?"}
                 onClose={() => {
-                    setIsPromoteVis(false)
+                    setIsPromoteVis(false);
                 }}
                 onConfirm={onPromoteConfirm}
             />

@@ -27,7 +27,7 @@ const AdminPage: React.FC = () => {
             const response = await makeApiCall("teams", { method: "GET" });
             console.log(response);
 
-            const parsedData = response.map((team: any) => ({
+            const parsedData = response.data.map((team: any) => ({
                 teamName: team.name,
                 membersName: team.members_name,
                 membersEmail: team.members_email,
@@ -45,7 +45,7 @@ const AdminPage: React.FC = () => {
 
     useEffect(() => {
         getData();
-    }, []); // The empty array ensures this runs only once
+    }, []);
 
     return (
         <div className="dashboardBG">

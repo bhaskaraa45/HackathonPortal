@@ -4,9 +4,7 @@ import (
 	"HackathonNPCI/internal"
 	"HackathonNPCI/internal/database"
 	"database/sql"
-	"encoding/json"
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -62,34 +60,4 @@ func HandleGetQuestion(c *gin.Context) {
 	// }
 
 	c.JSON(http.StatusOK, questionJSON)
-}
-
-func HandleSubmitAnswer(c *gin.Context) {
-	sessionContainer := session.GetSessionFromRequestContext(c.Request.Context())
-	userID := sessionContainer.GetUserID()
-	info, err := thirdparty.GetUserByID(userID)
-	if err != nil {
-		log.Printf("Error getting user info: %v", err)
-		resp := internal.CustomResponse(("session expired"), http.StatusBadRequest)
-		c.JSON(http.StatusBadRequest, resp)
-		return
-	}
-
-	var data Answer
-	err = json.NewDecoder(c.Request.Body).Decode(&data)
-	if err != nil {
-		resp := internal.CustomResponse("invalid json data!", http.StatusBadRequest)
-		c.JSON(http.StatusBadRequest, resp)
-		return
-	}
-
-	err = database.SubmitAnswer(info.Email, data.Answer)
-
-	if err != nil {
-		fmt.Println(err)
-		resp := internal.CustomResponse((err.Error()), http.StatusInternalServerError)
-		c.JSON(http.StatusInternalServerError, resp)
-		return
-	}
-	c.JSON(http.StatusBadRequest, gin.H{"message": "Answer submitted!"})
 }

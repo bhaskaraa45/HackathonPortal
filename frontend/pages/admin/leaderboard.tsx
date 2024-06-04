@@ -22,7 +22,7 @@ const LeaderboardPage: React.FC = () => {
         setIsLoading(true);
         try {
             const resp = await makeApiCall('leaderboard', { method: 'GET' });
-            const data: Team[] = resp as Team[];
+            const data: Team[] = resp.data as Team[];
             setTeams(data);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -53,5 +53,4 @@ const LeaderboardPage: React.FC = () => {
     );
 };
 
-export default (LeaderboardPage);
-// export default AdminProtectedRoute(LeaderboardPage);
+export default AdminProtectedRoute(LeaderboardPage);

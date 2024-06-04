@@ -26,7 +26,7 @@ const LeaderboardPage: React.FC = () => {
         setIsLoading(true);
         try {
             const resp = await makeApiCall('leaderboard', { method: 'GET' });
-            const data: Team[] = resp as Team[];
+            const data: Team[] = resp.data as Team[];
             console.log(demo)
             console.log(data)
             setTeams(data);

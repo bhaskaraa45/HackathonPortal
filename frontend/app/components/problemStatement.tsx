@@ -15,7 +15,7 @@ const ProblemStatementComponent: React.FC = () => {
 
         try {
             const resp = await makeApiCall('question', { method: 'GET' });
-            const obj = JSON.parse(resp)
+            const obj = JSON.parse(resp.data)
             setJsonData(obj);
         } catch (error) {
             console.error('Error fetching data:', error);

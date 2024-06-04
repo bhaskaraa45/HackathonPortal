@@ -47,7 +47,7 @@ func HandleUserExists(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, resp)
 		return
 	}
-	log.Printf("%v wants admin access\n",info.Email)
+	log.Printf("%v wants access\n",info.Email)
 	exits, isAdmin := database.UserExists(info.Email)
 
 	if !exits {

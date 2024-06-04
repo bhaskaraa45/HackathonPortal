@@ -1,33 +1,33 @@
+import axios from "axios";
 import Session from "supertokens-web-js/recipe/session";
-
 
 interface ApiCallOptions {
     method?: string;
-    headers?: HeadersInit;
+    headers?: { [key: string]: string };
     body?: any;
 }
 
 async function makeApiCall(endpoint: string, options: ApiCallOptions) {
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
     try {
-        const response = await fetch(`${backendUrl}/${endpoint}`, {
+        const response = await axios({
+            url: `${backendUrl}/${endpoint}`,
             method: options.method || 'GET',
             headers: options.headers || { 'Content-Type': 'application/json' },
-            body: options.method && options.method !== 'GET' ? JSON.stringify(options.body) : undefined,
-            credentials: 'include'
+            data: options.body || undefined,
+            withCredentials: true,
         });
 
-        if (!response.ok) {
-            console.log(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data;
+        return response;
     } catch (error) {
-        console.error('Error making API call:', error);
+        if (axios.isAxiosError(error)) {
+            console.error('Error making API call:', error.response?.status, error.response?.data);
+        } else {
+            console.error('Error making API call:', error);
+        }
         throw error;
     }
 }
-
 
 export default makeApiCall;

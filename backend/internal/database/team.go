@@ -191,3 +191,4 @@ func GetAllTeam() ([]Team, error) {
 
 	return result, nil
 }
+

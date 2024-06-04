@@ -102,6 +102,7 @@ func HandleRoundPromotion(c *gin.Context) {
 		return
 	}
 
+	log.Printf("%v tried admin access\n", info.Email)
 	user, err := database.GetUserByEmail(info.Email)
 
 	if err != nil {
@@ -148,6 +149,7 @@ func HandleGetAllTeam(c *gin.Context) {
 		return
 	}
 
+	log.Printf("%v tried admin access\n", info.Email)
 	isRegisterd, isAdmin := database.UserExists(info.Email)
 
 	if !isRegisterd || !isAdmin {

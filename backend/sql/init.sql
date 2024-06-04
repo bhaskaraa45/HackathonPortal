@@ -23,7 +23,7 @@ CREATE TABLE questions (
 );
 
 CREATE TABLE submissions (
-    team_id INTEGER PRIMARY KEY,
+    team_id INTEGER PRIMARY KEY UNIQUE,
     round_one VARCHAR,
     round_two VARCHAR,
     round_three VARCHAR,

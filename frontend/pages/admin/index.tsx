@@ -36,5 +36,4 @@ const AdminPage: React.FC = () => {
     );
 };
 
-export default (AdminPage);
-// export default AdminProtectedRoute(AdminPage);
+export default AdminProtectedRoute(AdminPage);

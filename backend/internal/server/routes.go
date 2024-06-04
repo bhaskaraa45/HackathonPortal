@@ -49,14 +49,16 @@ func (s *Server) RegisterRoutes() {
 	s.GET("/health", verifySession(nil), s.healthHandler)
 	s.GET("/team", verifySession(nil), controllers.HandleGetTeam)
 	s.POST("/team", verifySession(nil), controllers.HandleTeamRegister)
-	s.POST("/promote", verifySession(nil), controllers.HandleRoundPromotion)
+	s.POST("/promote", verifySession(nil), controllers.HandleRoundPromotion) //ADMIN ROUTE
 	s.GET("/question", verifySession(nil), controllers.HandleGetQuestion)
-	s.POST("/question", verifySession(nil), controllers.HandleSubmitAnswer)
+	s.POST("/question", verifySession(nil), controllers.HandleSubmussions)
 	s.GET("/me", verifySession(nil), controllers.HandleGetUser)
 	s.GET("/exists", verifySession(nil), controllers.HandleUserExists)
 	s.GET("/session-info", verifySession(nil), controllers.HandleSessionUser)
 	s.GET("/leaderboard", verifySession(nil), controllers.HandleGetLeaderboard)
-	s.GET("/teams", verifySession(nil), controllers.HandleGetAllTeam)
+	s.GET("/teams", verifySession(nil), controllers.HandleGetAllTeam) //ADMIN ROUTE
+	s.GET("/response", verifySession(nil), controllers.HandleGetSubmussion)
+	s.GET("/responses", verifySession(nil), controllers.HandleGetAllSubmussions) //ADMIN ROUTE
 }
 
 func (s *Server) HelloWorldHandler(c *gin.Context) {

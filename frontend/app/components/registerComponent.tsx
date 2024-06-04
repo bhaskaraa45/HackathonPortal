@@ -229,7 +229,7 @@ const RegistrationForm: React.FC = () => {
   );
 };
 
-const regex = /^[a-z]{2}(21|22)btech1\d{4}@iith\.ac\.in$/;
+const regex = /^[a-z]{2}(21|22|23)btech1\d{4}@iith\.ac\.in$/;
 
 const verifyIITHEmail = (email: string) => {
   return regex.test(email)

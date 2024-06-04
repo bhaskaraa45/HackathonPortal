@@ -77,6 +77,16 @@ export default function Navbar({ onMenuClick, isHome }: NavbarProp) {
                         </Link>
                     </li>
                     <li>
+                        <Link href="https://ecell.iith.ac.in" target='_blank'>
+                            E-Cell Website
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="https://www.npci.org.in/" target='_blank'>
+                            NPCI Website
+                        </Link>
+                    </li>
+                    <li>
                         <Link href="/admin">
                             Admin
                         </Link>

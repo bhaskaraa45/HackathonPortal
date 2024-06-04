@@ -26,4 +26,3 @@ const Dashboard = () => {
 };
 
 export default ProtectedRoute(Dashboard);
-// export default Dashboard;

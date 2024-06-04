@@ -5,6 +5,7 @@ import (
 	"HackathonNPCI/internal/database"
 	"HackathonNPCI/internal/utils"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -46,7 +47,7 @@ func HandleUserExists(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, resp)
 		return
 	}
-	fmt.Println(info.Email)
+	log.Printf("%v wants admin access\n",info.Email)
 	exits, isAdmin := database.UserExists(info.Email)
 
 	if !exits {

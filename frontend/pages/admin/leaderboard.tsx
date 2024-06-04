@@ -5,6 +5,7 @@ import { Box, Flex, Heading } from '@chakra-ui/react';
 import ProtectedRoute from '@/app/components/protectedRoutes';
 import CustomHead from '@/app/components/customHead';
 import AdminSideBar from '@/app/components/adminSidebar';
+import AdminProtectedRoute from '@/app/components/adminProtectedRoute';
 
 const teams = [
     { rank: 1, name: 'Team A', currentRound: 1 },
@@ -56,4 +57,5 @@ const LeaderboardPage: React.FC = () => {
     );
 };
 
-export default LeaderboardPage;
+export default (LeaderboardPage);
+// export default AdminProtectedRoute(LeaderboardPage);

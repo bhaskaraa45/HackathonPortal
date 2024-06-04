@@ -5,7 +5,6 @@ import { Box, Flex, Heading } from '@chakra-ui/react';
 import ProtectedRoute from '@/app/components/protectedRoutes';
 import CustomHead from '@/app/components/customHead';
 import makeApiCall from '@/app/api/makeCall';
-import { json } from 'stream/consumers';
 
 const demo = [
     { rank: 1, name: 'Team A', currentRound: 1 },
@@ -63,5 +62,4 @@ const LeaderboardPage: React.FC = () => {
     );
 };
 
-export default LeaderboardPage;
-// export default ProtectedRoute(LeaderboardPage);
+export default ProtectedRoute(LeaderboardPage);

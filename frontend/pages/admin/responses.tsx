@@ -1,3 +1,4 @@
+import AdminProtectedRoute from "@/app/components/adminProtectedRoute";
 import AdminSideBar from "@/app/components/adminSidebar";
 import CustomHead from "@/app/components/customHead";
 import ResponseTable from "@/app/components/responseTable";
@@ -28,7 +29,7 @@ const exampleTableProp = [
 ];
 
 
-export default function Responses() {
+const Responses: React.FC = () => {
     return (
         <div className="dashboardBG">
             <CustomHead title='Hackathon Admin | E-Cell IIT Hyderabad - NPCI' description='Welcome to the Dashboard of E-Cell IIT Hyderabad & NPCI collaborative Hackathon.' />
@@ -47,3 +48,6 @@ export default function Responses() {
         </div>
     );
 }
+
+export default (Responses);
+// export default AdminProtectedRoute(Responses);

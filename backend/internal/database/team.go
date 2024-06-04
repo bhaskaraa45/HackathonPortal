@@ -6,13 +6,15 @@ import (
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 	_ "github.com/joho/godotenv/autoload"
+	"github.com/lib/pq"
 )
 
 type Team struct {
 	TeamId       int      `json:"id"`
 	TeamName     string   `json:"name"`
-	MembersEmail string   `json:"members_email"`
-	MembersName  string   `json:"members_name"`
+	MembersEmail []string `json:"members_email"`
+	MembersName  []string `json:"members_name"`
+	CurrentRound int      `json:"current_round"`
 }
 
 func CreateTeam(teamName string, membersName []string, membersEmail []string, signup_ip string, useragent string) (bool, error) {
@@ -78,17 +80,24 @@ func GetTeam(email string) (Team, error) {
 		}
 	}()
 
-	query := `SELECT t.id, t.name, array_agg(u.email_id) AS members_email, array_agg(u.name) AS members_name 
+	query := `SELECT t.id, t.name, t.current_round, array_agg(u.email_id) AS members_email, array_agg(u.name) AS members_name 
 				FROM users u 
 				JOIN teams t ON u.team_id = t.id 
 				WHERE t.id = (SELECT team_id FROM users WHERE email_id = $1)
 				GROUP BY t.id, t.name`
 
-	err = tx.QueryRow(query, email).Scan(&data.TeamId, &data.TeamName, &data.MembersEmail, &data.MembersName)
+	var membersEmail pq.StringArray
+	var membersName pq.StringArray
+
+	err = tx.QueryRow(query, email).Scan(&data.TeamId, &data.TeamName, &data.CurrentRound, &membersEmail, &membersName)
 	if err != nil {
 		tx.Rollback()
 		return data, err
 	}
+
+	data.MembersEmail = membersEmail
+	data.MembersName = membersName
+
 	if err = tx.Commit(); err != nil {
 		return data, fmt.Errorf("could not commit transaction: %v", err)
 	}
@@ -126,4 +135,59 @@ func PromoteTeam(teamId int) bool {
 	}
 
 	return true
+}
+
+func GetAllTeam() ([]Team, error) {
+	var result []Team
+
+	tx, err := db.Begin()
+	if err != nil {
+		return result, err
+	}
+
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+			panic(r)
+		}
+	}()
+
+	query := `SELECT t.id, t.name, t.current_round, array_agg(u.email_id) AS members_email, array_agg(u.name) AS members_name 
+				FROM users u 
+				JOIN teams t ON u.team_id = t.id 
+				WHERE t.id > 1
+				GROUP BY t.id, t.name`
+
+	rows, err := tx.Query(query)
+	if err != nil {
+		tx.Rollback()
+		return result, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var data Team
+		var membersEmail pq.StringArray
+		var membersName pq.StringArray
+		if err := rows.Scan(&data.TeamId, &data.TeamName, &data.CurrentRound, &membersEmail, &membersName); err != nil {
+			tx.Rollback()
+			return result, err
+		}
+
+		data.MembersEmail = membersEmail
+		data.MembersName = membersName
+
+		result = append(result, data)
+	}
+
+	if err = rows.Err(); err != nil {
+		tx.Rollback()
+		return result, err
+	}
+
+	if err = tx.Commit(); err != nil {
+		return result, err
+	}
+
+	return result, nil
 }

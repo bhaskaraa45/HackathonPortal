@@ -1,37 +1,52 @@
 import Sidebar from '@/app/components/Sidebar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from '@/app/components/Table';
 import { Box, Flex, Heading } from '@chakra-ui/react';
 import ProtectedRoute from '@/app/components/protectedRoutes';
 import CustomHead from '@/app/components/customHead';
 import AdminSideBar from '@/app/components/adminSidebar';
 import { TeamsTable } from '@/app/components/teamsTable';
+import AdminProtectedRoute from '@/app/components/adminProtectedRoute';
+import makeApiCall from '@/app/api/makeCall';
 
-const exampleProps = [
-    {
-        teamName: "Team Alpha",
-        membersName: ["Alice", "Bob", "Charlie"],
-        membersEmail: ["alice@example.com", "bob@example.com", "charlie@example.com"],
-        currentRound: 2,
-        teamId: 1,
-    },
-    {
-        teamName: "Team Beta",
-        membersName: ["Dave", "Eve", "Frank"],
-        membersEmail: ["dave@example.com", "eve@example.com", "frank@example.com"],
-        currentRound: 1,
-        teamId: 2,
-    },
-    {
-        teamName: "Team Gamma",
-        membersName: ["Grace", "Heidi", "Ivan"],
-        membersEmail: ["grace@example.com", "heidi@example.com", "ivan@example.com"],
-        currentRound: 1,
-        teamId: 3,
-    },
-];
+type Team = {
+    teamName: string;
+    membersName: string[];
+    membersEmail: string[];
+    currentRound: number;
+    teamId: number;
+};
 
 const AdminPage: React.FC = () => {
+    const [jsonData, setJsonData] = useState<Team[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const getData = async () => {
+        setIsLoading(true);
+        try {
+            const response = await makeApiCall("teams", { method: "GET" });
+            console.log(response);
+
+            const parsedData = response.map((team: any) => ({
+                teamName: team.name,
+                membersName: team.members_name,
+                membersEmail: team.members_email,
+                currentRound: team.current_round,
+                teamId: team.id,
+            }));
+
+            setJsonData(parsedData as Team[]);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        getData();
+    }, []); // The empty array ensures this runs only once
+
     return (
         <div className="dashboardBG">
             <CustomHead title='Hackathon Admin | E-Cell IIT Hyderabad - NPCI' description='Welcome to the Dashboard of E-Cell IIT Hyderabad & NPCI collaborative Hackathon.' />
@@ -42,7 +57,7 @@ const AdminPage: React.FC = () => {
                         ALL TEAMS
                     </Heading>
                     <div className='conainerWithMargin'>
-                        <TeamsTable tableProp={exampleProps} />
+                        <TeamsTable tableProp={jsonData} />
                     </div>
                 </Box>
             </Flex>
@@ -50,4 +65,4 @@ const AdminPage: React.FC = () => {
     );
 };
 
-export default AdminPage;
+export default AdminProtectedRoute(AdminPage);

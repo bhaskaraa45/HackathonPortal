@@ -133,3 +133,41 @@ func HandleRoundPromotion(c *gin.Context) {
 	}
 
 }
+
+func HandleGetAllTeam(c *gin.Context) {
+	sessionContainer := session.GetSessionFromRequestContext(c.Request.Context())
+	userID := sessionContainer.GetUserID()
+	info, err := thirdparty.GetUserByID(userID)
+	if err != nil {
+		resp := internal.CustomResponse(("session expired"), http.StatusBadRequest)
+		c.JSON(http.StatusBadRequest, resp)
+		return
+	}
+
+	isRegisterd, isAdmin := database.UserExists(info.Email)
+
+	if !isRegisterd || !isAdmin {
+		resp := internal.CustomResponse(("unauthorized user"), http.StatusUnauthorized)
+		c.JSON(http.StatusUnauthorized, resp)
+		return
+	}
+
+	team, err := database.GetAllTeam()
+	if err != nil {
+		log.Printf("Error fetching all team: %v", err)
+		var statusCode int
+		var resp map[string]string
+		switch {
+		case errors.Is(err, sql.ErrNoRows):
+			statusCode = http.StatusNotFound
+			resp = internal.CustomResponse(("no team found"), statusCode)
+		default:
+			statusCode = http.StatusInternalServerError
+			resp = internal.CustomResponse(("failed to fetch data"), statusCode)
+		}
+		c.JSON(statusCode, resp)
+		return
+	}
+
+	c.JSON(http.StatusOK, team)
+}

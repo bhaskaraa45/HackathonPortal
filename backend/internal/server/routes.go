@@ -56,6 +56,7 @@ func (s *Server) RegisterRoutes() {
 	s.GET("/exists", verifySession(nil), controllers.HandleUserExists)
 	s.GET("/session-info", verifySession(nil), controllers.HandleSessionUser)
 	s.GET("/leaderboard", verifySession(nil), controllers.HandleGetLeaderboard)
+	s.GET("/teams", verifySession(nil), controllers.HandleGetAllTeam)
 }
 
 func (s *Server) HelloWorldHandler(c *gin.Context) {

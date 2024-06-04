@@ -78,6 +78,8 @@ const RegistrationForm: React.FC = () => {
       if (leaderEmail === '') {
         const user = await getSessionUser();
         if (user.isRegisterd) {
+          
+
           user.isAdmin ? router.replace('/admin') : router.replace('/dashboard')
           return;
         }

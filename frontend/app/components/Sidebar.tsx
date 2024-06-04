@@ -41,6 +41,12 @@ export default function Sidebar({ isLoading }: { isLoading: boolean }) {
         window.location.href = '/';
     };
 
+    const handleLinkClick = (url: string) => {
+        if (!isLoading) {
+            router.push(url);
+        }
+    };
+
     return (
         <div className='sidebarContainer'>
             <SignOutModal
@@ -84,20 +90,13 @@ export default function Sidebar({ isLoading }: { isLoading: boolean }) {
 
                     <div className="flex items-center justify-center mb-4">
                         <div>
-                            <img src='https://res.cloudinary.com/dqyxqfvnv/image/upload/v1717386779/hackathon/ecell-npci.png'></img>
+                            <img src='https://res.cloudinary.com/dqyxqfvnv/image/upload/v1717386779/hackathon/ecell-npci.png' alt="E-Cell NPCI Logo"></img>
                         </div>
-                        {/* <div className="logoINDashboardECELL">
-                            <img src='/ecell.png'></img>
-                        </div>
-                        <div className="h-8 border-l border-gray-400 mx-4"></div>
-                        <div className="logoINDashboardNPCI">
-                            <img src='/npci.png'></img>
-                        </div> */}
                     </div>
                     <hr className="my-2" />
                     <ul className="space-y-2">
                         <li>
-                            <Link href={`${isLoading ? "" : "/dashboard/portal"}`} className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <Link href="/dashboard/portal" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <svg
                                     className="w-8 h-6 text-gray-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                     fill="currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
@@ -123,9 +122,8 @@ export default function Sidebar({ isLoading }: { isLoading: boolean }) {
                             </Link>
                         </li>
 
-
                         <li>
-                            <Link href={`${isLoading ? "" : "/dashboard/myteam"}`} className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <Link href="/dashboard/myteam" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <svg
                                     className="w-8 h-5 text-gray-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                     viewBox="0 0 20 15" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -137,12 +135,10 @@ export default function Sidebar({ isLoading }: { isLoading: boolean }) {
                             </Link>
                         </li>
 
-
                         <li>
-                            <Link href={`${isLoading ? "" : "/dashboard/leaderboard"}`} className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <Link href="/dashboard/leaderboard" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <svg
                                     className="w-8 h-8 text-gray-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-
                                     viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                                     <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
@@ -163,7 +159,7 @@ export default function Sidebar({ isLoading }: { isLoading: boolean }) {
                         </li>
 
                         <li>
-                            <Link href={`${isLoading ? "" : "https://discord.gg/WfMhAuWx"}`} target='_blank' className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <Link href="https://discord.gg/WfMhAuWx" target='_blank' className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <svg
                                     className="w-8 h-6 text-gray-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                     viewBox="0 -28.5 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -192,14 +188,13 @@ export default function Sidebar({ isLoading }: { isLoading: boolean }) {
                                     />
                                 </svg>
                                 <span className="ml-3">Sign out</span>
-
                             </div>
                         </li>
                     </ul>
                     <div className="mt-auto">
-                        <Link href='/' className="backtohome cursor-pointer flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <div onClick={() => { window.location.href = "/" }} className="backtohome cursor-pointer flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <span className="ml-3">Back to Home Page</span>
-                        </Link>
+                        </div>
                     </div>
                 </div>
             </aside>

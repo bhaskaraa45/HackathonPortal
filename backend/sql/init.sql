@@ -18,7 +18,7 @@ CREATE TABLE teams (
 );
 
 CREATE TABLE questions (
-    id SERIAL PRIMARY KEY,
+    id INTEGER NOT NULL UNIQUE,
     statement JSONB NOT NULL
 );
 

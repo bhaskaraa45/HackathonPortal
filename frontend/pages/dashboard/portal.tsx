@@ -13,7 +13,10 @@ function Portal() {
     const current_round = 1 // TODO: change this
     return (
         <div className="dashboardBG">
-            <CustomHead title='Dashboard | E-Cell IIT Hyderabad - NPCI' description='Welcome to the Dashboard of E-Cell IIT Hyderabad & NPCI collaborative Hackathon.' />
+            <CustomHead
+                title="Hackathon Dashboard | E-Cell IIT Hyderabad - NPCI"
+                description="Welcome to the Dashboard of E-Cell IIT Hyderabad & NPCI collaborative Hackathon."
+            />
 
             <Flex height="100vh">
                 <Sidebar isLoading={false} />
@@ -38,5 +41,4 @@ function Portal() {
     );
 }
 
-// export default ProtectedRoute(Portal);
-export default Portal;
+export default ProtectedRoute(Portal);

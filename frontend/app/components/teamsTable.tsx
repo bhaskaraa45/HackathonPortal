@@ -15,7 +15,7 @@ type FinalProp = {
   tableProp: TeamsProp[];
 };
 
-export function TeamsTable({ tableProp }: FinalProp) {
+export function TeamsTable({ tableProp }: FinalProp ) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedTeamMembers, setSelectedTeamMembers] = useState<string[]>([]);
   const [isPromoteVis, setIsPromoteVis] = useState<boolean>(false);

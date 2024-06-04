@@ -6,18 +6,21 @@ import ProtectedRoute from '@/app/components/protectedRoutes';
 import CustomHead from '@/app/components/customHead';
 import AdminSideBar from '@/app/components/adminSidebar';
 import { useRouter } from 'next/router';
+import Session from 'supertokens-auth-react/recipe/session';
+import AdminProtectedRoute from '@/app/components/adminProtectedRoute';
+
 
 const AdminPage: React.FC = () => {
     const router = useRouter();
 
     useEffect(() => {
         async function checkAuth() {
-            // const status = await Session.doesSessionExist()
-            // if (status) {
-            router.replace('/admin/responses');
-            // } else {
-            // router.push('/login');
-            // }
+            const status = await Session.doesSessionExist()
+            if (status) {
+                router.replace('/admin/responses');
+            } else {
+                router.push('/login');
+            }
         }
         checkAuth();
     }, [router]);
@@ -33,4 +36,5 @@ const AdminPage: React.FC = () => {
     );
 };
 
-export default AdminPage;
+export default (AdminPage);
+// export default AdminProtectedRoute(AdminPage);

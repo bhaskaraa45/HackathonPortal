@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Session from 'supertokens-auth-react/recipe/session';
 import axios from 'axios';
 
-export const useAuth = () => {
+export const useAdminAuth = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isSessionExists, setIsSessionExists] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -17,7 +17,7 @@ export const useAuth = () => {
                 if (sessionExists) {
                     const response = await axios.get(`${backendUrl}/exists`);
                     if (response.status === 200) {
-                        if (!response.data.isAdmin) {
+                        if (response.data.isAdmin) {
                             setIsAuthenticated(true);
                         }
                     }

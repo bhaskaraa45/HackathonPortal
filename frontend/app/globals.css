@@ -295,7 +295,14 @@ table.table>tr {
   background: #1f2937;
 }
 
+.handleTeamWidth {
+  width: 600px;
+}
+
 @media only screen and (max-width: 1150px) {
+  .handleTeamWidth {
+    width: 500px;
+  }
   .ecellLogo {
     display: none;
   }
@@ -330,6 +337,10 @@ table.table>tr {
 
 
 @media only screen and (max-width: 640px) {
+  .handleTeamWidth {
+    width: 360px;
+  }
+
   .contentContainer {
     left: 0;
     margin-left: 0px;

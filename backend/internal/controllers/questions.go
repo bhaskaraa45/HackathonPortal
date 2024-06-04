@@ -3,8 +3,11 @@ package controllers
 import (
 	"HackathonNPCI/internal"
 	"HackathonNPCI/internal/database"
+	"database/sql"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -21,6 +24,7 @@ func HandleGetQuestion(c *gin.Context) {
 	userID := sessionContainer.GetUserID()
 	info, err := thirdparty.GetUserByID(userID)
 	if err != nil {
+		log.Printf("Error getting user info: %v", err)
 		resp := internal.CustomResponse(("session expired"), http.StatusBadRequest)
 		c.JSON(http.StatusBadRequest, resp)
 		return
@@ -28,12 +32,36 @@ func HandleGetQuestion(c *gin.Context) {
 
 	question, err := database.GetQuestion(info.Email)
 	if err != nil {
-		resp := internal.CustomResponse(("failed to fetch data"), http.StatusInternalServerError)
+		log.Printf("Error fetching question: %v", err)
+		var statusCode int
+		var resp map[string]string
+		switch {
+		case errors.Is(err, sql.ErrNoRows):
+			statusCode = http.StatusNotFound
+			resp = internal.CustomResponse(("no question found"), statusCode)
+		default:
+			statusCode = http.StatusInternalServerError
+			resp = internal.CustomResponse(("failed to fetch data"), statusCode)
+		}
 		c.JSON(http.StatusInternalServerError, resp)
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"question": question})
+	questionJSON := string(question)
+
+	// if reflect.TypeOf(question).Kind() == reflect.Slice { // Check if question is a byte slice
+	// 	questionJSON, err = json.Marshal(question) // Marshal to string if necessary
+	// 	if err != nil {
+	// 		// Log the error
+	// 		log.Printf("Error marshalling question data: %v", err)
+	// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to process question data"})
+	// 		return
+	// 	}
+	// } else {
+	// 	questionJSON = question.(string) // Assume string if not a slice
+	// }
+
+	c.JSON(http.StatusOK, questionJSON)
 }
 
 func HandleSubmitAnswer(c *gin.Context) {
@@ -41,6 +69,7 @@ func HandleSubmitAnswer(c *gin.Context) {
 	userID := sessionContainer.GetUserID()
 	info, err := thirdparty.GetUserByID(userID)
 	if err != nil {
+		log.Printf("Error getting user info: %v", err)
 		resp := internal.CustomResponse(("session expired"), http.StatusBadRequest)
 		c.JSON(http.StatusBadRequest, resp)
 		return

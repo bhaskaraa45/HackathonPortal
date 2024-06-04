@@ -1,7 +1,6 @@
 package database
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 
@@ -12,8 +11,8 @@ import (
 type Team struct {
 	TeamId       int      `json:"id"`
 	TeamName     string   `json:"name"`
-	MembersEmail []string `json:"members_email"`
-	MembersName  []string `json:"members_name"`
+	MembersEmail string   `json:"members_email"`
+	MembersName  string   `json:"members_name"`
 }
 
 func CreateTeam(teamName string, membersName []string, membersEmail []string, signup_ip string, useragent string) (bool, error) {
@@ -88,11 +87,7 @@ func GetTeam(email string) (Team, error) {
 	err = tx.QueryRow(query, email).Scan(&data.TeamId, &data.TeamName, &data.MembersEmail, &data.MembersName)
 	if err != nil {
 		tx.Rollback()
-		if err == sql.ErrNoRows {
-			fmt.Println("No team found for the email:", email)
-			return data, fmt.Errorf("no team found for the email: %v", email)
-		}
-		return data, fmt.Errorf("could not get team: %v", err)
+		return data, err
 	}
 	if err = tx.Commit(); err != nil {
 		return data, fmt.Errorf("could not commit transaction: %v", err)

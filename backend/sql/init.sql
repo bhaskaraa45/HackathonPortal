@@ -6,7 +6,7 @@ CREATE TABLE users (
     isAdmin BOOLEAN DEFAULT FALSE,
     last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     signup_ip VARCHAR(45),
-    user_agent VARCHAR(45)
+    user_agent TEXT
 );
 
 CREATE TABLE teams (
@@ -19,8 +19,7 @@ CREATE TABLE teams (
 
 CREATE TABLE questions (
     id SERIAL PRIMARY KEY,
-    statement VARCHAR NOT NULL,
-    hints jsonb
+    statement JSONB NOT NULL
 );
 
 CREATE TABLE submissions (

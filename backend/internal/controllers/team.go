@@ -3,8 +3,11 @@ package controllers
 import (
 	"HackathonNPCI/internal"
 	"HackathonNPCI/internal/database"
+	"database/sql"
 	"encoding/json"
 	"errors"
+	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -47,6 +50,7 @@ func HandleTeamRegister(c *gin.Context) {
 	res, err := database.CreateTeam(data.TeamName, data.MembersName, data.MembersEmail, ip, userAgent)
 
 	if err != nil || !res {
+		fmt.Println(err)
 		c.AbortWithError(http.StatusInternalServerError, errors.New("internal server error"))
 		return
 	}
@@ -70,8 +74,18 @@ func HandleGetTeam(c *gin.Context) {
 
 	team, err := database.GetTeam(info.Email)
 	if err != nil {
-		resp := internal.CustomResponse(("failed to fetch data"), http.StatusInternalServerError)
-		c.JSON(http.StatusBadRequest, resp)
+		log.Printf("Error fetching team: %v", err)
+		var statusCode int
+		var resp map[string]string
+		switch {
+		case errors.Is(err, sql.ErrNoRows):
+			statusCode = http.StatusNotFound
+			resp = internal.CustomResponse(("no question found"), statusCode)
+		default:
+			statusCode = http.StatusInternalServerError
+			resp = internal.CustomResponse(("failed to fetch data"), statusCode)
+		}
+		c.JSON(statusCode, resp)
 		return
 	}
 

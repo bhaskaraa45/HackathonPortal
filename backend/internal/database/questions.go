@@ -1,9 +1,11 @@
 package database
 
-import "fmt"
+import (
+	"fmt"
+)
 
-func GetQuestion(email string) (string, error) {
-	var data string
+func GetQuestion(email string) ([]byte, error) {
+	var data []byte
 	tx, err := db.Begin()
 	if err != nil {
 		return data, err
@@ -16,7 +18,15 @@ func GetQuestion(email string) (string, error) {
 		}
 	}()
 
-	query := `SElECT q.statement FROM users u JOIN teams t ON u.team_id = t.id JOIN questions ON t.current_round = q.id WHERE u.email_id = $1`
+    query := `
+        SELECT q.statement
+        FROM users u
+        JOIN teams t ON u.team_id = t.id
+        JOIN questions q ON t.current_round = q.id 
+        WHERE u.email_id = $1
+    `
+
+	// query := `SElECT q.statement FROM users u JOIN teams t ON u.team_id = t.id JOIN questions ON t.current_round = q.id WHERE u.email_id = $1`
 	err = tx.QueryRow(query, email).Scan(&data)
 	if err != nil {
 		tx.Rollback()
@@ -29,7 +39,7 @@ func GetQuestion(email string) (string, error) {
 	return data, nil
 }
 
-func SubmitAnswer(email string, ans string) (error) {
+func SubmitAnswer(email string, ans string) error {
 	tx, err := db.Begin()
 	if err != nil {
 		return err

@@ -11,9 +11,9 @@ const Dashboard = () => {
         async function checkAuth() {
             const status = await Session.doesSessionExist()
             if (status) {
-            router.replace('/dashboard/portal');
+                router.replace('/dashboard/portal');
             } else {
-            router.push('/login');
+                router.push('/login');
             }
         }
         checkAuth();

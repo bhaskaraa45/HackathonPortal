@@ -1,8 +1,5 @@
-import Sidebar from '@/app/components/Sidebar';
 import React, { useEffect } from 'react';
-import Table from '@/app/components/Table';
-import { Box, Flex, Heading } from '@chakra-ui/react';
-import ProtectedRoute from '@/app/components/protectedRoutes';
+import { Flex } from '@chakra-ui/react';
 import CustomHead from '@/app/components/customHead';
 import AdminSideBar from '@/app/components/adminSidebar';
 import { useRouter } from 'next/router';

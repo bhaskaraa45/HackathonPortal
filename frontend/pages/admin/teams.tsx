@@ -1,8 +1,5 @@
-import Sidebar from '@/app/components/Sidebar';
 import React, { useEffect, useState } from 'react';
-import Table from '@/app/components/Table';
 import { Box, Flex, Heading } from '@chakra-ui/react';
-import ProtectedRoute from '@/app/components/protectedRoutes';
 import CustomHead from '@/app/components/customHead';
 import AdminSideBar from '@/app/components/adminSidebar';
 import { TeamsTable } from '@/app/components/teamsTable';

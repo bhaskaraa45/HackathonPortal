@@ -27,8 +27,6 @@ const LeaderboardPage: React.FC = () => {
         try {
             const resp = await makeApiCall('leaderboard', { method: 'GET' });
             const data: Team[] = resp.data as Team[];
-            console.log(demo)
-            console.log(data)
             setTeams(data);
         } catch (error) {
             console.error('Error fetching data:', error);

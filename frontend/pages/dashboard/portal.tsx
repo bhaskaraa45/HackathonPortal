@@ -1,8 +1,6 @@
 import React from "react";
-import styles from '../styles/portal.module.css'
 import Sidebar from "@/app/components/Sidebar";
-import { Box, ChakraProvider, Flex, Heading, extendTheme } from "@chakra-ui/react";
-import { mode } from "@chakra-ui/theme-tools";
+import { Box, Flex, Heading } from "@chakra-ui/react";
 import ProtectedRoute from "@/app/components/protectedRoutes";
 import CustomHead from "@/app/components/customHead";
 import ProbmelStatementComponent from "@/app/components/problemStatement";

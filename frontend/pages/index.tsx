@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../styles/home.module.css';
 import Navbar from '@/app/components/Navbar';
-import Head from 'next/head';
 
 export default function Home() {
     const [countdown, setCountdown] = useState('00:00:00:00');

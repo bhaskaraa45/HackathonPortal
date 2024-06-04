@@ -85,6 +85,7 @@
     transform: translateX(100%);
     opacity: 0;
     transition: transform 0.5s ease, opacity 0.5s ease;
+    width: 100%;
 }
 
 .menuOptionsVisible {
@@ -98,6 +99,13 @@
 .menuOptions ol li {
     cursor: pointer;
     transition: text-decoration 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menuOptions ol {
+    width: 100%;
 }
 
 .menuOptions ol li:hover {
@@ -261,8 +269,10 @@ screen and (max-height: 205px) {
         right: 0px;
         background: transparent;
         z-index: 5;
-        transition: width 1s ease;
+        /* transition: width 1s ease; */
         transform: translateX(0%);
+        transition: width 1s ease, transform 1s ease;
+        /* Ensure smooth transition */
         /* color: red; */
     }
 
@@ -273,8 +283,8 @@ screen and (max-height: 205px) {
         right: 0px;
         background: linear-gradient(180deg, #5465FF 0%, #788BFF 100%);
         z-index: 5;
-        transition: width 1s ease;
         transform: translateX(0%);
+        transition: width 1s ease, transform 1s ease;
     }
 
     .countdownBOX {

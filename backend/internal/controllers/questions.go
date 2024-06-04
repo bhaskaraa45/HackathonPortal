@@ -45,19 +45,7 @@ func HandleGetQuestion(c *gin.Context) {
 		return
 	}
 
-	questionJSON := string(question)
+	// questionJSON := string(question)
 
-	// if reflect.TypeOf(question).Kind() == reflect.Slice { // Check if question is a byte slice
-	// 	questionJSON, err = json.Marshal(question) // Marshal to string if necessary
-	// 	if err != nil {
-	// 		// Log the error
-	// 		log.Printf("Error marshalling question data: %v", err)
-	// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to process question data"})
-	// 		return
-	// 	}
-	// } else {
-	// 	questionJSON = question.(string) // Assume string if not a slice
-	// }
-
-	c.JSON(http.StatusOK, questionJSON)
+	c.JSON(http.StatusOK, gin.H{"problem": string(question.Problem), "current_round": question.CurrentRound, "last_submission": question.LastSubmission.Int16})
 }

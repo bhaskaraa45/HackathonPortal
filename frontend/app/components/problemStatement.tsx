@@ -6,28 +6,12 @@ type JSONData = {
     [key: string]: string | string[];
 };
 
-const ProblemStatementComponent: React.FC = () => {
-    const [jsonData, setJsonData] = useState<JSONData | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
+type props = {
+    isLoading: boolean
+    jsonData: JSONData
+};
 
-    const getData = async () => {
-        setIsLoading(true);
-
-        try {
-            const resp = await makeApiCall('question', { method: 'GET' });
-            const obj = JSON.parse(resp.data)
-            setJsonData(obj);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
-
+const ProblemStatementComponent: React.FC<props> = ({ isLoading, jsonData }: props) => {
     return (
         <div>
             {isLoading ? (

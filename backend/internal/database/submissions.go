@@ -92,6 +92,17 @@ func PostSubmission(email string, ans string) error {
 		return fmt.Errorf("could not update submissions: %v", err)
 	}
 
+	queryUpdateLastSubmission := `
+		UPDATE teams 
+		SET last_submission = (SELECT current_round FROM teams WHERE id = (SELECT team_id FROM users WHERE email_id = $1))
+		WHERE id = (SELECT team_id FROM users WHERE email_id = $1)
+	`
+
+	_, err = tx.Exec(queryUpdateLastSubmission, email)
+	if err != nil {
+		return fmt.Errorf("could not update last_submission: %v", err)
+	}
+
 	return nil
 }
 

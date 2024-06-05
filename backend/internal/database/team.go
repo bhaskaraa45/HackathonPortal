@@ -192,3 +192,31 @@ func GetAllTeam() ([]Team, error) {
 	return result, nil
 }
 
+func TeamNameValid(name string) bool {
+	tx, err := db.Begin()
+	if err != nil {
+		return false
+	}
+
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+			panic(r)
+		}
+	}()
+
+	query := `SELECT EXISTS (SELECT 1 FROM teams WHERE name = $1 )`
+	var exists bool
+	err = tx.QueryRow(query, name).Scan(&exists)
+
+	if err != nil {
+		tx.Rollback()
+		return false
+	}
+
+	if err = tx.Commit(); err != nil {
+		return false
+	}
+
+	return exists
+}

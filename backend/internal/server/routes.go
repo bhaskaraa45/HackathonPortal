@@ -59,6 +59,7 @@ func (s *Server) RegisterRoutes() {
 	s.GET("/teams", verifySession(nil), controllers.HandleGetAllTeam) //ADMIN ROUTE
 	s.GET("/response", verifySession(nil), controllers.HandleGetSubmussion)
 	s.GET("/responses", verifySession(nil), controllers.HandleGetAllSubmussions) //ADMIN ROUTE
+	s.POST("/validteam", verifySession(nil), controllers.HandleTeamNameExists)
 }
 
 func (s *Server) HelloWorldHandler(c *gin.Context) {

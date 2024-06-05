@@ -177,3 +177,26 @@ func HandleGetAllTeam(c *gin.Context) {
 
 	c.JSON(http.StatusOK, team)
 }
+
+func HandleTeamNameExists(c *gin.Context) {
+	type Model struct {
+		TeamName string `json:"team_name"`
+	}
+	var data Model
+	err := json.NewDecoder(c.Request.Body).Decode(&data)
+	if err != nil {
+		resp := internal.CustomResponse("invalid json data!", http.StatusBadRequest)
+		c.JSON(http.StatusBadRequest, resp)
+		return
+	}
+
+	if data.TeamName == "" {
+		resp := internal.CustomResponse("invalid json data!", http.StatusBadRequest)
+		c.JSON(http.StatusBadRequest, resp)
+		return
+	}
+
+	exists := database.TeamNameValid(data.TeamName)
+
+	c.JSON(http.StatusOK, gin.H{"valid": !exists})
+}

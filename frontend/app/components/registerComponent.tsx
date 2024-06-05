@@ -21,6 +21,7 @@ import {
   Spacer,
   useBreakpointValue,
   Text,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import Session from 'supertokens-auth-react/recipe/session';
@@ -28,6 +29,8 @@ import { getSessionUser } from '../api/auth';
 import { useRouter } from 'next/router';
 import CustomModal from './customModal';
 import { signOut } from 'supertokens-auth-react/recipe/thirdparty';
+import makeApiCall from '../api/makeCall';
+import { json } from 'stream/consumers';
 
 const steps = [
   { title: 'First', description: 'Email Verification' },
@@ -47,6 +50,7 @@ const RegistrationForm: React.FC = () => {
   const [leaderName, setLeaderName] = useState<string>('');
   const [teamName, setTeamName] = useState<string>('');
   const [nameError, setNameError] = useState<string>('');
+  const [teamNameError, setTeamNameError] = useState<string>('');
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,13 +77,28 @@ const RegistrationForm: React.FC = () => {
     }
   };
 
+  const handleSecondNext = async () => {
+    try {
+      const response = await makeApiCall('validteam', { method: "POST", body: JSON.stringify({ "team_name": teamName }) })
+      if (response.status === 200) {
+        if (response.data.valid) {
+          setTeamNameError('')
+          handleNext();
+        } else {
+          setTeamNameError("This name has already been taken, please consider different team name.")
+        }
+      }
+    } catch (error) {
+      setTeamNameError("This name has already been taken, please consider different team name.")
+      console.log(error)
+    }
+  }
+
   const checkSession = async () => {
     if (await Session.doesSessionExist()) {
       if (leaderEmail === '') {
         const user = await getSessionUser();
         if (user.isRegisterd) {
-          
-
           user.isAdmin ? router.replace('/admin') : router.replace('/dashboard')
           return;
         }
@@ -200,12 +219,13 @@ const RegistrationForm: React.FC = () => {
           )}
           {activeStep === 1 && (
             <Stack spacing={3}>
-              <FormControl>
+              <FormControl isInvalid={teamNameError !== ''}>
                 <FormLabel>Enter Team Name</FormLabel>
                 <InputGroup>
                   <InputLeftElement pointerEvents='none' />
                   <Input _hover={{ borderColor: 'black' }} borderColor='black' focusBorderColor='black' type='text' placeholder='ABC' value={teamName} onChange={handleTeamNameChange} />
                 </InputGroup>
+                {teamNameError != '' && <FormErrorMessage>{teamNameError}</FormErrorMessage>}
               </FormControl>
 
               <Spacer height='100px'></Spacer>
@@ -214,7 +234,7 @@ const RegistrationForm: React.FC = () => {
                 <Button width='130px' marginLeft='20px' onClick={handleBack} paddingX='5px' color='white' background='rgb(58, 73, 167)' _hover={{ background: '#2b388f' }}>
                   BACK
                 </Button>
-                <Button width='130px' marginLeft='100px' onClick={handleNext} paddingX='5px' color='white' background='rgb(58, 73, 167)' _hover={{ background: '#2b388f' }} isDisabled={teamName.trim() === ''}>
+                <Button width='130px' marginLeft='100px' onClick={handleSecondNext} paddingX='5px' color='white' background='rgb(58, 73, 167)' _hover={{ background: '#2b388f' }} isDisabled={teamName.trim() === ''}>
                   NEXT
                 </Button>
               </Box>
@@ -240,13 +260,13 @@ const areEmailsUnique = (emails: string[]): boolean => {
   return emailSet.size === emails.length;
 };
 
-
 function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEmail, handleBack }: { count: number; teamName: string; leaderName: string; leaderEmail: string, handleBack: () => void }) {
   const [membersData, setMembersData] = useState(
     Array.from({ length: count }, () => ({ name: '', email: '' }))
   );
   const [errors, setErrors] = useState(Array(count).fill(''));
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpenDup, setIsOpenDup] = useState<boolean>(false);
 
   const handleMemberChange = async (index: number, field: 'name' | 'email', value: string) => {
     const updatedMembers = [...membersData];
@@ -254,28 +274,49 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
     setMembersData(updatedMembers);
   };
 
-  const handleErrors = () => {
+  const handleSubmit = async () => {
+    const allEmails = [leaderEmail, ...membersData.map(member => member.email)];
+    if (!areEmailsUnique(allEmails)) {
+      setIsOpenDup(true)
+      return;
+
+    }
+
+    //   setErrors(Array(count).fill(''))
+    //   // setErrors(membersData.map(member => !areEmailsUnique([leaderEmail, member.email]) ? 'This email is duplicated' : ''));
+
+    //   const updatedErrors = [...errors];
+    //   for (let i = 0; i < count; i++) {
+    //     for (let j = i + 1; j < count; j++) {
+    //       if (membersData[i].email === membersData[j].email) {
+    //         updatedErrors[i] = 'This email is duplicated'
+    //         updatedErrors[j] = 'This email is duplicated'
+    //       }
+    //     }
+    //   }
+
+    //   setErrors(updatedErrors)
+
+    //   return;
+    // }
     const updatedErrors = [...errors];
     for (let index = 0; index < count; index++) {
       if (verifyIITHEmail(membersData[index].email.trim())) {
         updatedErrors[index] = '';
       } else {
-        updatedErrors[index] = 'This email user is not eligible';
+        updatedErrors[index] = 'This email is not valid OR user is not eligible';
       }
     }
     setErrors(updatedErrors)
-  }
+    if (updatedErrors.some(error => error !== '')) return;
 
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
-
-  const handleSubmit = async () => {
     const payload = {
       team_name: teamName,
       members_name: [leaderName, ...membersData.map(member => member.name)],
-      members_email: [leaderEmail, ...membersData.map(member => member.email)],
+      members_email: allEmails,
     };
     try {
-      const response = await axios.post(`${backendUrl}/team`, payload);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/team`, payload);
       if (response.status === 200) {
         setIsOpen(true);
       }
@@ -293,19 +334,24 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
 
   return (
     <Stack spacing={2}>
-
       <CustomModal
         isOpen={isOpen}
         title={'Registraion Sucessful'}
         description={'Congratulations, your team has been successfully registered.'}
-        time={1}
+        time={3}
         onClose={onClose}
       />
 
+      <CustomModal
+        isOpen={isOpenDup}
+        title={'Duplicate Emails'}
+        description={'This team contains duplicate email ids, please fill all the team members data correctly.'}
+        onClose={() => setIsOpenDup(false)}
+      />
 
       {membersData.map((member, index) => (
         <Box key={index}>
-          <FormControl>
+          <FormControl isInvalid={!!errors[index]}>
             <FormLabel>Enter Member {index + 1}&apos;s Name</FormLabel>
             <InputGroup>
               <InputLeftElement pointerEvents='none'>
@@ -334,7 +380,7 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
             </InputGroup>
           </FormControl>
 
-          <FormControl>
+          <FormControl isInvalid={!!errors[index]}>
             <FormLabel>Enter Member {index + 1}&apos;s Email</FormLabel>
             <InputGroup>
               <InputLeftElement pointerEvents='none'>
@@ -353,6 +399,7 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
                 onChange={(e) => handleMemberChange(index, 'email', e.target.value)}
               />
             </InputGroup>
+            {errors[index] && <FormErrorMessage>{errors[index]}</FormErrorMessage>}
           </FormControl>
 
           <div style={{ height: '18px' }}></div>
@@ -363,7 +410,7 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
         <Button width='130px' marginLeft='20px' onClick={handleBack} paddingX='5px' color='white' background='rgb(58, 73, 167)' _hover={{ background: '#2b388f' }}>
           BACK
         </Button>
-        <Button onClick={handleSubmit} width='130px' marginLeft='100px' paddingX='5px' color='white' background='rgb(58, 73, 167)' _hover={{ background: '#2b388f' }} isDisabled={membersData.some(member => member.name.trim() === '' || member.email.trim() === '' || membersData.some((member) => !verifyIITHEmail(member.email)) || !areEmailsUnique([leaderEmail, ...membersData.map(member => member.email)]))}>
+        <Button onClick={handleSubmit} width='130px' marginLeft='100px' paddingX='5px' color='white' background='rgb(58, 73, 167)' _hover={{ background: '#2b388f' }} isDisabled={membersData.some(member => member.name.trim() === '' || member.email.trim() === '')}>
           SUBMIT
         </Button>
       </Box>

@@ -90,7 +90,7 @@ export default function Sidebar({ isLoading }: { isLoading: boolean }) {
 
                     <div className="flex items-center justify-center mb-4">
                         <div>
-                            <img src='/https://res.cloudinary.com/dqyxqfvnv/image/upload/v1717566910/ecell_npci.png' alt="E-Cell NPCI Logo"></img>
+                            <img src='https://res.cloudinary.com/dqyxqfvnv/image/upload/v1717566910/ecell_npci.png' alt="E-Cell NPCI Logo"></img>
                         </div>
                     </div>
                     <hr className="my-2" />

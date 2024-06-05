@@ -34,7 +34,7 @@ const LeaderboardPage: React.FC = () => {
     }, []);
     return (
         <div className="dashboardBG">
-            <CustomHead title='Hackathon Admin | E-Cell IIT Hyderabad - NPCI' description='Welcome to the Dashboard of E-Cell IIT Hyderabad & NPCI collaborative Hackathon.' />
+            <CustomHead title='Hackathon Admin | E-Cell IIT Hyderabad - NPCI' description='Welcome to the Admin Portal of E-Cell IIT Hyderabad & NPCI collaborative Hackathon.' />
 
             <Flex height="100vh">
                 <AdminSideBar isLoading={false} />

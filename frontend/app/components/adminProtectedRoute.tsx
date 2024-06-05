@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import LoadingPortal from './loadingPortal';
+import  { AdminLoadingPortal } from './loadingPortal';
 // import { signOut } from 'supertokens-auth-react/recipe/thirdparty';
 import { useAdminAuth } from '../hooks/useAdminAuth';
 import { color } from '@chakra-ui/react';
@@ -21,7 +21,7 @@ const AdminProtectedRoute = (WrappedComponent: React.ComponentType) => {
         }, [loading, isSessionExists, router]);
 
         if (loading) {
-            return <LoadingPortal />;
+            return <AdminLoadingPortal />;
         }
         const onClose = async () => {
             // await signOut();

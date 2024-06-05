@@ -83,7 +83,7 @@ export default function AdminSideBar({ isLoading }: { isLoading: boolean }) {
 
                     <div className="flex items-center justify-center mb-4">
                         <div>
-                            <img src='https://res.cloudinary.com/dqyxqfvnv/image/upload/v1717386779/hackathon/ecell-npci.png'></img>
+                            <img src='https://res.cloudinary.com/dqyxqfvnv/image/upload/v1717566910/ecell_npci.png'></img>
                         </div>
                         {/* <div className="logoINDashboardECELL">
                             <img src='/ecell.png'></img>

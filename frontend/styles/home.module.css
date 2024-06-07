@@ -45,7 +45,7 @@
 .rectangle1 {
     position: fixed;
     width: 88px;
-    height: 100%;
+    height: 100vh; 
     top: 0px;
     right: 0px;
     background: linear-gradient(180deg, #5465FF 0%, #788BFF 100%);
@@ -53,6 +53,9 @@
     border-bottom-left-radius: 18px;
     z-index: 4;
     transition: width 1s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .rectangle1AFTERCLICK {
@@ -71,8 +74,6 @@
 
 .menuOptions {
     color: white;
-    display: flex;
-    flex-direction: column;
     align-items: flex-start;
     padding: 0px;
     position: absolute;
@@ -85,7 +86,21 @@
     transform: translateX(100%);
     opacity: 0;
     transition: transform 0.5s ease, opacity 0.5s ease;
-    width: 100%;
+    width: 100%;    
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.menuList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1; /* Make the list take up all available space */
+}
+
+.menuList li {
+    margin: 5px 0;
 }
 
 .menuOptionsVisible {
@@ -231,7 +246,28 @@
     background-repeat: no-repeat;
     z-index: 5;
 } */
+.signOutButton {
+    margin-top: auto;
+    padding: 45px;
+    text-align: center;
+    transition: text-decoration 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
+/* .signOutButton button {
+    background-color: #f00;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.signOutButton button:hover {
+    background-color: #c00;
+} */
 @media only screen and (max-width: 1150px),
 screen and (max-height: 205px) {
     .circleContainer {

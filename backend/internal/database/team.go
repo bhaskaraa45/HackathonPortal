@@ -38,7 +38,6 @@ func CreateTeam(teamName string, membersName []string, membersEmail []string, si
 		return false, fmt.Errorf("could not insert team: %v", err)
 	}
 
-	//TODO: add signup_ip later
 	query_member := `INSERT INTO users (email_id, name, team_id, signup_ip, user_agent) VALUES ($1, $2, $3, $4, $5)`
 
 	stmt, err := tx.Prepare(query_member)
@@ -48,7 +47,6 @@ func CreateTeam(teamName string, membersName []string, membersEmail []string, si
 	}
 	defer stmt.Close()
 
-	// Inserting each member
 	for i, name := range membersName {
 		email := membersEmail[i]
 		_, err = stmt.Exec(email, name, teamID, signup_ip, useragent)
@@ -219,4 +217,41 @@ func TeamNameValid(name string) bool {
 	}
 
 	return exists
+}
+
+func UsersAlreadyExists(emails []string) (bool, []string, error) {
+	var ok bool
+	var users []string
+
+	tx, err := db.Begin()
+	if err != nil {
+		return false, users, err
+	}
+
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+			panic(r)
+		} else if err != nil {
+			tx.Rollback()
+		} else {
+			err = tx.Commit()
+		}
+	}()
+
+	query := `SELECT EXISTS (SELECT 1 FROM users WHERE email_id = $1)`
+
+	for _, email := range emails {
+		var exists bool
+		err := tx.QueryRow(query, email).Scan(&exists)
+		if err != nil {
+			return ok, users, err
+		}
+		if exists {
+			ok = true
+			users = append(users, email)
+		}
+	}
+
+	return ok, users, err
 }

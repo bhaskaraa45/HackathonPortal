@@ -267,6 +267,8 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
   const [errors, setErrors] = useState(Array(count).fill(''));
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isOpenDup, setIsOpenDup] = useState<boolean>(false);
+  const [isAlreadyOpen, setIsAlreadyOpen] = useState<boolean>(false);
+  const [isAlreadyMsg, setIsAlreadyMsg] = useState<string>('');
 
   const handleMemberChange = async (index: number, field: 'name' | 'email', value: string) => {
     const updatedMembers = [...membersData];
@@ -279,7 +281,6 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
     if (!areEmailsUnique(allEmails)) {
       setIsOpenDup(true)
       return;
-
     }
 
     //   setErrors(Array(count).fill(''))
@@ -317,6 +318,10 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
     };
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/team`, payload);
+      if (response.status === 226) {
+        setIsAlreadyMsg(response.data.message)
+        setIsAlreadyOpen(true)
+      }
       if (response.status === 200) {
         setIsOpen(true);
       }
@@ -336,10 +341,17 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
     <Stack spacing={2}>
       <CustomModal
         isOpen={isOpen}
-        title={'Registraion Sucessful'}
+        title={'Registraion Successful'}
         description={'Congratulations, your team has been successfully registered.'}
-        time={3}
+        time={4}
         onClose={onClose}
+      />
+
+      <CustomModal
+        isOpen={isAlreadyOpen}
+        title={'Registration Error'}
+        description={isAlreadyMsg}
+        onClose={() => setIsAlreadyOpen(false)}
       />
 
       <CustomModal

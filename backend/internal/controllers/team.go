@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/supertokens/supertokens-golang/recipe/session"
@@ -46,6 +47,26 @@ func HandleTeamRegister(c *gin.Context) {
 
 	ip := c.ClientIP()
 	userAgent := c.Request.UserAgent()
+
+	ok, usrs, err := database.UsersAlreadyExists(data.MembersEmail)
+
+	if err != nil {
+		fmt.Println(err)
+		c.AbortWithError(http.StatusInternalServerError, errors.New("internal server error"))
+		return
+	}
+
+	if ok {
+		var msg string
+		if len(usrs) == 1 {
+			msg = fmt.Sprintf("This User is already registered with another team: %s", usrs[0])
+		} else {
+			msg = fmt.Sprintf("These Users are already registered with another team: %s", strings.Join(usrs, ", "))
+		}
+		fmt.Println("Users already exist: ", usrs)
+		c.JSON(http.StatusIMUsed, gin.H{"message": msg})
+		return
+	}
 
 	res, err := database.CreateTeam(data.TeamName, data.MembersName, data.MembersEmail, ip, userAgent)
 

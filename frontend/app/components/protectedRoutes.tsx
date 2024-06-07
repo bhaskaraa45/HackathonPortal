@@ -15,7 +15,7 @@ const ProtectedRoute = (WrappedComponent: React.ComponentType) => {
       if (!loading && !isSessionExists) {
         router.push({
           pathname: '/login',
-          query: {redirectTo: router.asPath }
+          query: { redirectTo: router.asPath }
         });
       }
     }, [loading, isSessionExists, router]);
@@ -24,9 +24,9 @@ const ProtectedRoute = (WrappedComponent: React.ComponentType) => {
       return <LoadingPortal />;
     }
     const onClose = async () => {
-      await signOut();
+      // await signOut();
       setModalVisible(false);
-      router.replace("/")
+      router.replace("/register")
     };
     return (
       <>

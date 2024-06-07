@@ -1,6 +1,8 @@
-import { Button, useDisclosure } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import React, { useState } from "react";
 import SignOutModal from "./signOutModal";
+import makeApiCall from "../api/makeCall";
+import { useRouter } from "next/router";
 
 type ResponseProp = {
     teamName: string;
@@ -17,17 +19,30 @@ type FinalProp = {
 export function ResponseTable({ tableProp }: FinalProp) {
     const [isPromoteVis, setIsPromoteVis] = useState<boolean>(false);
     const [selectedTeam, setSelectedTeam] = useState<number>();
+    const [moreRound, setMoreRound] = useState<boolean>(false);
 
+    const router = useRouter();
 
     const handlePromoteModal = (id: number) => {
-        setSelectedTeam(id);
+        setSelectedTeam(id)
+        // if (r > 2) {
+        //     setMoreRound(true)
+        // } else {
         setIsPromoteVis(true);
+        // }
     }
 
-    const onPromoteConfirm = () => {
-        setIsPromoteVis(false);
-        console.log(`ID: ${selectedTeam}`);
-        // Add your promote logic here
+    const onPromoteConfirm = async () => {
+        try {
+            const response = await makeApiCall("promote", { method: "POST", body: { "team_id": selectedTeam } });
+            console.log(response);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        } finally {
+            setIsPromoteVis(false)
+        }
+        console.log(`PROMOTED ID: ${selectedTeam}`)
+        // router.reload();
     }
 
     return (

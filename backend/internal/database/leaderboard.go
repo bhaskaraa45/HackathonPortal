@@ -20,7 +20,7 @@ func GetLeaderboard() ([]Model, error) {
 		}
 	}()
 
-	query := `SELECT name, current_round FROM teams WHERE id > 1 ORDER BY current_round`
+	query := `SELECT name, current_round FROM teams WHERE id > 1 ORDER BY current_round DESC`
 
 	rows, err := tx.Query(query)
 	if err != nil {

@@ -42,7 +42,7 @@ export function ResponseTable({ tableProp }: FinalProp) {
             setIsPromoteVis(false)
         }
         console.log(`PROMOTED ID: ${selectedTeam}`)
-        // router.reload();
+        router.reload();
     }
 
     return (

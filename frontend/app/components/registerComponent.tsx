@@ -22,6 +22,12 @@ import {
   useBreakpointValue,
   Text,
   FormErrorMessage,
+  Grid,
+  GridItem,
+  Icon,
+  ChakraProvider,
+  extendTheme,
+  HStack,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import Session from 'supertokens-auth-react/recipe/session';
@@ -141,104 +147,186 @@ const RegistrationForm: React.FC = () => {
               color='black'
               sx={{
                 '[data-status=complete] &': {
-                  background: 'purple',
-                  borderColor: 'black',
+                  background: '#5134A4',
+                  borderColor: 'white',
                 },
                 '[data-status=active] &': {
-                  background: 'rgb(80, 95, 191)',
-                  borderColor: 'black',
+                  background: 'white',
+                  borderColor: 'white',
                 },
                 '[data-status=incomplete] &': {
-                  borderColor: 'black',
+                  borderColor: 'white',
+                  background: 'transparent'
                 },
               }}
             >
-              <StepStatus complete={<StepIcon />} incomplete={<StepNumber />} active={<StepNumber />} />
+              <StepStatus complete={<StepIcon />} incomplete={<Text color="white" fontSize="20px" fontWeight="600" fontFamily="Montserrat, sans-serif">{index + 1}</Text>} active={<Text fontSize="20px" fontWeight="600" fontFamily="Montserrat, sans-serif">{index + 1}</Text>} />
             </StepIndicator>
 
             <Box flexShrink="0">
-              <StepTitle className='StepTitle'>{step.description}</StepTitle>
+              <StepTitle className='StepTitle'>
+                <Text fontSize="1.25rem">{step.description}</Text>
+              </StepTitle>
             </Box>
-            <StepSeparator />
+            {activeStep > index && <StepSeparator />}
           </Step>
         ))}
       </Stepper>
       <Flex justifyContent='center'>
         <Box alignContent='center' width='380px' mt={6}>
           {activeStep === 0 && (
-            <Stack spacing={3}>
-              <FormControl>
-                <FormLabel>Leader&apos;s Email</FormLabel>
-                <InputGroup>
-                  <InputLeftElement pointerEvents='none'>
-                    <svg className="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
-                      <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
-                      <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
-                    </svg>
-                  </InputLeftElement>
-                  <Input color='rgb(90, 90, 90)' _hover={{ borderColor: 'black', cursor: 'not-allowed' }} borderColor='black' focusBorderColor='black' type='email' placeholder='your_rollnumber@iith.ac.in' value={leaderEmail} readOnly />
-                </InputGroup>
 
-                <Spacer height='18px'></Spacer>
-
-                <FormLabel>Enter Leader&apos;s Name</FormLabel>
-                <InputGroup>
-                  <InputLeftElement pointerEvents='none'>
-                    <svg className="w-4 h-4 text-gray-800" fill="#currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 492.332 492.332">
-                      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                      <g id="SVGRepo_iconCarrier">
-                        <g>
-                          <g>
-                            <polygon points="435.704,249.504 56.626,249.504 14.185,492.332 478.147,492.332 "></polygon>
-                            <circle cx="246.167" cy="103.473" r="103.473"></circle>
-                          </g>
-                        </g>
-                      </g>
-                    </svg>
-                  </InputLeftElement>
-                  <Input
-                    _hover={{ borderColor: 'black' }}
-                    borderColor={nameError ? 'red.500' : 'black'}
-                    focusBorderColor={nameError ? 'red.500' : 'black'}
-                    type='text'
-                    placeholder='John Doe'
-                    value={leaderName}
-                    onChange={handleNameChange}
-                  />
-                </InputGroup>
-                {nameError && <Text color='red.500' mt={2}>{nameError}</Text>}
-              </FormControl>
-              <Spacer height='24px'></Spacer>
-              <Button onClick={handleFirstNext} paddingX='5px' color='white' background='rgb(58, 73, 167)' _hover={{ background: '#2b388f' }}
-                isDisabled={leaderEmail.trim() === '' || leaderName.trim() === ''}
-              >
-                NEXT
-              </Button>
-            </Stack>
+            <Box
+              bg="#101232"
+              p={6}
+              rounded="md"
+              maxWidth="520px"
+              mx="auto"
+              mt="10"
+              color="white"
+              h="327px"
+              maxHeight="360px"
+              borderRadius={8}
+              w={{ base: "350px", md: "480px" }}
+            >
+              <Stack spacing={3}>
+                <FormControl>
+                  <FormLabel
+                    fontSize="1rem"
+                    fontWeight="600"
+                    fontFamily="Montserrat, sans-serif"
+                  >
+                    Leaders Email
+                  </FormLabel>
+                  <InputGroup mt={2}>
+                    <Input
+                      _hover={{ borderColor: 'grey' }}
+                      borderColor='#1D1E37'
+                      focusBorderColor='grey'
+                      type='email'
+                      placeholder='your_rollnumber@iith.ac.in'
+                      value={leaderEmail}
+                      h="48px"
+                      background="#06081A"
+                      readOnly
+                    />
+                  </InputGroup>
+                </FormControl>
+                <FormControl mt={4}>
+                  <FormLabel
+                    fontSize="1rem"
+                    fontWeight="600"
+                    fontFamily="Montserrat, sans-serif"
+                  >
+                    Enter Leaders name
+                  </FormLabel>
+                  <InputGroup mt={2}>
+                    <Input
+                      _hover={{ borderColor: 'grey' }}
+                      borderColor='#1D1E37'
+                      focusBorderColor='grey'
+                      type='text'
+                      placeholder='John Doe'
+                      value={leaderName}
+                      onChange={handleNameChange}
+                      h="48px"
+                      background="#06081A"
+                    />
+                  </InputGroup>
+                </FormControl>
+                <Button
+                  mt={5}
+                  background="#5134A4"
+                  colorScheme="#5134A4"
+                  variant="solid"
+                  flex={1}
+                  isDisabled={leaderEmail.trim() === '' || leaderName.trim() === ''}
+                  h="48px"
+                  fontSize="1.25rem"
+                  fontWeight="500"
+                  fontFamily="Montserrat, sans-serif"
+                  w="199px"
+                  mx="auto"
+                  minHeight="48px"
+                  borderRadius={8}
+                  onClick={handleFirstNext}
+                >
+                  Next
+                </Button>
+              </Stack>
+            </Box>
           )}
           {activeStep === 1 && (
-            <Stack spacing={3}>
-              <FormControl isInvalid={teamNameError !== ''}>
-                <FormLabel>Enter Team Name</FormLabel>
-                <InputGroup>
-                  <InputLeftElement pointerEvents='none' />
-                  <Input _hover={{ borderColor: 'black' }} borderColor='black' focusBorderColor='black' type='text' placeholder='ABC' value={teamName} onChange={handleTeamNameChange} />
-                </InputGroup>
-                {teamNameError != '' && <FormErrorMessage>{teamNameError}</FormErrorMessage>}
-              </FormControl>
-
-              <Spacer height='100px'></Spacer>
-
-              <Box alignItems='center' width='400px'>
-                <Button width='130px' marginLeft='20px' onClick={handleBack} paddingX='5px' color='white' background='rgb(58, 73, 167)' _hover={{ background: '#2b388f' }}>
-                  BACK
-                </Button>
-                <Button width='130px' marginLeft='100px' onClick={handleSecondNext} paddingX='5px' color='white' background='rgb(58, 73, 167)' _hover={{ background: '#2b388f' }} isDisabled={teamName.trim() === ''}>
-                  NEXT
-                </Button>
-              </Box>
-            </Stack>
+            <Box
+              bg="#101232"
+              p={6}
+              rounded="md"
+              maxWidth="520px"
+              mx="auto"
+              mt="10"
+              color="white"
+              h="210px"
+              maxHeight="300px"
+              borderRadius={8}
+              w={{ base: "350px", md: "480px" }}
+            >
+              <Stack spacing={3}>
+                <FormControl isInvalid={teamNameError !== ''}>
+                  <FormLabel
+                    fontSize="1rem"
+                    fontWeight="600"
+                    fontFamily="Montserrat, sans-serif"
+                  >Enter team name</FormLabel>
+                  <InputGroup mt={3}>
+                    <Input
+                      _hover={{ borderColor: 'grey' }}
+                      borderColor='#1D1E37'
+                      focusBorderColor='grey'
+                      type='text'
+                      placeholder='ABC'
+                      value={teamName}
+                      onChange={handleTeamNameChange}
+                      h="48px"
+                      background="#06081A"
+                    />
+                  </InputGroup>
+                  {teamNameError != '' && <FormErrorMessage>{teamNameError}</FormErrorMessage>}
+                </FormControl>
+                <Stack direction="row" spacing={4} mt={4}>
+                  <Button
+                    background="#5134A4"
+                    colorScheme="#5134A4"
+                    variant="solid"
+                    flex={1}
+                    h="48px"
+                    fontSize="1.25rem"
+                    fontWeight="500"
+                    fontFamily="Montserrat, sans-serif"
+                    w="199px"
+                    onClick={handleBack}
+                    borderRadius={8}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    background="#5134A4"
+                    colorScheme="#5134A4"
+                    variant="solid"
+                    flex={1}
+                    isDisabled={teamName.trim() === ''}
+                    h="48px"
+                    fontSize="1.25rem"
+                    fontWeight="500"
+                    fontFamily="Montserrat, sans-serif"
+                    w="199px"
+                    onClick={handleSecondNext}
+                    borderRadius={8}
+                  >
+                    Next
+                  </Button>
+                </Stack>
+              </Stack>
+            </Box>
           )}
           {activeStep === 2 && (
             <MembersDataCollectionComponent count={3} teamName={teamName} leaderEmail={leaderEmail} leaderName={leaderName} handleBack={handleBack} />
@@ -252,7 +340,7 @@ const RegistrationForm: React.FC = () => {
 const regex = /^[a-z]{2}(21|22|23)btech1\d{4}@iith\.ac\.in$/;
 
 const verifyIITHEmail = (email: string) => {
-  return regex.test(email)
+  return regex.test(String(email).toLowerCase());
 }
 
 const areEmailsUnique = (emails: string[]): boolean => {
@@ -274,42 +362,36 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
     const updatedMembers = [...membersData];
     updatedMembers[index][field] = value;
     setMembersData(updatedMembers);
+
+    // Reset error for the field being changed
+    const updatedErrors = [...errors];
+    if (field === "email" && verifyIITHEmail(value)) {
+      updatedErrors[index] = "";
+    }
+    setErrors(updatedErrors);
   };
+
 
   const handleSubmit = async () => {
     const allEmails = [leaderEmail, ...membersData.map(member => member.email)];
-    if (!areEmailsUnique(allEmails)) {
-      setIsOpenDup(true)
-      return;
-    }
 
-    //   setErrors(Array(count).fill(''))
-    //   // setErrors(membersData.map(member => !areEmailsUnique([leaderEmail, member.email]) ? 'This email is duplicated' : ''));
-
-    //   const updatedErrors = [...errors];
-    //   for (let i = 0; i < count; i++) {
-    //     for (let j = i + 1; j < count; j++) {
-    //       if (membersData[i].email === membersData[j].email) {
-    //         updatedErrors[i] = 'This email is duplicated'
-    //         updatedErrors[j] = 'This email is duplicated'
-    //       }
-    //     }
-    //   }
-
-    //   setErrors(updatedErrors)
-
-    //   return;
-    // }
     const updatedErrors = [...errors];
     for (let index = 0; index < count; index++) {
       if (verifyIITHEmail(membersData[index].email.trim())) {
         updatedErrors[index] = '';
       } else {
+        console.log(index)
         updatedErrors[index] = 'This email is not valid OR user is not eligible';
       }
     }
+
     setErrors(updatedErrors)
     if (updatedErrors.some(error => error !== '')) return;
+
+    if (!areEmailsUnique(allEmails)) {
+      setIsOpenDup(true)
+      return;
+    }
 
     const payload = {
       team_name: teamName,
@@ -337,96 +419,150 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
     window.location.href = '/';
   };
 
+  console.log(errors)
+
   return (
-    <Stack spacing={2}>
-      <CustomModal
-        isOpen={isOpen}
-        title={'Registraion Successful'}
-        description={'Congratulations, your team has been successfully registered.'}
-        time={4}
-        onClose={onClose}
-      />
+    <Flex width="100%" justifyContent="center">
+      <Box
+        bg="#101232"
+        p={6}
+        rounded="md"
+        maxWidth="1000px"
+        mx="auto"
+        mt="10"
+        color="white"
+        w={{ base: "350px", md: "954px" }}
+        minW={{ base: "350px", md: "954px" }}
+        borderRadius={8}
+      >
+        <CustomModal
+          isOpen={isOpen}
+          title={'Registration Successful'}
+          description={'Congratulations, your team has been successfully registered.'}
+          time={4}
+          onClose={onClose}
+        />
 
-      <CustomModal
-        isOpen={isAlreadyOpen}
-        title={'Registration Error'}
-        description={isAlreadyMsg}
-        onClose={() => setIsAlreadyOpen(false)}
-      />
+        <CustomModal
+          isOpen={isAlreadyOpen}
+          title={'Registration Error'}
+          description={isAlreadyMsg}
+          onClose={() => setIsAlreadyOpen(false)}
+        />
 
-      <CustomModal
-        isOpen={isOpenDup}
-        title={'Duplicate Emails'}
-        description={'This team contains duplicate email ids, please fill all the team members data correctly.'}
-        onClose={() => setIsOpenDup(false)}
-      />
+        <CustomModal
+          isOpen={isOpenDup}
+          title={'Duplicate Emails'}
+          description={'This team contains duplicate email ids, please fill all the team members data correctly.'}
+          onClose={() => setIsOpenDup(false)}
+        />
 
-      {membersData.map((member, index) => (
-        <Box key={index}>
-          <FormControl isInvalid={!!errors[index]}>
-            <FormLabel>Enter Member {index + 1}&apos;s Name</FormLabel>
-            <InputGroup>
-              <InputLeftElement pointerEvents='none'>
-                <svg className="w-4 h-4 text-gray-800" fill="#currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 492.332 492.332">
-                  <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                  <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                  <g id="SVGRepo_iconCarrier">
-                    <g>
-                      <g>
-                        <polygon points="435.704,249.504 56.626,249.504 14.185,492.332 478.147,492.332 "></polygon>
-                        <circle cx="246.167" cy="103.473" r="103.473"></circle>
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              </InputLeftElement>
-              <Input
-                _hover={{ borderColor: 'black' }}
-                borderColor={'black'}
-                focusBorderColor={'black'}
-                type='text'
-                placeholder={placeholders[index]}
-                value={member.name}
-                onChange={(e) => handleMemberChange(index, 'name', e.target.value)}
-              />
-            </InputGroup>
-          </FormControl>
-
-          <FormControl isInvalid={!!errors[index]}>
-            <FormLabel>Enter Member {index + 1}&apos;s Email</FormLabel>
-            <InputGroup>
-              <InputLeftElement pointerEvents='none'>
-                <svg className="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
-                  <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
-                  <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
-                </svg>
-              </InputLeftElement>
-              <Input
-                _hover={{ borderColor: 'black' }}
-                borderColor={'black'}
-                focusBorderColor='black'
-                type='email'
-                placeholder='rollnumber@iith.ac.in'
-                value={member.email}
-                onChange={(e) => handleMemberChange(index, 'email', e.target.value)}
-              />
-            </InputGroup>
-            {errors[index] && <FormErrorMessage>{errors[index]}</FormErrorMessage>}
-          </FormControl>
-
-          <div style={{ height: '18px' }}></div>
-        </Box>
-      ))}
-
-      <Box alignItems='center' width='400px'>
-        <Button width='130px' marginLeft='20px' onClick={handleBack} paddingX='5px' color='white' background='rgb(58, 73, 167)' _hover={{ background: '#2b388f' }}>
-          BACK
-        </Button>
-        <Button onClick={handleSubmit} width='130px' marginLeft='100px' paddingX='5px' color='white' background='rgb(58, 73, 167)' _hover={{ background: '#2b388f' }} isDisabled={membersData.some(member => member.name.trim() === '' || member.email.trim() === '')}>
-          SUBMIT
-        </Button>
+        <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }} gap={12}>
+          {membersData.map((member, index) => (
+            <GridItem key={index}>
+              <Stack spacing={3}>
+                <FormControl isInvalid={!!errors[index]}>
+                  <HStack spacing={2}>
+                    <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="21" cy="21" r="21" fill="#5134A4" />
+                      <path
+                        d="M21 19C23.2091 19 25 17.2091 25 15C25 12.7909 23.2091 11 21 11C18.7909 11 17 12.7909 17 15C17 17.2091 18.7909 19 21 19Z"
+                        fill="#06081A" />
+                      <path
+                        d="M29 26.5C29 28.985 29 31 21 31C13 31 13 28.985 13 26.5C13 24.015 16.582 22 21 22C25.418 22 29 24.015 29 26.5Z"
+                        fill="#06081A" />
+                    </svg>
+                    <FormLabel
+                      mt={2}
+                      ml={1}
+                      fontSize="1rem"
+                      fontWeight="500"
+                      fontFamily="Montserrat, sans-serif"
+                    >
+                      Member {index + 1}
+                    </FormLabel>
+                  </HStack>
+                  <FormLabel
+                    mt={5}
+                    fontSize="1rem"
+                    fontWeight="500"
+                    fontFamily="Montserrat, sans-serif"
+                  >
+                    Enter Email
+                  </FormLabel>
+                  <InputGroup mt={2}>
+                    <Input
+                      _hover={{ borderColor: 'grey' }}
+                      borderColor='#1D1E37'
+                      focusBorderColor='grey'
+                      type='text'
+                      placeholder='rollnumber@iith.ac.in'
+                      value={member.email}
+                      onChange={(e) => handleMemberChange(index, 'email', e.target.value)}
+                      h="48px"
+                      background="#06081A"
+                    />
+                  </InputGroup>
+                  {errors[index] && <FormErrorMessage>{errors[index]}</FormErrorMessage>}
+                </FormControl>
+                <FormControl>
+                  <FormLabel
+                    mt={5}
+                    fontSize="1rem"
+                    fontWeight="500"
+                    fontFamily="Montserrat, sans-serif"
+                  >
+                    Enter Name
+                  </FormLabel>
+                  <InputGroup mt={2}>
+                    <Input
+                      _hover={{ borderColor: 'grey' }}
+                      borderColor='#1D1E37'
+                      focusBorderColor='grey'
+                      type='text'
+                      placeholder='John Doe'
+                      value={member.name}
+                      onChange={(e) => handleMemberChange(index, 'name', e.target.value)}
+                      h="48px"
+                      background="#06081A"
+                    />
+                  </InputGroup>
+                </FormControl>
+              </Stack>
+            </GridItem>
+          ))}
+        </Grid>
+        <Stack direction="row" spacing={4} mt={8} justify="center">
+          <Button
+            background="#5134A4"
+            colorScheme="#5134A4"
+            variant="solid"
+            h="48px"
+            fontSize="1.25rem"
+            fontWeight="500"
+            fontFamily="Montserrat, sans-serif"
+            w="199px"
+            onClick={handleBack}
+          >
+            Back
+          </Button>
+          <Button
+            background="#5134A4"
+            colorScheme="#5134A4"
+            variant="solid"
+            h="48px"
+            fontSize="1.25rem"
+            fontWeight="500"
+            fontFamily="Montserrat, sans-serif"
+            w="199px"
+            isDisabled={membersData.some(member => member.name.trim() === '' || member.email.trim() === '')}
+            onClick={handleSubmit}
+          >
+            Next
+          </Button>
+        </Stack>
       </Box>
-    </Stack>
+    </Flex>
   );
 }
 

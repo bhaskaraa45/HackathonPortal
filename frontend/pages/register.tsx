@@ -11,26 +11,30 @@ const Register: React.FC = () => {
 
     const customTheme = extendTheme({
         config: {
-            initialColorMode: 'light',
-            useSystemColorMode: false,
+          initialColorMode: 'dark',
+          useSystemColorMode: false,
         },
         styles: {
-            global: {
-                'html, body': {
-                    backgroundColor: '#e2e4ff',
-                },
+          global: {
+            'html, body': {
+              backgroundColor: '#06081A',
             },
+          },
         },
-    });
+        fonts: {
+          heading: `'Montserrat', sans-serif`,
+          body: `'Montserrat', sans-serif`,
+        },
+      });
 
     return (
         <ChakraProvider theme={customTheme}>
             <div className='FaqBackground'>
-                <div className="ecellLogo" onClick={() => window.location.href = '/'}></div>
+                {/* <div className="ecellLogo" onClick={() => window.location.href = '/'}></div> */}
                 <Flex height="100vh">
-                    <Navbar onMenuClick={handleMenuClick} isHome={false} />
+                    {/* <Navbar onMenuClick={handleMenuClick} isHome={false} /> */}
                     <Box minHeight="100vh" flex="1" className="">
-                        <Heading fontSize='currentSize' className="registration_heading"> TEAM REGISTRATION</Heading>
+                        <Heading fontSize='currentSize' fontWeight="500" className="registration_heading">Register your team</Heading>
                         <RegistrationForm />
                     </Box>
                 </Flex>

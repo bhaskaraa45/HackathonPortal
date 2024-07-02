@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../styles/home.module.css';
 import Navbar from '@/app/components/Navbar';
+import Session from 'supertokens-auth-react/recipe/session';
+import { getSessionUser } from '@/app/api/auth';
+import router from 'next/router';
 
 export default function Home() {
     const [countdown, setCountdown] = useState('00:00:00:00');
@@ -29,8 +32,20 @@ export default function Home() {
         return () => clearInterval(interval);
     }, []);
 
+    const checkSession = async () => {
+        if (await Session.doesSessionExist()) {
+            const user = await getSessionUser();
+            if (user.isRegisterd) {
+                user.isAdmin ? router.replace('/admin') : router.replace('/dashboard')
+                return;
+            }
+        } else {
+            router.replace('/login');
+        }
+    };
+
     const handleRegisterClick = () => {
-        window.location.href = '/register'
+         checkSession();
     };
 
     const handleMenuClick = (newMenuState: boolean) => {

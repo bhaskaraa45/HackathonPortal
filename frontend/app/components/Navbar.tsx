@@ -106,7 +106,7 @@ export default function Navbar({ onMenuClick, isHome }: NavbarProp) {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/register">
+                            <Link href="/login">
                                 Register
                             </Link>
                         </li>

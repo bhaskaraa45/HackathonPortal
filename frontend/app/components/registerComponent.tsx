@@ -567,7 +567,7 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
             isDisabled={membersData.some(member => member.name.trim() === '' || member.email.trim() === '')}
             onClick={handleSubmit}
           >
-            Next
+            Register
           </Button>
         </Stack>
       </Box>

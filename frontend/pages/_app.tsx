@@ -4,31 +4,32 @@ import { AppProps } from 'next/app';
 import { SuperTokensProvider } from '@/app/components/supertokensProvider';
 import CustomHead from '@/app/components/customHead';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import customTheme from '@/theme/theme';
 
 function MyApp({ Component, pageProps }: AppProps) {
 
-  const customTheme = extendTheme({
-    config: {
-      initialColorMode: 'dark',
-      useSystemColorMode: false,
-    },
-    styles: {
-      global: {
-        'html, body': {
-          backgroundColor: '#06081A',
-        },
-      },
-    },
-    fonts: {
-      heading: `'Montserrat', sans-serif`,
-      body: `'Montserrat', sans-serif`,
-    },
-  });
+  // const customTheme = extendTheme({
+  //   config: {
+  //     initialColorMode: 'dark',
+  //     useSystemColorMode: false,
+  //   },
+  //   styles: {
+  //     global: {
+  //       'html, body': {
+  //         backgroundColor: '#06081A',
+  //       },
+  //     },
+  //   },
+  //   fonts: {
+  //     heading: `'Montserrat', sans-serif`,
+  //     body: `'Montserrat', sans-serif`,
+  //   },
+  // });
 
   return (
     <>
-      <ChakraProvider theme={customTheme}>
-        <SuperTokensProvider>
+      <SuperTokensProvider>
+        <ChakraProvider theme={customTheme}>
           <Head>
             <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
             <title>{'Hackathon | E-Cell IIT Hyderabad - NPCI'}</title>
@@ -37,8 +38,8 @@ function MyApp({ Component, pageProps }: AppProps) {
             <meta name="author" content='Web Team E-Cell' />
           </Head>
           <Component {...pageProps} />
-        </SuperTokensProvider>
-      </ChakraProvider>
+        </ChakraProvider>
+      </SuperTokensProvider>
     </>
   );
 }

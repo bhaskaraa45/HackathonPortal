@@ -38,11 +38,11 @@ export const frontendConfig = (): SuperTokensConfig => {
 
                 const status = await getUserStatus();
                 if (status === 0) {
-                    return "/register"
+                    return "/register";
                 } else if (status === 1) {
-                    return "/admin"
+                    return "/admin";
                 } else {
-                    return "/dashboard"
+                    return "/dashboard";
                 }
             }
             return undefined;
@@ -53,24 +53,81 @@ export const frontendConfig = (): SuperTokensConfig => {
                     [data-supertokens~=superTokensBranding] {
                         display: none;
                     }
-                    
+
                     [data-supertokens~=headerTitle] {
-                        visibility: hidden;
+                        text-indent: -9999px;
+                        line-height: 0;
                     }
+
+                    [data-supertokens~=divider] {
+                        display: none;
+                    }
+
+                    [data-supertokens~=button] {
+                        background-color: #06081A;
+                        height: 48px;
+                        border-color: #262C64;
+                    }
+
+                    [data-supertokens~=button]:hover {
+                        background-color: #F3F3F3;
+                        text-color: #06081A;
+                    }
+
+                    [data-supertokens~=button]:hover [data-supertokens~=providerButtonText] {
+                        color: #06081A;
+                    }
+
+                    [data-supertokens~=providerButtonText] {
+                        color: #FFFFFF;
+                        font-size: 1rem;
+                        font-weight: 500;
+                    }
+
+                    [data-supertokens~=providerButtonLeft] {
+                        margin-left: 44px;
+                    }
+
+                    [data-supertokens~=providerButtonLogoCenter] svg {
+                        width: 26px;
+                        height: 26px;
+                    }
+
                     [data-supertokens~=headerTitle]:after {
+                        height: 32px;
                         visibility: visible;
-                        content: "Sign In To Continue";
-                        display:flex;
-                        justify-content:center;
+                        content: "Sign in to continue";
+                        justify-content: center;
+                        text-indent: 0;
+                        display: block;
+                        line-height: initial;
+                        font-size: 1.3rem;
+                        font-weight:500;
                     }
-                    `,
+
+                    [data-supertokens~=container] {
+                        --palette-background: 11, 14, 41;
+                        --palette-inputBackground: 41, 41, 41;
+                        --palette-inputBorder: 41, 41, 41;
+                        --palette-textTitle: 255, 255, 255;
+                        --palette-textLabel: 255, 255, 255;
+                        --palette-textPrimary: 255, 255, 255;
+                        --palette-error: 173, 46, 46;
+                        --palette-textInput: 169, 169, 169;
+                        --palette-textLink: 169, 169, 169;
+                    }
+
+                `,
                 signInAndUpFeature: {
                     providers: [
                         Google.init(),
                         // Github.init(),
                         // Apple.init(),
                     ],
+                    termsOfServiceLink:"",
+                    privacyPolicyLink:""
                 },
+                useShadowDom: false,
             }),
             Session.init(),
         ],
@@ -86,5 +143,4 @@ export const frontendConfig = (): SuperTokensConfig => {
             };
         },
     };
-}
-
+};

@@ -71,7 +71,7 @@ export default function Home() {
     };
 
     const handleRegisterClick = () => {
-        checkSession();
+        router.push('/register');
     };
 
     return (

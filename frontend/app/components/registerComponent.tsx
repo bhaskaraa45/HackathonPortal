@@ -44,7 +44,11 @@ const steps = [
   { title: 'Third', description: 'Members Info' },
 ];
 
-const RegistrationForm: React.FC = () => {
+interface RegistrationFormProps {
+  email: string;
+}
+
+const RegistrationForm: React.FC<RegistrationFormProps> = ({ email }) => {
   const { activeStep, setActiveStep } = useSteps({
     index: 0,
     count: steps.length,
@@ -101,22 +105,28 @@ const RegistrationForm: React.FC = () => {
   }
 
   const checkSession = async () => {
-    if (await Session.doesSessionExist()) {
-      if (leaderEmail === '') {
-        const user = await getSessionUser();
-        if (user.isRegisterd) {
-          user.isAdmin ? router.replace('/admin') : router.replace('/dashboard')
-          return;
-        }
-        if (!user.isEligible) {
-          setShowModal(true);
-        } else {
-          setLeaderEmail(user.email);
-        }
-      }
+    if (email.length === 0) {
+      setShowModal(true);
     } else {
-      router.replace('/login');
+      setLeaderEmail(email);
     }
+
+    // if (await Session.doesSessionExist()) {
+    //   if (leaderEmail === '') {
+    //     const user = await getSessionUser();
+    //     if (user.isRegisterd) {
+    //       user.isAdmin ? router.replace('/admin') : router.replace('/dashboard')
+    //       return;
+    //     }
+    //     if (!user.isEligible) {
+    //       setShowModal(true);
+    //     } else {
+    //       setLeaderEmail(user.email);
+    //     }
+    //   }
+    // } else {
+    //   router.replace('/login');
+    // }
   };
 
   useEffect(() => {
@@ -173,15 +183,14 @@ const RegistrationForm: React.FC = () => {
         ))}
       </Stepper>
       <Flex justifyContent='center'>
-        <Box alignContent='center' width='380px' mt={6}>
+        <Box alignContent='center' mt={6}>
           {activeStep === 0 && (
-
             <Box
               bg="#101232"
               p={6}
               rounded="md"
               maxWidth="520px"
-              mx="auto"
+              // mx="auto"
               mt="10"
               color="white"
               h="327px"

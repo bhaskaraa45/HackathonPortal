@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Hackathon | E-Cell IIT Hyderabad - NPCI",
-  description: "Join the hackathon conducted by E-Cell IIT Hyderabad and NPCI. Showcase your skills and get change to get Placement/Internship offer from NPCI.",
+  description: "Join the hackathon conducted by E-Cell IIT Hyderabad and NPCI. Showcase your skills and get chance to win exciting prizes..",
   keywords: "Hackathon IITH, Hackathon Ecell, IIT Hyderabad, E-Cell, NPCI Hackathon, NPCI , coding, competition, contest"
 };
 

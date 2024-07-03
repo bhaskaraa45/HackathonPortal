@@ -39,6 +39,7 @@ body {
   background: #06081A;
 }
 
+
 .sidebarContainer {
   display: flex;
   align-items: start;
@@ -284,7 +285,7 @@ table.table>tr {
 .StepTitle {
   color: white;
   font-size: 5rem;
-  
+
 }
 
 .StepDescription {
@@ -304,6 +305,7 @@ table.table>tr {
   .handleTeamWidth {
     width: 500px;
   }
+
   .ecellLogo {
     display: none;
   }

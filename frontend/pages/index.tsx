@@ -120,8 +120,9 @@ export default function Home() {
                             h="54px"
                             w="201px"
                             fontSize="1.25rem"
-                            fontWeight="medium"
+                            fontWeight="500"
                             text='Register now'
+                            fontWeightH="600"
                         />
                         <SecondaryButton
                             onClick={handleRegisterClick}
@@ -130,6 +131,7 @@ export default function Home() {
                             fontSize="1.25rem"
                             fontWeight="medium"
                             text='About Hackathon'
+                            fontWeightH="medium"
                         />
                     </Stack>
                 </div>

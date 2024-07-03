@@ -30,6 +30,7 @@ const Navbar = () => {
                             fontSize='1rem'
                             fontWeight='600'
                             text='Sign in'
+                            fontWeightH='600'
                         />
                     </Box>
                 </Flex>

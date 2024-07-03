@@ -7,9 +7,10 @@ type ButtonProp = {
     onClick: () => void
     fontWeight: string
     fontSize: string
+    fontWeightH: string
 }
 
-const PrimaryButton = ({ fontWeight, w, h, text, onClick, fontSize }: ButtonProp) => {
+const PrimaryButton = ({ fontWeight, w, h, text, onClick, fontSize, fontWeightH }: ButtonProp) => {
     return (
         <Button
             background="#5134A4"
@@ -26,6 +27,7 @@ const PrimaryButton = ({ fontWeight, w, h, text, onClick, fontSize }: ButtonProp
                 {
                     color: "#06081A",
                     backgroundColor: "#F3F3F3",
+                    fontWeight: fontWeightH 
                 }
             }
         >
@@ -34,7 +36,7 @@ const PrimaryButton = ({ fontWeight, w, h, text, onClick, fontSize }: ButtonProp
     );
 }
 
-const SecondaryButton = ({ fontWeight, w, h, text, onClick, fontSize }: ButtonProp) => {
+const SecondaryButton = ({ fontWeight, w, h, text, onClick, fontSize, fontWeightH }: ButtonProp) => {
     return (
 
         <Button
@@ -49,7 +51,8 @@ const SecondaryButton = ({ fontWeight, w, h, text, onClick, fontSize }: ButtonPr
             _hover={
                 {
                     backgroundColor: "#1D1E37",
-                    borderColor: "#707392"
+                    borderColor: "#707392",
+                    fontWeight: { fontWeightH }
                 }
             }
 

@@ -13,7 +13,7 @@ const FAQsPage: React.FC = () => {
         <div className='FaqBackground'>
             <div className="ecellLogo" onClick={ () => window.location.href = '/'}></div>
             <Flex height="100vh">
-                <Navbar onMenuClick={handleMenuClick} isHome={false}/>
+                <Navbar/>
                 <Box minHeight="100vh" flex="1" className="faqContainer">
                     <FaqSection />
                 </Box>

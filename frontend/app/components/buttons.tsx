@@ -6,7 +6,7 @@ type ButtonProp = {
     text: string
     onClick: () => void
     fontWeight: string
-    fontSize: string
+    fontSize: string | undefined
     fontWeightH: string
 }
 
@@ -23,13 +23,11 @@ const PrimaryButton = ({ fontWeight, w, h, text, onClick, fontSize, fontWeightH 
             onClick={onClick}
             color="#FFFFFF"
             borderRadius={8}
-            _hover={
-                {
-                    color: "#06081A",
-                    backgroundColor: "#F3F3F3",
-                    fontWeight: fontWeightH 
-                }
-            }
+            _hover={{
+                color: "#06081A",
+                backgroundColor: "#F3F3F3",
+                fontWeight: fontWeightH,
+            }}
         >
             {text}
         </Button>
@@ -38,7 +36,6 @@ const PrimaryButton = ({ fontWeight, w, h, text, onClick, fontSize, fontWeightH 
 
 const SecondaryButton = ({ fontWeight, w, h, text, onClick, fontSize, fontWeightH }: ButtonProp) => {
     return (
-
         <Button
             color="#F3F3F3"
             variant="outline"
@@ -48,14 +45,12 @@ const SecondaryButton = ({ fontWeight, w, h, text, onClick, fontSize, fontWeight
             fontWeight={fontWeight}
             fontSize={fontSize}
             colorScheme="whiteAlpha"
-            _hover={
-                {
-                    backgroundColor: "#1D1E37",
-                    borderColor: "#707392",
-                    fontWeight: { fontWeightH }
-                }
-            }
-
+            onClick={onClick}
+            _hover={{
+                backgroundColor: "#1D1E37",
+                borderColor: "#707392",
+                fontWeight: fontWeightH,
+            }}
         >
             {text}
         </Button>

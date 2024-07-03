@@ -466,7 +466,7 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
           onClose={() => setIsOpenDup(false)}
         />
 
-        <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }} gap={12}>
+        <Grid templateColumns={{ base: "repeat(1, 1fr)", lg: "repeat(3, 1fr)" }} gap={12}>
           {membersData.map((member, index) => (
             <GridItem key={index}>
               <Stack spacing={3}>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Flex, Heading, Text, Stack, Spinner } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Text, Stack, Spinner, useBreakpointValue } from '@chakra-ui/react';
 import Session from 'supertokens-auth-react/recipe/session';
 import { getSessionUser } from '@/app/api/auth';
 import { useRouter } from 'next/router';
@@ -17,6 +17,13 @@ export default function Home() {
     const router = useRouter();
 
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+    const headingFontSize = useBreakpointValue({ base: "1.75rem", md: "3.3rem" });
+    const textFontSize = useBreakpointValue({ base: "1rem", md: "1.5rem" });
+    const countdownFontSize = useBreakpointValue({ base: "2.5rem", md: "6rem" });
+    const buttonFontSize = useBreakpointValue({ base: "1rem", md: "1.25rem" });
+    const height = useBreakpointValue({ base: "48px", md: "118px" });
+    const labelSize = useBreakpointValue({ base: "0.8rem", md: "1.1rem" });
 
     useEffect(() => {
         const fetchDate = async () => {
@@ -56,7 +63,7 @@ export default function Home() {
         };
 
         fetchDate();
-    }, []);
+    }, [backendUrl]);
 
     const checkSession = async () => {
         if (await Session.doesSessionExist()) {
@@ -74,68 +81,70 @@ export default function Home() {
         router.push('/register');
     };
 
+    if (loading) {
+        return (
+            <Flex direction="column" align="center" justify="center" height="calc(100vh - 94px)" textAlign="center">
+                <Spinner size="xl" />
+            </Flex>
+        );
+    }
+
     return (
         <div className={styles.home}>
             <Navbar />
-            {loading ? (
-                <Flex direction="column" align="center" justify="center" height="calc(100vh - 94px)" textAlign="center">
-                    <Spinner size="xl" />
-                </Flex>
-            ) : (
-                <div className={styles.maincontent}>
-                    <Heading fontSize="3.3rem" fontWeight={700}>Buckle up !</Heading>
-                    <Text fontSize="1.5rem" mt="62px">Hackathon will start in :</Text>
-                    <Flex h="120px" marginTop="22px" align="center" justify="center" mt={0} flexDirection="column">
-                        <Flex fontSize="6rem" fontWeight="bold">
-                            <Box textAlign="center" mx={2}>
-                                <Text h="118px">{countdownD}</Text>
-                                <Text fontSize="1.1rem" fontWeight="normal">Days</Text>
-                            </Box>
-                            <Box textAlign="center" mx={2}>
-                                <Text>:</Text>
-                            </Box>
-                            <Box textAlign="center" mx={2}>
-                                <Text h="118px">{countdownH}</Text>
-                                <Text fontSize="1.1rem" fontWeight="normal">Hours</Text>
-                            </Box>
-                            <Box textAlign="center" mx={2}>
-                                <Text>:</Text>
-                            </Box>
-                            <Box textAlign="center" mx={2}>
-                                <Text h="118px">{countdownM}</Text>
-                                <Text fontSize="1.1rem" fontWeight="normal">Minutes</Text>
-                            </Box>
-                            <Box textAlign="center" mx={2}>
-                                <Text>:</Text>
-                            </Box>
-                            <Box textAlign="center" mx={2}>
-                                <Text h="118px">{countdownS}</Text>
-                                <Text fontSize="1.1rem" fontWeight="normal">Seconds</Text>
-                            </Box>
-                        </Flex>
+            <div className={styles.maincontent}>
+                <Heading fontSize={headingFontSize} fontWeight={700}>Buckle up !</Heading>
+                <Text fontSize={textFontSize} mt={{ base: "30px", md: "62px" }}>Hackathon will start in :</Text>
+                <Flex h="120px" marginTop={{ base: "10px", md: "22px" }} align="center" justify="center" mt={0} flexDirection="column">
+                    <Flex fontSize={countdownFontSize} fontWeight="bold">
+                        <Box textAlign="center" mx={2}>
+                            <Text h={height}>{countdownD}</Text>
+                            <Text fontSize={labelSize} fontWeight="normal">Days</Text>
+                        </Box>
+                        <Box textAlign="center" mx={2}>
+                            <Text>:</Text>
+                        </Box>
+                        <Box textAlign="center" mx={2}>
+                            <Text h={height}>{countdownH}</Text>
+                            <Text fontSize={labelSize} fontWeight="normal">Hours</Text>
+                        </Box>
+                        <Box textAlign="center" mx={2}>
+                            <Text>:</Text>
+                        </Box>
+                        <Box textAlign="center" mx={2}>
+                            <Text h={height}>{countdownM}</Text>
+                            <Text fontSize={labelSize} fontWeight="normal">Minutes</Text>
+                        </Box>
+                        <Box textAlign="center" mx={2}>
+                            <Text>:</Text>
+                        </Box>
+                        <Box textAlign="center" mx={2}>
+                            <Text h={height}>{countdownS}</Text>
+                            <Text fontSize={labelSize} fontWeight="normal">Seconds</Text>
+                        </Box>
                     </Flex>
-                    <Stack direction="row" spacing={5} mt="80px">
-                        <PrimaryButton
-                            onClick={handleRegisterClick}
-                            h="54px"
-                            w="201px"
-                            fontSize="1.25rem"
-                            fontWeight="500"
-                            text='Register now'
-                            fontWeightH="600"
-                        />
-                        <SecondaryButton
-                            onClick={handleRegisterClick}
-                            h="54px"
-                            w="235px"
-                            fontSize="1.25rem"
-                            fontWeight="medium"
-                            text='About Hackathon'
-                            fontWeightH="medium"
-                        />
-                    </Stack>
-                </div>
-            )}
+                </Flex>
+                <Stack direction={{ base: "column", md: "row" }} spacing={5} mt={{ base: "40px", md: "80px" }} align="center">
+                    <PrimaryButton
+                        onClick={handleRegisterClick}
+                        h="54px"
+                        w="201px"
+                        fontSize={buttonFontSize}
+                        fontWeight="500"
+                        text='Register now'
+                        fontWeightH="500"
+                    />
+                    <SecondaryButton
+                        onClick={handleRegisterClick}
+                        h="54px"
+                        w="235px"
+                        fontSize={buttonFontSize}
+                        fontWeight="medium"
+                        text='About Hackathon'
+                        fontWeightH="medium"
+                    />
+                </Stack>
+            </div>
         </div>
     );
 }

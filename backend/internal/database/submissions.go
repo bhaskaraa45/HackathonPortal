@@ -7,11 +7,12 @@ import (
 )
 
 type SubmissionModel struct {
-	TeamID     int            `json:"team_id"`
-	TeamName   string         `json:"team_name"`
-	RoundOne   sql.NullString `json:"round_one"`
-	RoundTwo   sql.NullString `json:"round_two"`
-	RoundThree sql.NullString `json:"round_three"`
+	TeamID       int            `json:"team_id"`
+	TeamName     string         `json:"team_name"`
+	RoundOne     sql.NullString `json:"round_one"`
+	RoundTwo     sql.NullString `json:"round_two"`
+	RoundThree   sql.NullString `json:"round_three"`
+	CurrentRound int            `json:"current_round"`
 }
 
 func GetSubmission(email string) (SubmissionModel, error) {
@@ -120,11 +121,11 @@ func GetAllSubmissions() ([]SubmissionModel, error) {
 		}
 	}()
 
-	query := `SELECT s.team_id, t.name, s.round_one, s.round_two, s.round_three 
+	query := `SELECT s.team_id, t.name, s.round_one, s.round_two, s.round_three, t.current_round
 				FROM submissions s 
 				JOIN teams t ON t.id = s.team_id 
 				JOIN users u ON u.team_id = t.id
-				GROUP BY s.team_id, t.name`
+				GROUP BY s.team_id, t.name, t.current_round`
 	rows, err := tx.Query(query)
 	if err != nil {
 		tx.Rollback()
@@ -134,7 +135,7 @@ func GetAllSubmissions() ([]SubmissionModel, error) {
 
 	for rows.Next() {
 		var model SubmissionModel
-		if err := rows.Scan(&model.TeamID, &model.TeamName, &model.RoundOne, &model.RoundTwo, &model.RoundThree); err != nil {
+		if err := rows.Scan(&model.TeamID, &model.TeamName, &model.RoundOne, &model.RoundTwo, &model.RoundThree, &model.CurrentRound); err != nil {
 			tx.Rollback()
 			return data, err
 		}

@@ -76,7 +76,7 @@ func (s *Server) healthHandler(c *gin.Context) {
 }
 
 func (s *Server) dateHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, time.Date(2024, 7, 15, 0,0,0,0, time.Local));
+	c.JSON(http.StatusOK, time.Date(2024, 7, 1, 0,0,0,0, time.Local));
 }
 
 func verifySession(options *sessmodels.VerifySessionOptions) gin.HandlerFunc {

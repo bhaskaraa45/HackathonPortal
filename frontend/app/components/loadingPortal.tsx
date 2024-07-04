@@ -7,7 +7,7 @@ export default function LoadingPortal() {
     return (
         <div className="dashboardBG">
             <CustomHead title='Hackathon Dashboard | E-Cell IIT Hyderabad - NPCI' description='Welcome to the Dashboard of E-Cell IIT Hyderabad & NPCI collaborative Hackathon.' />
-            <Sidebar isLoading={true} />
+            <Sidebar />
         </div>
     );
 }

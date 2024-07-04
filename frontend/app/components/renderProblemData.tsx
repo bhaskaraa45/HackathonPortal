@@ -1,4 +1,4 @@
-import { Heading } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import React from 'react';
 
 type JSONData = {
@@ -14,16 +14,16 @@ const renderProblemData = (data: JSONData | undefined) => {
     const otherData = Object.entries(data).filter(([key]) => key !== 'Problem Statement');
 
     return (
-        <div>
+        <Box mt="40px">
             {problemStatement && (
                 <div>
-                    <Heading className='problem_heading'>Problem Statement</Heading>
-                    <div className='statement'>{problemStatement}</div>
+                    <Text fontSize={{base: "1.5rem" , md:"2rem" }} fontWeight="semibold" color="white">Problem Statement</Text>
+                    <Text mt="12px" fontSize="1.25rem" fontWeight="normal" color="white">{problemStatement}</Text>
                 </div>
             )}
             {otherData.map(([key, value]) => (
                 <div key={key}>
-                    <Heading className='problem_heading'>{key}</Heading>
+                    <Text mt="48px" fontSize={{base: "1.5rem" , md:"2rem" }} fontWeight="semibold" color="white" >{key}</Text>
                     {Array.isArray(value) ? (
                         <ul className='problem_list'>
                             {value.map((item, index) => (
@@ -33,11 +33,11 @@ const renderProblemData = (data: JSONData | undefined) => {
                             ))}
                         </ul>
                     ) : (
-                        <div className='statement'>{value}</div>
+                        <Text mt="12px" fontSize="1.25rem" fontWeight="normal" color="white">{value}</Text>
                     )}
                 </div>
             ))}
-        </div>
+        </Box>
     );
 };
 

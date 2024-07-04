@@ -211,18 +211,6 @@ table.table>tr {
   color: white;
 }
 
-.problem_heading {
-  text-overflow: ellipsis;
-  letter-spacing: 1px;
-  color: white;
-  font-size: 1.8rem;
-  font-weight: 700;
-  font-family: 'Montserrat';
-  font-style: normal;
-  /* margin-left: 8rem; */
-  /* margin-bottom: 3px; */
-}
-
 .statement {
   /* width: 100%; */
   text-overflow: ellipsis;
@@ -237,13 +225,14 @@ table.table>tr {
 
 .problem_points {
   /* width: 100%; */
+  margin-top: 12px;
   text-overflow: ellipsis;
   color: white;
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   font-weight: 400;
   font-family: 'Montserrat';
   font-style: normal;
-  margin-left: 3rem;
+  margin-left: 2.5rem;
   list-style-type: circle;
 }
 
@@ -306,11 +295,6 @@ table.table>tr {
     color: black;
   }
 
-  .problem_heading {
-    font-size: 1.5rem;
-    margin-left: 2rem;
-  }
-
   .statement {
     font-size: 1.2rem;
     margin-left: 2rem;
@@ -318,8 +302,8 @@ table.table>tr {
   }
 
   .problem_points {
-    font-size: 1.2rem;
-    margin-left: 5rem;
+    font-size: 1.25rem;
+    /* margin-left: 5rem; */
     list-style-type: circle;
   }
 
@@ -383,11 +367,6 @@ table.table>tr {
     top: 16px;
   }
 
-  .problem_heading {
-    font-size: 1.5rem;
-    margin-left: 0;
-  }
-
   .statement {
     font-size: 1.2rem;
     margin-left: 0;
@@ -395,8 +374,8 @@ table.table>tr {
   }
 
   .problem_points {
-    font-size: 1.2rem;
-    margin-left: 0;
+    font-size: 1.25rem;
+    margin-left: 2rem;
     list-style-type: circle;
   }
 

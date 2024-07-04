@@ -54,7 +54,7 @@ function Portal() {
 
                         <RoundSelector activeRound={jsonData?.current_round || 1} onRoundChange={setActiveRound} />
 
-                        <Box flex="1" w="100%" bgColor="#0B0E29" p={4} overflow="auto">
+                        <Box flex="1" w="100%" bgColor="#0B0E29" overflow="auto">
                             <Flex align="center" justifyContent="center" >
                                 <Box w="85%">
                                     <ProbmelStatementComponent
@@ -65,11 +65,10 @@ function Portal() {
                             </Flex>
                         </Box>
                         <Flex pt={3} bgColor="#0B0E29" align="center" justifyContent="center" >
-                            <Box w="85%">
+                            <Box w="95%">
                                 <SubmitAnswer last_submission={jsonData?.last_submission ?? 0} current_round={jsonData?.current_round ?? 1} />
                             </Box>
                         </Flex>
-
                     </Flex>
                 )}
             </DashboardLayout>

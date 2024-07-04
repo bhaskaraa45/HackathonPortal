@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import renderProblemData from './renderProblemData';
 import makeApiCall from '../api/makeCall';
+import { Flex, Spinner } from '@chakra-ui/react';
 
 type JSONData = {
     [key: string]: string | string[];
@@ -15,7 +16,9 @@ const ProblemStatementComponent: React.FC<props> = ({ isLoading, jsonData }: pro
     return (
         <div>
             {isLoading ? (
-                <p>Loading problem statement...</p>
+                <Flex direction="column" align="center" justify="center" height="100vh" textAlign="center">
+                    <Spinner size="xl" />
+                </Flex>
             ) : jsonData ? (
                 renderProblemData(jsonData)
             ) : (

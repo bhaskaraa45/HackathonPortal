@@ -1,10 +1,11 @@
-import { Box, Button, Input, InputGroup, InputRightElement, Stack, Text, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Button, IconButton, Input, Image, InputGroup, InputRightElement, Stack, Text, useBreakpointValue, useMediaQuery } from "@chakra-ui/react";
 import React, { useState } from "react";
 import makeApiCall from '../api/makeCall';
 import CustomModal from "./customModal";
 import { useRouter } from "next/router";
 import SignOutModal from "./signOutModal";
 import PrimaryButton from "./buttons";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 interface SubmitAnswerProps {
     last_submission: number;
@@ -21,6 +22,7 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
     const router = useRouter();
 
     const buttonFontSize = useBreakpointValue({ base: "1rem", md: "1.25rem" });
+    const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
     console.log(last_submission)
     console.log(current_round)
@@ -94,7 +96,7 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
                             variant='outline'
                             placeholder='Paste your url here' />
 
-                        <PrimaryButton
+                        {isLargerThan768 ? (<PrimaryButton
                             isLoading={isSubmitting}
                             onClick={() => { setIsSubmitVisible(true) }}
                             h="54px"
@@ -103,7 +105,21 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
                             fontWeight="600"
                             text='SUBMIT'
                             fontWeightH="600"
-                        />
+                        />) : (
+                            <IconButton
+                                onClick={() => { setIsSubmitVisible(true) }}
+                                isLoading={isSubmitting}
+                                variant='solid'
+                                h="54px"
+                                w="68px"
+                                aria-label="Submit"
+                                bgColor="#5134A4"
+                                colorScheme="purple"
+                                icon={<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13.5 15L11.385 12.885L15.255 9H0V6H15.255L11.385 2.13L13.5 0L21 7.5" fill="#F3F3F3" />
+                                </svg>
+                                }
+                            />)}
                     </Stack>
                 ) : (
                     <Text style={{ background: "white" }} color="red" fontSize="lg" textAlign="center">

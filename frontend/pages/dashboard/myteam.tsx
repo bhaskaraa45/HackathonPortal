@@ -62,19 +62,18 @@ function MyTeam() {
                     </Flex>
                 ) : jsonData ? (
                     <>
-                        <Flex mt="36px" align="center" justify="space-between" flexDirection="column">
+                        <Flex ml={{ base: "24px", lg: "0px" }} mt={{ base: "80px", lg: "40px" }} align={{ base: "start", lg: "center" }} justify="space-between" flexDirection="column">
                             <Stack direction="row">
-                                <Text fontWeight="500" color="white" fontSize="2rem" textAlign="center" >
+                                <Text fontWeight="500" color="white" fontSize={{ base: "1.5rem", lg: "2rem" }} textAlign="center" >
                                     Team name -
                                 </Text>
-                                <Text fontSize="2rem" color="white" textAlign="center" fontWeight="bold">{jsonData.name}</Text>
+                                <Text fontSize={{ base: "1.5rem", lg: "2rem" }} color="white" textAlign="center" fontWeight="bold">{jsonData.name}</Text>
                             </Stack>
-                            <Box mt="48px" width={{base: "95%", md: "60%", lg: "54%%", "2xl": "48%"}}>
-                                <Text mb="12px" fontSize="1.5rem" color="white" textAlign="start" fontWeight="semibold" >
+                            <Box mt={{ base: "32px", lg: "48px" }} width={{ base: "95%", lg: "54%%", "2xl": "48%" }}>
+                                <Text mb="12px" fontSize={{ base: "1.4rem", lg: "1.5rem" }} color="white" textAlign="start" fontWeight="semibold" >
                                     Members
                                 </Text>
                                 <MembersList members={makeMembersList()} />
-
                             </Box>
 
                         </Flex>

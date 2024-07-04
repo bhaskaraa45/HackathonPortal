@@ -50,7 +50,7 @@ const LeaderboardPage: React.FC = () => {
                     </Flex>
                 ) : (
                     <>
-                        < Heading fontSize="2rem" color="white" textAlign="center" fontWeight="semibold" mt="36px" mb="24px">
+                        < Heading fontSize={{ base: "1.5rem", lg: "2rem" }} color="white" textAlign="center" fontWeight="semibold" mt={{ base: "70px", lg: "36px" }} mb={{ base: "0px", lg: "36px" }}>
                             LEADERBOARD
                         </Heading>
                         <LeaderboardTable teams={teams} />

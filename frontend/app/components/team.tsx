@@ -1,4 +1,4 @@
-import { Box, Flex, Stack, Image, Text, Spacer, Divider } from '@chakra-ui/react';
+import { Box, Flex, Stack, Image, Text, Spacer, Divider, useMediaQuery } from '@chakra-ui/react';
 import React from 'react';
 
 type Member = {
@@ -12,6 +12,9 @@ type MembersListProps = {
 };
 
 const MembersList: React.FC<MembersListProps> = ({ members }) => {
+
+    const [isLargerThan410] = useMediaQuery("(min-width: 410px)");
+
     return (
         <Flex>
             <Stack direction="column" w="100%">
@@ -20,7 +23,7 @@ const MembersList: React.FC<MembersListProps> = ({ members }) => {
                         <Stack mt="20px" mb="24px" direction="row" spacing={0} align="center">
                             <Image src={user.isLeader ? '/icons/leader.svg' : '/icons/person.svg'} boxSize="40px" />
                             <Stack ml="20px" direction="column" spacing={0} flex="1">
-                                <Text h="16px" fontSize="1rem" fontWeight="500" color="white">
+                                <Text fontSize="1rem" fontWeight="500" color="white">
                                     {user.name}
                                 </Text>
                                 <Text fontSize="1rem" fontWeight="500" color="#626581" textDecoration="underline">
@@ -28,7 +31,7 @@ const MembersList: React.FC<MembersListProps> = ({ members }) => {
                                 </Text>
                             </Stack>
                             <Spacer />
-                            {user.isLeader && (
+                            {user.isLeader && isLargerThan410 && (
                                 <Text fontSize="1rem" fontWeight="semibold" color="white">
                                     LEADER
                                 </Text>

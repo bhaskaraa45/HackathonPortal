@@ -8,7 +8,7 @@ import { signOut } from 'supertokens-auth-react/recipe/thirdparty';
 const ProtectedRoute = (WrappedComponent: React.ComponentType) => {
   const Wrapper: React.FC = (props) => {
     const { isSessionExists, isAuthenticated, loading } = useAuth();
-    const [isModalVisible, setModalVisible] = useState(false);
+    // const [isModalVisible, setModalVisible] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const ProtectedRoute = (WrappedComponent: React.ComponentType) => {
     }
     const onClose = async () => {
       // await signOut();
-      setModalVisible(false);
+      // setModalVisible(false);
       router.replace("/register")
     };
     return (
@@ -33,7 +33,7 @@ const ProtectedRoute = (WrappedComponent: React.ComponentType) => {
         {isAuthenticated ? (
           <WrappedComponent {...props} />
         ) : isSessionExists ? (
-          <NotRegisteredModal isVisible={true} onClose={onClose} />
+          <NotRegisteredModal button='Register' isOpen={true} onClose={onClose} description='You are not in any registered team. Please register your team first.' />
         ) : null}
       </>
     );

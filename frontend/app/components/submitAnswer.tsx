@@ -1,9 +1,10 @@
-import { Box, Button, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
+import { Box, Button, Input, InputGroup, InputRightElement, Stack, Text, useBreakpointValue } from "@chakra-ui/react";
 import React, { useState } from "react";
 import makeApiCall from '../api/makeCall';
 import CustomModal from "./customModal";
 import { useRouter } from "next/router";
 import SignOutModal from "./signOutModal";
+import PrimaryButton from "./buttons";
 
 interface SubmitAnswerProps {
     last_submission: number;
@@ -18,6 +19,8 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
     const [desc, setDesc] = useState<string>("Your answer has been submitted successfully.");
     const [isSubmitVisible, setIsSubmitVisible] = useState<boolean>(false);
     const router = useRouter();
+
+    const buttonFontSize = useBreakpointValue({ base: "1rem", md: "1.25rem" });
 
     console.log(last_submission)
     console.log(current_round)
@@ -38,6 +41,7 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
                 setDesc("Failed to submit your answer, Please refresh this page and try again.");
             }
             setIsOpen(true);
+            setIsSubmitting(false);
 
         } catch (error) {
             setTitle("Failed to submit!");
@@ -45,7 +49,7 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
             setIsOpen(true);
             console.error('Error submitting answer:', error);
         } finally {
-            setIsSubmitting(false);
+
         }
     };
 
@@ -75,36 +79,32 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
                     router.reload();
                 }}
             />
-            <Box className="answer_submission">
+            <Box bgColor="#0B0E29" pb={{ base: 4, md: 8 }}>
                 {isSubmissionAllowed ? (
-                    <InputGroup>
+                    <Stack direction={"row"} spacing={8} align="center">
                         <Input
-                            placeholder="Paste your answer's URL"
-                            value={answerUrl}
-                            onChange={(e) => setAnswerUrl(e.target.value)}
-                            width='100%'
-                            paddingX="12px"
-                            paddingY="10px"
-                            color="black"
-                            fontSize='1rem'
+                            bgColor="#06081A"
+                            fontSize="1rem"
+                            fontWeight="500"
+                            textColor="white"
+                            borderRadius={8}
+                            borderColor="grey"
+                            focusBorderColor="white"
+                            h="54px"
+                            variant='outline'
+                            placeholder='Paste your url here' />
+
+                        <PrimaryButton
+                            isLoading={isSubmitting}
+                            onClick={() => { setIsSubmitVisible(true) }}
+                            h="54px"
+                            w="201px"
+                            fontSize={buttonFontSize}
+                            fontWeight="600"
+                            text='SUBMIT'
+                            fontWeightH="600"
                         />
-                        <InputRightElement width='9rem'>
-                            <Button
-                                onClick={() => setIsSubmitVisible(true)}
-                                marginTop='0px'
-                                className="submitButton"
-                                paddingX='36px'
-                                h='2.8rem'
-                                size='sm'
-                                color='white'
-                                bg='#2f5b98'
-                                _hover={{ bg: '#1f2937' }}
-                                isLoading={isSubmitting}
-                            >
-                                Submit
-                            </Button>
-                        </InputRightElement>
-                    </InputGroup>
+                    </Stack>
                 ) : (
                     <Text style={{ background: "white" }} color="red" fontSize="lg" textAlign="center">
                         You have already submitted your answer for this round.

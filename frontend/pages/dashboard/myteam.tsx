@@ -1,10 +1,10 @@
-import Sidebar from "@/app/components/Sidebar";
 import React, { useEffect, useState } from "react";
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import MembersList from "@/app/components/team";
 import ProtectedRoute from "@/app/components/protectedRoutes";
 import CustomHead from "@/app/components/customHead";
 import makeApiCall from "@/app/api/makeCall";
+import DashboardLayout from "@/app/components/DashboardLayout";
 
 type Member = {
     name: string;
@@ -56,30 +56,27 @@ function MyTeam() {
                 description="Welcome to the Dashboard of E-Cell IIT Hyderabad & NPCI collaborative Hackathon."
             />
 
-            <Flex height="100vh">
-                <Sidebar isLoading={false} />
-                <Box minHeight="100vh" flex="1" className="contentContainer">
-                    {isLoading ? (
-                        <div style={{ display: "flex", justifyContent: "center" }}>Loading team data...</div>
-                    ) : jsonData ? (
-                        <>
-                            <Flex align="center" justify="space-between" flexDirection="column" className="leaderboard">
-                                <Heading as="h1" size="lg" textAlign="center" className="heading">
-                                    TEAM: {jsonData.name}
-                                </Heading>
-                                <Heading size="lg" textAlign="center" className="subheading">
-                                    MEMBERS
-                                </Heading>
-                                <div className="membersListContainer">
-                                    <MembersList members={makeMembersList()} />
-                                </div>
-                            </Flex>
-                        </>
-                    ) : (
-                        <div style={{ display: "flex", justifyContent: "center" }}>Error fetching team data. Please try again later.</div>
-                    )}
-                </Box>
-            </Flex>
+            <DashboardLayout>
+                {isLoading ? (
+                    <div style={{ display: "flex", justifyContent: "center" }}>Loading team data...</div>
+                ) : jsonData ? (
+                    <>
+                        <Flex align="center" justify="space-between" flexDirection="column" className="leaderboard">
+                            <Heading as="h1" size="lg" textAlign="center" className="heading">
+                                TEAM: {jsonData.name}
+                            </Heading>
+                            <Heading size="lg" textAlign="center" className="subheading">
+                                MEMBERS
+                            </Heading>
+                            <div className="membersListContainer">
+                                <MembersList members={makeMembersList()} />
+                            </div>
+                        </Flex>
+                    </>
+                ) : (
+                    <div style={{ display: "flex", justifyContent: "center" }}>Error fetching team data. Please try again later.</div>
+                )}
+            </DashboardLayout>
         </div>
     );
 }

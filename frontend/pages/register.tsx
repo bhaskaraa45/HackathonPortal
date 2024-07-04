@@ -45,18 +45,20 @@ const Register: React.FC = () => {
   return (
     <div>
       <Navbar />
-      {loading ? (
-        <Flex direction="column" align="center" justify="center" height="100vh" textAlign="center">
-          <Spinner size="xl" />
-        </Flex>
-      ) : (
-        <Flex height="100vh">
-          <Box minHeight="100vh" flex="1" className="">
-            <Heading fontSize='currentSize' fontWeight="500" className="registration_heading">Register your team</Heading>
-            <RegistrationForm email={email} />
-          </Box>
-        </Flex>
-      )}
+      <Box mt={{ base: "64px", lg: "94px" }}>
+        {loading ? (
+          <Flex direction="column" align="center" justify="center" height="100vh" textAlign="center">
+            <Spinner size="xl" />
+          </Flex>
+        ) : (
+          <Flex height="100vh">
+            <Box minHeight="100vh" flex="1" className="">
+              <Heading fontSize='currentSize' fontWeight="500" className="registration_heading">Register your team</Heading>
+              <RegistrationForm email={email} />
+            </Box>
+          </Flex>
+        )}
+      </Box>
     </div>
   );
 }

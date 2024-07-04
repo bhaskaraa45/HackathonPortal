@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Flex, Heading } from '@chakra-ui/react';
+import { Box, Flex, Heading, Spinner } from '@chakra-ui/react';
 import ProtectedRoute from '@/app/components/protectedRoutes';
 import CustomHead from '@/app/components/customHead';
 import makeApiCall from '@/app/api/makeCall';
 import DashboardLayout from '@/app/components/DashboardLayout';
 import Table from '@/app/components/Table';
+import LeaderboardTable from '@/app/components/Table';
 
 const demo = [
     { rank: 1, name: 'Team A', currentRound: 1 },
@@ -40,17 +41,23 @@ const LeaderboardPage: React.FC = () => {
     }, []);
 
     return (
-        <div className="dashboardBG">
+        <div>
             <CustomHead title='Hackathon Dashboard | E-Cell IIT Hyderabad - NPCI' description='Welcome to the Dashboard of E-Cell IIT Hyderabad & NPCI collaborative Hackathon.' />
             <DashboardLayout>
-                <Heading as="h1" size="lg" mb="36px" textAlign="center" className="heading">
-                    LEADERBOARD
-                </Heading>
-                <div className='containerWithMargin'>
-                    <Table teams={teams} />
-                </div>
+                {isLoading ? (
+                    <Flex direction="column" align="center" justify="center" height="100vh" textAlign="center">
+                        <Spinner size="xl" />
+                    </Flex>
+                ) : (
+                    <>
+                        < Heading fontSize="2rem" color="white" textAlign="center" fontWeight="semibold" mt="36px" mb="24px">
+                            LEADERBOARD
+                        </Heading>
+                        <LeaderboardTable teams={teams} />
+                    </>
+                )}
             </DashboardLayout>
-        </div>
+        </div >
     );
 };
 

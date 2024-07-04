@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from 'react';
+import { Box, Flex, Text, VStack, HStack } from '@chakra-ui/react';
 
 type Team = {
     rank: number;
@@ -10,40 +11,37 @@ type LeaderboardProps = {
     teams: Team[];
 };
 
-const Record: React.FC<Team> = ({ rank, name, currentRound }) => {
+const LeaderboardTable: React.FC<LeaderboardProps> = ({ teams }) => {
     return (
-        <tr className="record">
-            <td>{rank}</td>
-            <td>{name}</td>
-            <td>{currentRound}</td>
-        </tr>
+        <Box width="100%" mx="auto" p="8" borderRadius="md">
+            <VStack spacing="4" width="100%">
+                <HStack height="64px" width="100%" justifyContent="space-between" bg="#5134A4" p="4" px={8} borderRadius="8px">
+                    <Text fontSize="1.25rem" fontWeight="medium" color="white">Rank</Text>
+                    <Text fontSize="1.25rem" fontWeight="medium" color="white">Team name</Text>
+                    <Text fontSize="1.25rem" fontWeight="medium" color="white">Round</Text>
+                </HStack>
+                {teams.map((team, index) => (
+                    <HStack
+                        h="64px"
+                        px={8}
+                        key={index}
+                        width="100%"
+                        justifyContent="space-between"
+                        bg="#101232"
+                        p="4"
+                        borderRadius="8px"
+                        border="2px solid"
+                        borderColor="#1D1E37"
+                    >
+                        <Text fontSize="1.25rem" fontWeight="medium" ml="32px" color="white">{team.rank}</Text>
+                        <Text fontSize="1.25rem" fontWeight="medium" color="white">{team.name}</Text>
+                        <Text fontSize="1.25rem" fontWeight="medium" mr="36px" color="white">{team.currentRound}</Text>
+                    </HStack>
+                ))}
+            </VStack>
+        </Box>
     );
 };
 
-const Table: React.FC<LeaderboardProps> = ({ teams }) => {
+export default LeaderboardTable;
 
-    return (
-        <table className="table">
-            <thead className="tableheading">
-                <tr>
-                    <th>Rank</th>
-                    <th>Team</th>
-                    <th>Round</th>
-                </tr>
-            </thead>
-            <tbody>
-                {teams.length > 0 &&
-                    teams.map((team) => (
-                        <Record
-                            key={team.rank}
-                            rank={team.rank}
-                            name={team.name}
-                            currentRound={team.currentRound}
-                        />
-                    ))}
-            </tbody>
-        </table>
-    );
-};
-
-export default Table;

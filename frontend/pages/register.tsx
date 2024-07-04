@@ -1,6 +1,6 @@
 import Navbar from "@/app/components/Navbar";
 import RegistrationForm from "@/app/components/registerComponent";
-import { Box, ChakraProvider, Flex, Heading, Spinner } from "@chakra-ui/react";
+import { Box, Flex, Heading, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Session from 'supertokens-auth-react/recipe/session';
 import { getSessionUser } from '@/app/api/auth';
@@ -26,11 +26,10 @@ const Register: React.FC = () => {
         }
         if (!user.isEligible) {
           setEmail("");
-          setLoading(false);
         } else {
           setEmail(user.email);
-          setLoading(false);
         }
+        setLoading(false);
       } else {
         router.replace('/login');
       }
@@ -43,22 +42,21 @@ const Register: React.FC = () => {
     checkSession();
   }, []);
 
-  if (loading) {
-    return (
-      <Flex direction="column" align="center" justify="center" height="100vh" textAlign="center">
-        <Spinner size="xl" />
-      </Flex>
-    );
-  }
-
   return (
     <div>
-      <Flex height="100vh">
-        <Box minHeight="100vh" flex="1" className="">
-          <Heading fontSize='currentSize' fontWeight="500" className="registration_heading">Register your team</Heading>
-          <RegistrationForm email={email} />
-        </Box>
-      </Flex>
+      <Navbar />
+      {loading ? (
+        <Flex direction="column" align="center" justify="center" height="100vh" textAlign="center">
+          <Spinner size="xl" />
+        </Flex>
+      ) : (
+        <Flex height="100vh">
+          <Box minHeight="100vh" flex="1" className="">
+            <Heading fontSize='currentSize' fontWeight="500" className="registration_heading">Register your team</Heading>
+            <RegistrationForm email={email} />
+          </Box>
+        </Flex>
+      )}
     </div>
   );
 }

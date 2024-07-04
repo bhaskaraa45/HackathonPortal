@@ -78,7 +78,7 @@ export default function Home() {
     };
 
     const handleRegisterClick = () => {
-        router.push('/register');
+        window.location.href = '/register';
     };
 
     if (loading) {
@@ -126,6 +126,7 @@ export default function Home() {
                 </Flex>
                 <Stack direction={{ base: "column", md: "row" }} spacing={5} mt={{ base: "40px", md: "80px" }} align="center">
                     <PrimaryButton
+                        isLoading={false}
                         onClick={handleRegisterClick}
                         h="54px"
                         w="201px"
@@ -135,6 +136,7 @@ export default function Home() {
                         fontWeightH="500"
                     />
                     <SecondaryButton
+                        isLoading={false}
                         onClick={handleRegisterClick}
                         h="54px"
                         w="235px"

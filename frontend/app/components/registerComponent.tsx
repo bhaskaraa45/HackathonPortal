@@ -110,23 +110,6 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ email }) => {
     } else {
       setLeaderEmail(email);
     }
-
-    // if (await Session.doesSessionExist()) {
-    //   if (leaderEmail === '') {
-    //     const user = await getSessionUser();
-    //     if (user.isRegisterd) {
-    //       user.isAdmin ? router.replace('/admin') : router.replace('/dashboard')
-    //       return;
-    //     }
-    //     if (!user.isEligible) {
-    //       setShowModal(true);
-    //     } else {
-    //       setLeaderEmail(user.email);
-    //     }
-    //   }
-    // } else {
-    //   router.replace('/login');
-    // }
   };
 
   useEffect(() => {
@@ -448,7 +431,7 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
           isOpen={isOpen}
           title={'Registration Successful'}
           description={'Congratulations, your team has been successfully registered.'}
-          time={4}
+          time={3}
           onClose={onClose}
         />
 

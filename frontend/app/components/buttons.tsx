@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, ButtonGroup } from "@chakra-ui/react";
 
 type ButtonProp = {
     w: string
@@ -8,9 +8,10 @@ type ButtonProp = {
     fontWeight: string
     fontSize: string | undefined
     fontWeightH: string
+    isLoading: boolean
 }
 
-const PrimaryButton = ({ fontWeight, w, h, text, onClick, fontSize, fontWeightH }: ButtonProp) => {
+const PrimaryButton = ({ fontWeight, w, h, text, onClick, fontSize, fontWeightH, isLoading }: ButtonProp) => {
     return (
         <Button
             background="#5134A4"
@@ -28,13 +29,15 @@ const PrimaryButton = ({ fontWeight, w, h, text, onClick, fontSize, fontWeightH 
                 backgroundColor: "#F3F3F3",
                 fontWeight: fontWeightH,
             }}
+            isLoading={isLoading}
+            // spinner={<BeatLoader size={8} color='white' />}
         >
             {text}
         </Button>
     );
 }
 
-const SecondaryButton = ({ fontWeight, w, h, text, onClick, fontSize, fontWeightH }: ButtonProp) => {
+const SecondaryButton = ({ fontWeight, w, h, text, onClick, fontSize, fontWeightH, isLoading }: ButtonProp) => {
     return (
         <Button
             color="#F3F3F3"

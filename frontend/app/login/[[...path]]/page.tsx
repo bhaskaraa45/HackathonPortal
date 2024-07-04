@@ -39,9 +39,9 @@ export default function Auth() {
       <Box width="100vw" backgroundColor="#06081A">
         <Navbar />
         {/* <Flex direction="column" align="center" justify="center" minHeight="100vh"> */}
-        {/* <Box width={{ base: '90%', md: '50%' }}> */}
-        {SuperTokens.getRoutingComponent([ThirdPartyPreBuiltUI])}
-        {/* </Box> */}
+        <Box mt={{ base: "100px", lg: "124px" }}>
+          {SuperTokens.getRoutingComponent([ThirdPartyPreBuiltUI])}
+        </Box>
         {/* </Flex> */}
       </Box>
     );

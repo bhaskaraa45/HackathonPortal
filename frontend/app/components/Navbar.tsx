@@ -60,18 +60,18 @@ const Navbar = () => {
         title='Are you sure you want to sign out?'
       />
 
-      <Box bg="#08091C" h={{ base: "64px", lg: "94px" }} color="#F3F3F3">
+      <Box position="fixed"  top="0" left="0" right="0" zIndex="1000" bg="#08091C" h={{ base: "64px", lg: "94px" }} color="#F3F3F3">
         <Flex alignItems="center" justifyContent="space-between" h="100%" px={{ base: "20px", lg: "80px" }}>
           <Image src="logo.png" alt="Logo" h="42px" />
 
           <Flex display={{ base: "none", lg: "flex" }} alignItems="center" fontWeight="normal" color="white" fontSize="1rem" fontFamily="Montserrat, sans-serif">
             <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/" mx="20px" w="53px" textAlign="center">Home</Link>
-            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/dashboard" mx="20px" w="92px" textAlign="center">Dashboard</Link>
-            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/about-hackathon" mx="20px" w="149px" textAlign="center">About Hackathon</Link>
-            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/register" mx="20px" w="72px" textAlign="center">Register</Link>
-            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/faqs" mx="20px" w="48px" textAlign="center">FAQs</Link>
-            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/ecell-website" mx="20px" w="120px" textAlign="center">E-cell Website</Link>
-            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/npci-website" mx="20px" w="117px" textAlign="center">NPCI Website</Link>
+            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/dashboard" mx="20px" w="99px" textAlign="center">Dashboard</Link>
+            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/about-hackathon" mx="20px" w="158px" textAlign="center">About Hackathon</Link>
+            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/register" mx="20px" w="77px" textAlign="center">Register</Link>
+            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/faqs" mx="20px" w="52px" textAlign="center">FAQs</Link>
+            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/ecell-website" mx="20px" w="130px" textAlign="center">E-Cell Website</Link>
+            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/npci-website" mx="20px" w="122px" textAlign="center">NPCI Website</Link>
             <Box
               ml="20px"
             >

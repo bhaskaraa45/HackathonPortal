@@ -92,61 +92,64 @@ export default function Home() {
     return (
         <div className={styles.home}>
             <Navbar />
-            <div className={styles.maincontent}>
-                <Heading fontSize={headingFontSize} fontWeight={700}>Buckle up !</Heading>
-                <Text fontSize={textFontSize} mt={{ base: "30px", md: "62px" }}>Hackathon will start in :</Text>
-                <Flex h="120px" marginTop={{ base: "10px", md: "22px" }} align="center" justify="center" mt={0} flexDirection="column">
-                    <Flex fontSize={countdownFontSize} fontWeight="bold">
-                        <Box textAlign="center" mx={2}>
-                            <Text h={height}>{countdownD}</Text>
-                            <Text fontSize={labelSize} fontWeight="normal">Days</Text>
-                        </Box>
-                        <Box textAlign="center" mx={2}>
-                            <Text>:</Text>
-                        </Box>
-                        <Box textAlign="center" mx={2}>
-                            <Text h={height}>{countdownH}</Text>
-                            <Text fontSize={labelSize} fontWeight="normal">Hours</Text>
-                        </Box>
-                        <Box textAlign="center" mx={2}>
-                            <Text>:</Text>
-                        </Box>
-                        <Box textAlign="center" mx={2}>
-                            <Text h={height}>{countdownM}</Text>
-                            <Text fontSize={labelSize} fontWeight="normal">Minutes</Text>
-                        </Box>
-                        <Box textAlign="center" mx={2}>
-                            <Text>:</Text>
-                        </Box>
-                        <Box textAlign="center" mx={2}>
-                            <Text h={height}>{countdownS}</Text>
-                            <Text fontSize={labelSize} fontWeight="normal">Seconds</Text>
-                        </Box>
+            {/* <Box mt={{ base: "64px", lg: "94px" }}> */}
+
+                <div className={styles.maincontent}>
+                    <Heading fontSize={headingFontSize} fontWeight={700}>Buckle up !</Heading>
+                    <Text fontSize={textFontSize} mt={{ base: "30px", md: "62px" }}>Hackathon will start in :</Text>
+                    <Flex h={{ base: "60px", md: "120px" }} marginTop={{ base: "0px", md: "2px" }} align="center" justify="center" mt={0} flexDirection="column">
+                        <Flex fontSize={countdownFontSize} fontWeight="bold">
+                            <Box textAlign="center" mx={2}>
+                                <Text h={height}>{countdownD}</Text>
+                                <Text fontSize={labelSize} fontWeight="normal">Days</Text>
+                            </Box>
+                            <Box textAlign="center" mx={2}>
+                                <Text>:</Text>
+                            </Box>
+                            <Box textAlign="center" mx={2}>
+                                <Text h={height}>{countdownH}</Text>
+                                <Text fontSize={labelSize} fontWeight="normal">Hours</Text>
+                            </Box>
+                            <Box textAlign="center" mx={2}>
+                                <Text>:</Text>
+                            </Box>
+                            <Box textAlign="center" mx={2}>
+                                <Text h={height}>{countdownM}</Text>
+                                <Text fontSize={labelSize} fontWeight="normal">Minutes</Text>
+                            </Box>
+                            <Box textAlign="center" mx={2}>
+                                <Text>:</Text>
+                            </Box>
+                            <Box textAlign="center" mx={2}>
+                                <Text h={height}>{countdownS}</Text>
+                                <Text fontSize={labelSize} fontWeight="normal">Seconds</Text>
+                            </Box>
+                        </Flex>
                     </Flex>
-                </Flex>
-                <Stack direction={{ base: "column", md: "row" }} spacing={5} mt={{ base: "40px", md: "80px" }} align="center">
-                    <PrimaryButton
-                        isLoading={false}
-                        onClick={handleRegisterClick}
-                        h="54px"
-                        w="201px"
-                        fontSize={buttonFontSize}
-                        fontWeight="500"
-                        text='Register now'
-                        fontWeightH="500"
-                    />
-                    <SecondaryButton
-                        isLoading={false}
-                        onClick={handleRegisterClick}
-                        h="54px"
-                        w="235px"
-                        fontSize={buttonFontSize}
-                        fontWeight="medium"
-                        text='About Hackathon'
-                        fontWeightH="medium"
-                    />
-                </Stack>
-            </div>
+                    <Stack direction={{ base: "column", md: "row" }} spacing={5} mt={{ base: "40px", md: "80px" }} align="center">
+                        <PrimaryButton
+                            isLoading={false}
+                            onClick={handleRegisterClick}
+                            h="54px"
+                            w="201px"
+                            fontSize={buttonFontSize}
+                            fontWeight="500"
+                            text='Register now'
+                            fontWeightH="500"
+                        />
+                        <SecondaryButton
+                            isLoading={false}
+                            onClick={handleRegisterClick}
+                            h="54px"
+                            w="235px"
+                            fontSize={buttonFontSize}
+                            fontWeight="medium"
+                            text='About Hackathon'
+                            fontWeightH="medium"
+                        />
+                    </Stack>
+                </div>
+            {/* </Box> */}
         </div>
     );
 }

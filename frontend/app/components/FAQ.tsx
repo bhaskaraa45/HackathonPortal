@@ -40,7 +40,7 @@ const FaqSection = () => {
 
     return (
         <Center>
-            <Box w={{base: "95%", lg: "70%"}} color="#F3F3F3" p={5}>
+            <Box mt="32px" w={{base: "95%", lg: "70%"}} color="#F3F3F3" p={5}>
                 <Heading as="h2" fontSize="2rem" fontWeight="600" textAlign="start" mb={10}>Frequently asked questions</Heading>
                 <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={8}>
                     {faqs.map((faq, index) => (

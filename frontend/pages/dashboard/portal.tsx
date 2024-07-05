@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Center, Flex, Heading, Spacer, Spinner } from "@chakra-ui/react";
+import { Box, Flex, Spinner } from "@chakra-ui/react";
 import ProtectedRoute from "@/app/components/protectedRoutes";
 import CustomHead from "@/app/components/customHead";
 import ProbmelStatementComponent from "@/app/components/problemStatement";
@@ -47,11 +47,7 @@ function Portal() {
                         <Spinner size="xl" />
                     </Flex>
                 ) : (
-                    <Flex direction="column" w="100%" h="100vh">
-                        {/* <Heading as="h1" size="lg" textAlign="center" mb={4}>
-                            Round: {jsonData?.current_round || 'Loading...'}
-                        </Heading> */}
-
+                    <Flex direction="column" w="100%" h="100vh" pb={{ base: "80px", md: "0" }}>
                         <RoundSelector activeRound={jsonData?.current_round || 1} onRoundChange={setActiveRound} />
 
                         <Box flex="1" w="100%" bgColor="#0B0E29" overflow="auto">
@@ -64,7 +60,16 @@ function Portal() {
                                 </Box>
                             </Flex>
                         </Box>
-                        <Flex pt={3} bgColor="#0B0E29" align="center" justifyContent="center" >
+                        <Flex
+                            pt={3}
+                            bgColor="#0B0E29"
+                            align="center"
+                            justifyContent="center"
+                            position={{ base: "fixed", md: "relative" }}
+                            bottom={{ base: 0, md: "auto" }}
+                            width="100%"
+                            zIndex={5}
+                        >
                             <Box w="95%">
                                 <SubmitAnswer last_submission={jsonData?.last_submission ?? 0} current_round={jsonData?.current_round ?? 1} />
                             </Box>

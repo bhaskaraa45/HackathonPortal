@@ -7,7 +7,7 @@ interface RoundSelectorProps {
 }
 
 const RoundSelector: React.FC<RoundSelectorProps> = ({ activeRound, onRoundChange }) => {
-    const [isLargerThanBase] = useMediaQuery("(min-width: 580px)");
+    const [isLargerThanBase] = useMediaQuery("(min-width: 800px)");
 
     return (
         <Box mb="12px" h="110px">
@@ -52,12 +52,6 @@ const RoundSelector: React.FC<RoundSelectorProps> = ({ activeRound, onRoundChang
                         )}
 
                     </Box>
-
-                    // <Image
-                    //     _hover={{ cursor: "pointer" }}
-                    //     mt="10px"
-                    //     src={activeRound === 1 ? '/rounds/r1-active.svg' : activeRound === 2 ? '/rounds/r2-active.svg' : '/rounds/r3-active.svg'}
-                    // />
                 )}
             </Flex>
         </Box>

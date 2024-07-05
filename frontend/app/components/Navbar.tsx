@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Flex, Link, IconButton, Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, useDisclosure, Image, Spacer } from '@chakra-ui/react';
+import { Box, Flex, Link, IconButton, Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, useDisclosure, Image, Spacer, useMediaQuery } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import PrimaryButton from './buttons';
 import Session from 'supertokens-auth-react/recipe/session';
@@ -13,6 +13,9 @@ const Navbar = () => {
   const [sessionButtton, setSessionButton] = useState<string>('');
   const [isModalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const [isLargerThan1310] = useMediaQuery("(min-width: 1310px)");
+
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
@@ -62,7 +65,7 @@ const Navbar = () => {
         <Flex alignItems="center" justifyContent="space-between" h="100%" px={{ base: "20px", lg: "80px" }}>
           <Image _hover={{ cursor: "pointer" }} onClick={() => { router.push('/') }} src="logo.png" alt="Logo" h="42px" />
 
-          <Flex display={{ base: "none", lg: "flex" }} alignItems="center" fontWeight="normal" color="white" fontSize="1rem" fontFamily="Montserrat, sans-serif">
+          <Flex display={isLargerThan1310 ? 'flex' : 'none'} alignItems="center" fontWeight="normal" color="white" fontSize="1rem" fontFamily="Montserrat, sans-serif">
             <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/" mx="20px" w="53px" textAlign="center">Home</Link>
             <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/dashboard" mx="20px" w="99px" textAlign="center">Dashboard</Link>
             <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/about" mx="20px" w="158px" textAlign="center">About Hackathon</Link>
@@ -87,7 +90,7 @@ const Navbar = () => {
           </Flex>
 
           <IconButton
-            display={{ base: "flex", lg: "none" }}
+            display={isLargerThan1310 ? 'none' : 'flex'}
             aria-label="Open Menu"
             icon={<svg width="36" height="36" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="42" height="42" rx="8" fill="#1D1E37" />

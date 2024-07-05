@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Flex, Heading } from '@chakra-ui/react';
+import { Box, Flex, Heading, Spinner } from '@chakra-ui/react';
 import CustomHead from '@/app/components/customHead';
 import AdminSideBar from '@/app/components/adminSidebar';
-import { TeamsTable } from '@/app/components/teamsTable';
+import TeamsTable from '@/app/components/teamsTable';
 import AdminProtectedRoute from '@/app/components/adminProtectedRoute';
 import makeApiCall from '@/app/api/makeCall';
+import AdminLayout from '@/app/components/AdminLayout';
 
 type Team = {
     teamName: string;
@@ -45,20 +46,24 @@ const AdminPage: React.FC = () => {
     }, []);
 
     return (
-        <div className="dashboardBG">
+        <div>
             <CustomHead title='Hackathon Admin | E-Cell IIT Hyderabad - NPCI' description='Welcome to the Admin Portal of E-Cell IIT Hyderabad & NPCI collaborative Hackathon.' />
+            <AdminLayout>
+                {isLoading ? (
+                    <Flex direction="column" align="center" justify="center" height="100vh" textAlign="center">
+                        <Spinner size="xl" />
+                    </Flex>
+                ) : (
+                    <>
+                        < Heading fontSize={{ base: "1.5rem", lg: "2rem" }} color="white" textAlign="center" fontWeight="semibold" mt={{ base: "70px", lg: "36px" }} mb={{ base: "0px", lg: "36px" }}>
+                            ALL TEAMS
+                        </Heading>
 
-            <Flex height="100vh">
-                <AdminSideBar isLoading={false} />
-                <Box minHeight="100vh" flex="1" className="contentContainer">
-                    <Heading as="h1" size="lg" mb="36px" textAlign="center" className="heading">
-                        ALL TEAMS
-                    </Heading>
-                    <div className='conainerWithMargin'>
                         <TeamsTable tableProp={jsonData} />
-                    </div>
-                </Box>
-            </Flex>
+                    </>
+                )}
+            </AdminLayout>
+
         </div>
     );
 };

@@ -1,8 +1,8 @@
-import { Button } from "@chakra-ui/react";
-import React, { useState } from "react";
-import SignOutModal from "./signOutModal";
-import makeApiCall from "../api/makeCall";
-import { useRouter } from "next/router";
+import React, { useState } from 'react';
+import { Box, Flex, Text, VStack, HStack } from '@chakra-ui/react';
+import SignOutModal from './signOutModal';
+import makeApiCall from '../api/makeCall';
+import router from 'next/router';
 
 type ResponseProp = {
     teamName: string;
@@ -10,27 +10,19 @@ type ResponseProp = {
     round_two: string | null;
     round_three: string | null;
     teamId: number;
+    current_round: number;
 };
 
 type FinalProp = {
     tableProp: ResponseProp[];
 };
 
-export function ResponseTable({ tableProp }: FinalProp) {
+
+const ResponseTable: React.FC<FinalProp> = ({ tableProp }) => {
     const [isPromoteVis, setIsPromoteVis] = useState<boolean>(false);
     const [selectedTeam, setSelectedTeam] = useState<number>();
     const [moreRound, setMoreRound] = useState<boolean>(false);
 
-    const router = useRouter();
-
-    const handlePromoteModal = (id: number) => {
-        setSelectedTeam(id)
-        // if (r > 2) {
-        //     setMoreRound(true)
-        // } else {
-        setIsPromoteVis(true);
-        // }
-    }
 
     const onPromoteConfirm = async () => {
         try {
@@ -45,73 +37,18 @@ export function ResponseTable({ tableProp }: FinalProp) {
         router.reload();
     }
 
+    const handlePromoteModal = (id: number, r: number) => {
+        setSelectedTeam(id)
+        console.log(r)
+        if (r > 2) {
+            setMoreRound(true)
+        } else {
+            setIsPromoteVis(true);
+        }
+    }
+
     return (
         <>
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" className="px-6 py-3">
-                                Team Name
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Round 1
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Round 2
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Round 3
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Promote
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tableProp.map((team, index) => (
-                            <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {team.teamName}
-                                </th>
-                                <td className="px-6 py-4">
-                                    {team.round_one ? (
-                                        <a className="text-blue-600" href={team.round_one} target="_blank">
-                                            Open
-                                        </a>
-                                    ) : (
-                                        <span className="text-gray-400">No Submission</span>
-                                    )}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {team.round_two ? (
-                                        <a className="text-blue-600" href={team.round_two} target="_blank">
-                                            Open
-                                        </a>
-                                    ) : (
-                                        <span className="text-gray-400">No Submission</span>
-                                    )}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {team.round_three ? (
-                                        <a className="text-blue-600" href={team.round_three} target="_blank">
-                                            Open
-                                        </a>
-                                    ) : (
-                                        <span className="text-gray-400">No Submission</span>
-                                    )}
-                                </td>
-                                <td className="px-6 py-4">
-                                    <Button onClick={() => handlePromoteModal(team.teamId)} className='text-blue-600 underline'>
-                                        Promote
-                                    </Button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
             <SignOutModal
                 isVisible={isPromoteVis}
                 title={"Are you sure you want to promote this team to next round?"}
@@ -120,8 +57,80 @@ export function ResponseTable({ tableProp }: FinalProp) {
                 }}
                 onConfirm={onPromoteConfirm}
             />
+
+            <SignOutModal
+                isVisible={moreRound}
+                title={"This team is already in round 3, they cannot be promoted. Ignore the YES button."}
+                onClose={() => {
+                    setMoreRound(false)
+                }}
+                onConfirm={() => { setMoreRound(false) }}
+            />
+
+            <Box width="100%" mx="auto" p="8" borderRadius="md">
+                <VStack spacing="4" width="100%">
+                    <HStack height="64px" width="100%" justifyContent="space-between" bg="#5134A4" p="4" borderRadius="8px">
+
+                        <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
+                            <Text fontSize="1.25rem" fontWeight="medium" color="white" noOfLines={1}>Team</Text>
+                        </Box>
+                        <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
+                            <Text fontSize="1.25rem" fontWeight="medium" color="white" noOfLines={1}>Round 1</Text>
+                        </Box>
+                        <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
+                            <Text fontSize="1.25rem" fontWeight="medium" color="white" noOfLines={1}>Round 2</Text>
+                        </Box>
+                        <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
+                            <Text fontSize="1.25rem" fontWeight="medium" color="white" noOfLines={1}>Round 3</Text>
+                        </Box>
+                        <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
+                            <Text fontSize="1.25rem" fontWeight="medium" color="white" noOfLines={1}>Promote</Text>
+                        </Box>
+                    </HStack>
+                    {tableProp.map((resp, index) => (
+                        <HStack
+                            h="64px"
+                            // px={8}
+                            key={index}
+                            width="100%"
+                            justifyContent="space-between"
+                            bg="#101232"
+                            p="4"
+                            borderRadius="8px"
+                            border="2px solid"
+                            borderColor="#1D1E37"
+                        >
+                            <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
+                                <Text fontSize="1rem" fontWeight="semibold" color="white" noOfLines={1}>{resp.teamName}</Text>
+                            </Box>
+                            <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
+                                {resp.round_one && <Text _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>Open</Text>}
+                                {!resp.round_one && <Text fontSize="1rem" fontWeight="normal" color="#707392" noOfLines={1}>No Submission</Text>}
+                            </Box>
+                            <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
+                                <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
+                                    {resp.round_two && <Text _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>Open</Text>}
+                                    {!resp.round_two && <Text fontSize="1rem" fontWeight="normal" color="#707392" noOfLines={1}>No Submission</Text>}
+                                </Box>
+                            </Box>
+                            <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
+                                <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
+                                    {resp.round_three && <Text _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>Open</Text>}
+                                    {!resp.round_three && <Text fontSize="1rem" fontWeight="normal" color="#707392" noOfLines={1}>No Submission</Text>}
+                                </Box>
+                            </Box>
+                            <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
+                                <Text onClick={() => handlePromoteModal(resp.teamId, resp.current_round)} _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>Promote</Text>
+                            </Box>
+                        </HStack>
+                    ))}
+                </VStack>
+            </Box>
         </>
+
     );
-}
+};
 
 export default ResponseTable;
+
+

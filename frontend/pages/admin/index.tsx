@@ -27,7 +27,7 @@ const AdminPage: React.FC = () => {
         <div className="dashboardBG">
             <CustomHead title='Hackathon Admin | E-Cell IIT Hyderabad - NPCI' description='Welcome to the Admin Portal of E-Cell IIT Hyderabad & NPCI collaborative Hackathon.' />
             <Flex height="100vh">
-                <AdminSideBar isLoading={false} />
+                <AdminSideBar />
             </Flex>
         </div>
     );

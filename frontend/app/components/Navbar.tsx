@@ -68,8 +68,8 @@ const Navbar = () => {
             <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/about-hackathon" mx="20px" w="158px" textAlign="center">About Hackathon</Link>
             <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/register" mx="20px" w="77px" textAlign="center">Register</Link>
             <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/faqs" mx="20px" w="52px" textAlign="center">FAQs</Link>
-            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/ecell-website" mx="20px" w="130px" textAlign="center">E-Cell Website</Link>
-            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/npci-website" mx="20px" w="122px" textAlign="center">NPCI Website</Link>
+            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="https://ecell.iith.ac.in" target='_blank' mx="20px" w="130px" textAlign="center">E-Cell Website</Link>
+            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="https://www.npci.org.in/" target='_blank' mx="20px" w="122px" textAlign="center">NPCI Website</Link>
             <Box
               ml="20px"
             >

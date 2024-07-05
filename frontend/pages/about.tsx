@@ -1,25 +1,21 @@
 // pages/about.tsx
 import React, { useState } from 'react';
-import { Box, Flex, Text, Heading, Stack, Image, Center, Spacer } from '@chakra-ui/react';
+import { Box, Flex, Text, Heading, Stack, Image, Center, Spacer, useMediaQuery } from '@chakra-ui/react';
 import Navbar from '@/app/components/Navbar';
-import FaqSection from '@/app/components/FAQ';
 import Timeline from '@/app/components/timeline';
 
 const AboutPage: React.FC = () => {
-    const [menuOpen, setMenuOpen] = useState(false);
-    const handleMenuClick = (newMenuState: boolean) => {
-        setMenuOpen(newMenuState);
-    };
+    const [isLargerThan1700] = useMediaQuery("(min-width: 1650px)");
 
     return (
         <div>
             <Navbar />
-            <Box mt={{ base: "64px", lg: "94px" }} px={{ base: "0px", lg: "0px", "2xl": "120px" }}>
+            <Box mt={{ base: "64px", lg: "94px" }} px={isLargerThan1700 ? '120px' : { base: "0px", lg: "0px", "2xl": "60px" }}>
                 <Flex direction="column" justifyContent="center" align="center" minHeight="100vh">
                     {/* About the Hackathon Section */}
-                    <Box maxW={{ base: "95%", "2xl": "85%" }} minW={{ base: "95%", lg: "70%" }}>
+                    <Box maxW={{ base: "95%", }} minW={{ base: "95%", lg: "70%" }}>
                         <Flex
-                            mx={{ base: "0px", lg: "120px" }}
+                            mx={{ base: "0px", "lg": "120px" }}
                             direction={{ base: "column", lg: "row" }}
                             align={{ base: "center", lg: "start" }}
                             mt={{ base: "60px", lg: "120px" }}
@@ -39,7 +35,7 @@ const AboutPage: React.FC = () => {
                     </Box>
 
                     {/* Calling All Innovators Section */}
-                    <Box maxW={{ base: "95%", "2xl": "85%" }} minW={{ base: "95%", md: "70%" }}>
+                    <Box maxW={{ base: "95%", }} minW={{ base: "95%", md: "70%" }}>
                         <Flex
                             mx={{ base: "0px", lg: "120px" }}
                             direction={{ base: "column", lg: "row" }}
@@ -64,7 +60,7 @@ const AboutPage: React.FC = () => {
                     </Box>
 
                     {/* Event Timeline Section */}
-                    <Box maxW={{ base: "95%", md: "85%" }} minW={{ base: "95%", md: "70%" }}>
+                    <Box mt="24px" maxW={{ base: "95%", md: "85%" }} minW={{ base: "95%", md: "70%" }}>
                         <Flex direction="column" align="start" my="50px" width="100%">
                             <Heading fontSize={{ base: "1.75rem", lg: "2.25rem" }} fontWeight="semibold" color="white" mb="32px">Event Timeline</Heading>
                             <Text color="white" fontWeight="500" fontSize={{ base: "1.25rem", lg: "1.5rem" }}>

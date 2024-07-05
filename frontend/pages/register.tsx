@@ -53,7 +53,7 @@ const Register: React.FC = () => {
         ) : (
           <Flex height="100vh">
             <Box minHeight="100vh" flex="1" className="">
-              <Heading fontSize='currentSize' fontWeight="500" className="registration_heading">Register your team</Heading>
+              <Heading fontSize={{base:'1.75rem', md:"2rem"}} fontWeight="500" className="registration_heading">Register your team</Heading>
               <RegistrationForm email={email} />
             </Box>
           </Flex>

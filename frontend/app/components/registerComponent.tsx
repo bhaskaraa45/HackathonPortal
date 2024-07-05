@@ -28,6 +28,8 @@ import {
   ChakraProvider,
   extendTheme,
   HStack,
+  useMediaQuery,
+  VStack,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import Session from 'supertokens-auth-react/recipe/session';
@@ -104,7 +106,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ email }) => {
     }
   }
 
-  const checkSession = async () => {
+  const checkSession = async () => {isLargerThan1010
     if (email.length === 0) {
       setShowModal(true);
     } else {
@@ -121,50 +123,72 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ email }) => {
     setShowModal(false);
     window.location.href = '/';
   };
+  const [isLargerThan1010] = useMediaQuery("(min-width: 1010px)");
 
-  const stepperOrientation = useBreakpointValue<'horizontal' | 'vertical'>({ base: 'vertical', md: 'horizontal' });
 
   return (
-    <Box color='black' maxWidth='1000px' mx="auto" py={6}>
+    <Box color='black' justifyContent="center" maxWidth='1000px' mx="auto" py={6}>
       <CustomModal
         isOpen={showModal}
         title={'You are not eligible!'}
         description={'You are not eligible to participate in this hackathon. This hackathon is only for 3rd and 4th year B.tech students.'}
         onClose={onClose}
       />
+      <Flex justifyContent="center">
+          <Stepper alignContent="center" w="80%" className='Stepper' index={activeStep} size='lg' colorScheme='purple' orientation={"horizontal"}>
+            {steps.map((step, index) => (
+              <Step key={index}>
+                <StepIndicator
+                  color='black'
+                  sx={{
+                    '[data-status=complete] &': {
+                      background: '#5134A4',
+                      borderColor: 'white',
+                    },
+                    '[data-status=active] &': {
+                      background: 'white',
+                      borderColor: 'white',
+                    },
+                    '[data-status=incomplete] &': {
+                      borderColor: 'white',
+                      background: 'transparent'
+                    },
+                  }}
+                >
+                  <StepStatus complete={<StepIcon />} incomplete={<Text color="white" fontSize="20px" fontWeight="600" fontFamily="Montserrat, sans-serif">{index + 1}</Text>} active={<Text fontSize="20px" fontWeight="600" fontFamily="Montserrat, sans-serif">{index + 1}</Text>} />
+                </StepIndicator>
 
-      <Stepper className='Stepper' index={activeStep} size='lg' colorScheme='purple' orientation={stepperOrientation}>
-        {steps.map((step, index) => (
-          <Step key={index}>
-            <StepIndicator
-              color='black'
-              sx={{
-                '[data-status=complete] &': {
-                  background: '#5134A4',
-                  borderColor: 'white',
-                },
-                '[data-status=active] &': {
-                  background: 'white',
-                  borderColor: 'white',
-                },
-                '[data-status=incomplete] &': {
-                  borderColor: 'white',
-                  background: 'transparent'
-                },
-              }}
-            >
-              <StepStatus complete={<StepIcon />} incomplete={<Text color="white" fontSize="20px" fontWeight="600" fontFamily="Montserrat, sans-serif">{index + 1}</Text>} active={<Text fontSize="20px" fontWeight="600" fontFamily="Montserrat, sans-serif">{index + 1}</Text>} />
-            </StepIndicator>
+                <Box flexShrink="0">
+                  <StepTitle className='StepTitle'>
+                    
+                    {isLargerThan1010 && <Text fontSize="1.25rem" >{step.description}</Text>}
+                    {!isLargerThan1010 && index===0 && <Text fontSize="0.75rem" > Email<br></br> Verifcation</Text>}
+                    {!isLargerThan1010 && index===1 && <Text fontSize="0.75rem" > Team<br></br> Info</Text>}
+                    {!isLargerThan1010 && index===2 && <Text fontSize="0.75rem" > Members<br></br> Info </Text>}
+                  </StepTitle>
+                </Box>
+                {activeStep > index && <StepSeparator />}
+              </Step>
+            ))}
+          </Stepper>
 
-            <Box flexShrink="0">
-              <StepTitle className='StepTitle'>
-                <Text fontSize="1.25rem">{step.description}</Text>
-              </StepTitle>
-            </Box>
-            {activeStep > index && <StepSeparator />}
-          </Step>
-        ))}
-      </Stepper>
+          {/* {!isLargerThan1010 && <Box>
+            <HStack >
+              <Text color="white" mr="12px" fontSize="1rem" align="center">
+                Email
+                <br></br>Verification
+              </Text>
+              <Text color="white" mr="12px" fontSize="1rem" align="center">
+                Team
+                <br></br>Info
+              </Text>
+              <Text color="white" fontSize="1rem" align="center">
+                Members
+                <br></br>Info
+              </Text>
+            </HStack>
+          </Box>} */}
+      </Flex>
       <Flex justifyContent='center'>
         <Box alignContent='center' mt={6}>
           {activeStep === 0 && (

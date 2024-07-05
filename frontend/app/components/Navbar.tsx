@@ -63,7 +63,7 @@ const Navbar = () => {
       />
       <Box position="fixed" top="0" left="0" right="0" zIndex="1000" bg="#08091C" h={{ base: "64px", lg: "94px" }} color="#F3F3F3">
         <Flex alignItems="center" justifyContent="space-between" h="100%" px={{ base: "20px", lg: "80px" }}>
-          <Image _hover={{ cursor: "pointer" }} onClick={() => { router.push('/') }} src="logo.png" alt="Logo" h="42px" />
+          <Image _hover={{ cursor: "pointer" }} onClick={() => { router.push('/') }} src="https://res.cloudinary.com/dqyxqfvnv/image/upload/v1720208901/logo_iz4r4y.png" alt="Logo" h="42px" />
 
           <Flex display={isLargerThan1310 ? 'flex' : 'none'} alignItems="center" fontWeight="normal" color="white" fontSize="1rem" fontFamily="Montserrat, sans-serif">
             <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/" mx="20px" w="53px" textAlign="center">Home</Link>
@@ -109,7 +109,7 @@ const Navbar = () => {
             <DrawerContent bg="#08091C" color="white">
               <DrawerHeader borderBottomWidth="1px">
                 <Flex justifyContent="space-between" alignItems="center">
-                  <Image src="logo.png" alt="Logo" h="42px" />
+                  <Image src="https://res.cloudinary.com/dqyxqfvnv/image/upload/v1720208901/logo_iz4r4y.png" alt="Logo" h="42px" />
                   <IconButton
                     aria-label="Close Menu"
                     icon={<CloseIcon />}

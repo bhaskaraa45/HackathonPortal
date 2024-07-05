@@ -29,7 +29,7 @@ const AdminSideBar = () => {
     const SidebarContent = () => (
         <Flex flexDirection="column" h="full">
             <Flex align="center" mb="24px" justifyContent="center">
-                <Image src="https://res.cloudinary.com/dqyxqfvnv/image/upload/v1717566910/ecell_npci.png" alt="E-Cell IIT Hyderabad" h="40px" />
+                <Image src="https://res.cloudinary.com/dqyxqfvnv/image/upload/v1720208328/joint-icon_lsgi3s" alt="E-Cell IIT Hyderabad" h="40px" />
             </Flex>
 
             <Divider borderColor="white" />
@@ -93,21 +93,27 @@ const AdminSideBar = () => {
                 <Link href="/admin/leaderboard" passHref>
                     <Box as="a" display="flex" alignItems="center" _hover={{ textDecoration: 'none', bg: '#3A3154' }} p={2} borderRadius="md" w="240px"
                         bg={activePath === '/admin/leaderboard' ? '#3A3154' : 'transparent'}>
-                        <Image src='/icons/leaderboard.svg' />
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 19H9M15 19V8.6C15 8.44087 14.9368 8.28826 14.8243 8.17574C14.7117 8.06321 14.5591 8 14.4 8H9.6C9.44087 8 9.28826 8.06321 9.17574 8.17574C9.06321 8.28826 9 8.44087 9 8.6V19M15 19H20.4C20.5591 19 20.7117 18.9368 20.8243 18.8243C20.9368 18.7117 21 18.5591 21 18.4V15.1C21 14.9409 20.9368 14.7883 20.8243 14.6757C20.7117 14.5632 20.5591 14.5 20.4 14.5H15.6C15.4409 14.5 15.2883 14.5632 15.1757 14.6757C15.0632 14.7883 15 14.9409 15 15.1V19ZM9 19V13.1C9 12.9409 8.93679 12.7883 8.82426 12.6757C8.71174 12.5632 8.55913 12.5 8.4 12.5H3.6C3.44087 12.5 3.28826 12.5632 3.17574 12.6757C3.06321 12.7883 3 12.9409 3 13.1V18.4C3 18.5591 3.06321 18.7117 3.17574 18.8243C3.28826 18.9368 3.44087 19 3.6 19H9ZM15 5H9" stroke="#F3F3F3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
                         <Text ml={4}>Leaderboard</Text>
                     </Box>
                 </Link>
 
                 <Link href="https://discord.com/invite/v967F6a8cz" target='_blank' passHref>
                     <Box as="a" display="flex" alignItems="center" _hover={{ textDecoration: 'none', bg: '#3A3154' }} p={2} borderRadius="md" w="240px">
-                        <Image src='/icons/discord.svg' />
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19.2701 5.33005C17.9401 4.71005 16.5001 4.26005 15.0001 4.00005C14.987 3.99963 14.9739 4.00209 14.9618 4.00728C14.9497 4.01246 14.9389 4.02023 14.9301 4.03005C14.7501 4.36005 14.5401 4.79005 14.4001 5.12005C12.8091 4.88005 11.1911 4.88005 9.60012 5.12005C9.46012 4.78005 9.25012 4.36005 9.06012 4.03005C9.05012 4.01005 9.02012 4.00005 8.99012 4.00005C7.49012 4.26005 6.06012 4.71005 4.72012 5.33005C4.71012 5.33005 4.70012 5.34005 4.69012 5.35005C1.97012 9.42005 1.22012 13.38 1.59012 17.3C1.59012 17.32 1.60012 17.34 1.62012 17.35C3.42012 18.67 5.15012 19.47 6.86012 20C6.89012 20.01 6.92012 20 6.93012 19.98C7.33012 19.43 7.69012 18.85 8.00012 18.24C8.02012 18.2 8.00012 18.16 7.96012 18.15C7.39012 17.93 6.85012 17.67 6.32012 17.37C6.28012 17.35 6.28012 17.29 6.31012 17.26C6.42012 17.18 6.53012 17.09 6.64012 17.01C6.66012 16.99 6.69012 16.99 6.71012 17C10.1501 18.57 13.8601 18.57 17.2601 17C17.2801 16.99 17.3101 16.99 17.3301 17.01C17.4401 17.1 17.5501 17.18 17.6601 17.27C17.7001 17.3 17.7001 17.36 17.6501 17.38C17.1301 17.69 16.5801 17.94 16.0101 18.16C15.9701 18.17 15.9601 18.22 15.9701 18.25C16.2901 18.86 16.6501 19.44 17.0401 19.99C17.0701 20 17.1001 20.01 17.1301 20C18.8501 19.47 20.5801 18.67 22.3801 17.35C22.4001 17.34 22.4101 17.32 22.4101 17.3C22.8501 12.77 21.6801 8.84005 19.3101 5.35005C19.3001 5.34005 19.2901 5.33005 19.2701 5.33005ZM8.52012 14.91C7.49012 14.91 6.63012 13.96 6.63012 12.79C6.63012 11.62 7.47012 10.67 8.52012 10.67C9.58012 10.67 10.4201 11.63 10.4101 12.79C10.4101 13.96 9.57012 14.91 8.52012 14.91ZM15.4901 14.91C14.4601 14.91 13.6001 13.96 13.6001 12.79C13.6001 11.62 14.4401 10.67 15.4901 10.67C16.5501 10.67 17.3901 11.63 17.3801 12.79C17.3801 13.96 16.5501 14.91 15.4901 14.91Z" fill="#F3F3F3" />
+                        </svg>
                         <Text ml={4}>Discord</Text>
                     </Box>
                 </Link>
 
                 <Link href="" onClick={() => { setModalVisible(true) }}>
                     <Box as="a" display="flex" alignItems="center" _hover={{ textDecoration: 'none', bg: '#3A3154' }} p={2} borderRadius="md" w="240px">
-                        <Image src='/icons/signout.svg' />
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17 7L15.59 8.41L18.17 11H8V13H18.17L15.59 15.58L17 17L22 12M4 5H12V3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H12V19H4V5Z" fill="#F3F3F3" />
+                        </svg>
                         <Text ml={4}>Sign out</Text>
                     </Box>
                 </Link>
@@ -118,7 +124,9 @@ const AdminSideBar = () => {
             {isLargerThan768 &&
                 <Link href="/" passHref>
                     <Box as="a" display="flex" alignItems="center" _hover={{ textDecoration: 'none', bg: '#3A3154' }} p={2} borderRadius="md">
-                        <Image src='/icons/left-arrow.svg' />
+                        <svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.5 15L9.615 12.885L5.745 9H21V6H5.745L9.615 2.13L7.5 0L0 7.5" fill="#F3F3F3" />
+                        </svg>
                         <Text ml={4}>Back to home page</Text>
                     </Box>
                 </Link>

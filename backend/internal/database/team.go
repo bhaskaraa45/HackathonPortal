@@ -103,6 +103,41 @@ func GetTeam(email string) (Team, error) {
 	return data, nil
 }
 
+func GetCurrentRound(email string) (int, int, error) {
+	var data int
+	var last int
+
+	tx, err := db.Begin()
+	if err != nil {
+		return data, last, err
+	}
+
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+			panic(r)
+		}
+	}()
+
+	query := `SELECT t.current_round, t.last_submission
+				FROM users u 
+				JOIN teams t ON u.team_id = t.id 
+				WHERE t.id = (SELECT team_id FROM users WHERE email_id = $1)
+				GROUP BY t.id, t.name`
+
+	err = tx.QueryRow(query, email).Scan(&data, &last)
+	if err != nil {
+		tx.Rollback()
+		return data, last, err
+	}
+
+	if err = tx.Commit(); err != nil {
+		return data, last, fmt.Errorf("could not commit transaction: %v", err)
+	}
+
+	return data, last, nil
+}
+
 func PromoteTeam(teamId int) bool {
 	tx, err := db.Begin()
 	if err != nil {

@@ -4,7 +4,6 @@ import (
 	"HackathonNPCI/internal/controllers"
 	"HackathonNPCI/internal/database"
 	"net/http"
-	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -48,7 +47,7 @@ func (s *Server) RegisterRoutes() {
 
 	s.GET("/", s.HelloWorldHandler)
 	s.GET("/health", verifySession(nil), s.healthHandler)
-	s.GET("/date", s.dateHandler)
+	s.GET("/date", controllers.HandleDate)
 	s.GET("/team", verifySession(nil), controllers.HandleGetTeam)
 	s.POST("/team", verifySession(nil), controllers.HandleTeamRegister)
 	s.POST("/promote", verifySession(nil), controllers.HandleRoundPromotion) //ADMIN ROUTE
@@ -62,6 +61,7 @@ func (s *Server) RegisterRoutes() {
 	s.GET("/response", verifySession(nil), controllers.HandleGetSubmussion)
 	s.GET("/responses", verifySession(nil), controllers.HandleGetAllSubmussions) //ADMIN ROUTE
 	s.POST("/validteam", verifySession(nil), controllers.HandleTeamNameExists)
+	s.GET("/timeline", controllers.HandleTimeline)
 }
 
 func (s *Server) HelloWorldHandler(c *gin.Context) {
@@ -73,10 +73,6 @@ func (s *Server) HelloWorldHandler(c *gin.Context) {
 
 func (s *Server) healthHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, database.Health())
-}
-
-func (s *Server) dateHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, time.Date(2024, 7, 1, 0,0,0,0, time.Local));
 }
 
 func verifySession(options *sessmodels.VerifySessionOptions) gin.HandlerFunc {

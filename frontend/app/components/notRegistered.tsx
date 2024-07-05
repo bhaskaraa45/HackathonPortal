@@ -16,7 +16,7 @@ import {
 interface CustomModalProps {
     isOpen: boolean;
     onClose: () => void;
-    description: string;
+    description: React.ReactNode;
     button: string;
 }
 
@@ -28,10 +28,12 @@ const NotRegisteredModal = ({ isOpen, onClose, description, button }: CustomModa
                     <ModalOverlay />
                     <ModalContent bg="#101232" borderRadius="md">
                         <ModalBody textAlign="center" mt={4}>
-                            <Text color="white" fontWeight="normal" fontSize="1.25rem">{description}</Text>
+                            {description}
+                            {/* <Text color="white" fontWeight="normal" fontSize="1.25rem">{description}</Text> */}
                         </ModalBody>
                         <ModalFooter justifyContent="center">
                             <Button
+                                color="white"
                                 borderRadius={8}
                                 fontWeight="500"
                                 fontSize="1.25rem"

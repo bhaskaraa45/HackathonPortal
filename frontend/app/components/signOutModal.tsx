@@ -48,6 +48,7 @@ const SignOutModal = ({ isVisible, onClose, onConfirm, title }: SignOutModalProp
                         </ModalBody>
                         <ModalFooter justifyContent="center">
                             <Button
+                                color="white"
                                 borderRadius={8}
                                 fontWeight="500"
                                 fontSize="1.25rem"
@@ -60,6 +61,7 @@ const SignOutModal = ({ isVisible, onClose, onConfirm, title }: SignOutModalProp
                                 No
                             </Button>
                             <Button
+                                color="white"
                                 borderRadius={8}
                                 fontWeight="500"
                                 fontSize="1.25rem"

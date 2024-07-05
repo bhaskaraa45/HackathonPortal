@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import LoadingPortal from './loadingPortal';
 import NotRegisteredModal from './notRegistered';
 import { signOut } from 'supertokens-auth-react/recipe/thirdparty';
+import { Text } from '@chakra-ui/react';
 
 const ProtectedRoute = (WrappedComponent: React.ComponentType) => {
   const Wrapper: React.FC = (props) => {
@@ -33,7 +34,13 @@ const ProtectedRoute = (WrappedComponent: React.ComponentType) => {
         {isAuthenticated ? (
           <WrappedComponent {...props} />
         ) : isSessionExists ? (
-          <NotRegisteredModal button='Register' isOpen={true} onClose={onClose} description='You are not in any registered team. Please register your team first.' />
+          <NotRegisteredModal
+            button='Register'
+            isOpen={true}
+            onClose={onClose}
+            // description='You are not in any registered team. Please register your team first.' 
+            description={<Text color="white" fontWeight="normal" fontSize="1.25rem" > You are not in any registered team. Please register your team first. </Text>}
+          />
         ) : null}
       </>
     );

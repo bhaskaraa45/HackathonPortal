@@ -46,6 +46,7 @@ const CustomModal = ({ isOpen, onClose, title, description, time }: CustomModalP
             </ModalBody>
             <ModalFooter justifyContent="center">
               <Button
+                color="white"
                 borderRadius={8}
                 fontWeight="500"
                 fontSize="1.25rem"

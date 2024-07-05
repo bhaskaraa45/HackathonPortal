@@ -13,7 +13,7 @@ const FAQsPage: React.FC = () => {
             <Navbar />
             <Box mt={{ base: "64px", lg: "94px" }}>
                 <Flex minHeight="100vh">
-                    <Box flex="1" className="faqContainer">
+                    <Box flex="1" >
                         <FaqSection />
                     </Box>
                 </Flex>

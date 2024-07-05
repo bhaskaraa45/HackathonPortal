@@ -47,6 +47,9 @@ export default function Home() {
     const handleRegisterClick = () => {
         window.location.href = '/register';
     };
+    const handleABoutClick = () => {
+        window.location.href = '/about';
+    };
 
     if (loading) {
         return (
@@ -88,7 +91,7 @@ export default function Home() {
                     />
                     <SecondaryButton
                         isLoading={false}
-                        onClick={handleRegisterClick}
+                        onClick={handleABoutClick}
                         h="54px"
                         w="235px"
                         fontSize={buttonFontSize}
@@ -121,7 +124,7 @@ export default function Home() {
                     />
                     <SecondaryButton
                         isLoading={false}
-                        onClick={handleRegisterClick}
+                        onClick={handleABoutClick}
                         h="54px"
                         w="235px"
                         fontSize={buttonFontSize}

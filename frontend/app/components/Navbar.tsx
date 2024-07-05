@@ -65,7 +65,7 @@ const Navbar = () => {
           <Flex display={{ base: "none", lg: "flex" }} alignItems="center" fontWeight="normal" color="white" fontSize="1rem" fontFamily="Montserrat, sans-serif">
             <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/" mx="20px" w="53px" textAlign="center">Home</Link>
             <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/dashboard" mx="20px" w="99px" textAlign="center">Dashboard</Link>
-            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/about-hackathon" mx="20px" w="158px" textAlign="center">About Hackathon</Link>
+            <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/about" mx="20px" w="158px" textAlign="center">About Hackathon</Link>
             <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/register" mx="20px" w="77px" textAlign="center">Register</Link>
             <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/faqs" mx="20px" w="52px" textAlign="center">FAQs</Link>
             <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="https://ecell.iith.ac.in" target='_blank' mx="20px" w="130px" textAlign="center">E-Cell Website</Link>
@@ -121,7 +121,7 @@ const Navbar = () => {
                 <Flex direction="column" alignItems="center" fontWeight="normal" fontSize="1rem" fontFamily="Montserrat, sans-serif">
                   <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/" mb="20px" textAlign="center">Home</Link>
                   <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/dashboard" mb="20px" textAlign="center">Dashboard</Link>
-                  <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/about-hackathon" mb="20px" textAlign="center">About Hackathon</Link>
+                  <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/about" mb="20px" textAlign="center">About Hackathon</Link>
                   <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/register" mb="20px" textAlign="center">Register</Link>
                   <Link _hover={{ fontWeight: "bold", textDecoration: "underline" }} href="/faqs" mb="20px" textAlign="center">FAQs</Link>
                   <Link href="https://ecell.iith.ac.in" target='_blank' mb="20px" textAlign="center">E-cell Website</Link>

@@ -1,4 +1,4 @@
-import { Box, Button, Heading, HStack, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Heading, HStack, Stack, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 
 const Timeline = () => {
@@ -39,7 +39,7 @@ const Timeline = () => {
 
     return (
         <>
-            <HStack>
+            <Stack direction={{ base: "column", md: "row" }}>
                 <Box _hover={{ cursor: "pointer" }} mr={{ base: "0px", md: "80px", lg: "140px" }} onClick={() => { handleState(1) }}>
                     {active === 1 ? (<svg width="150" height="67" viewBox="0 0 150 67" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="150" height="53" rx="8" fill="#5134A4" />
@@ -78,7 +78,7 @@ const Timeline = () => {
                     )}
                 </Box>
 
-            </HStack>
+            </Stack>
 
             <Box mt="36px" bg="#0B0E29" borderRadius="md" width="100%" textAlign="left" p="36px">
                 <Text fontSize="1.5rem" color="white" fontWeight="semibold" mb="12px">Round {active}</Text>

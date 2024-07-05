@@ -6,6 +6,7 @@ import Navbar from '@/app/components/Navbar';
 import PrimaryButton, { SecondaryButton } from '@/app/components/buttons';
 import Countdown from '@/app/components/countdownComponent';
 import styles from '../styles/home.module.css';
+import TeamsModal from '@/app/components/teamsModal';
 
 export default function Home() {
     const [loading, setLoading] = useState(true);
@@ -62,6 +63,7 @@ export default function Home() {
         <div className={styles.home}>
             <Navbar />
             <div className={styles.maincontent}>
+
                 <HStack>
                     {isLargerThan768 &&
                         <svg width="82" height="79" viewBox="0 0 82 79" fill="none" xmlns="http://www.w3.org/2000/svg">

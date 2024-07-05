@@ -58,7 +58,6 @@ const AdminPage: React.FC = () => {
                         < Heading fontSize={{ base: "1.5rem", lg: "2rem" }} color="white" textAlign="center" fontWeight="semibold" mt={{ base: "70px", lg: "36px" }} mb={{ base: "0px", lg: "36px" }}>
                             ALL TEAMS
                         </Heading>
-
                         <TeamsTable tableProp={jsonData} />
                     </>
                 )}

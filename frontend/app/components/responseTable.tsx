@@ -47,6 +47,10 @@ const ResponseTable: React.FC<FinalProp> = ({ tableProp }) => {
         }
     }
 
+    const redirectToLink = (url:string) => {
+        window.open(url, "_blank");
+    }
+
     return (
         <>
             <SignOutModal
@@ -104,18 +108,18 @@ const ResponseTable: React.FC<FinalProp> = ({ tableProp }) => {
                                 <Text fontSize="1rem" fontWeight="semibold" color="white" noOfLines={1}>{resp.teamName}</Text>
                             </Box>
                             <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
-                                {resp.round_one && <Text _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>Open</Text>}
+                                {resp.round_one && <Text onClick={()=>{redirectToLink(resp.round_one ?? '')}} _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>Open</Text>}
                                 {!resp.round_one && <Text fontSize="1rem" fontWeight="normal" color="#707392" noOfLines={1}>No Submission</Text>}
                             </Box>
                             <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
                                 <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
-                                    {resp.round_two && <Text _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>Open</Text>}
+                                    {resp.round_two && <Text onClick={()=>{redirectToLink(resp.round_two ?? '')}}  _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>Open</Text>}
                                     {!resp.round_two && <Text fontSize="1rem" fontWeight="normal" color="#707392" noOfLines={1}>No Submission</Text>}
                                 </Box>
                             </Box>
                             <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
                                 <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
-                                    {resp.round_three && <Text _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>Open</Text>}
+                                    {resp.round_three && <Text onClick={()=>{redirectToLink(resp.round_three ?? '')}} _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>Open</Text>}
                                     {!resp.round_three && <Text fontSize="1rem" fontWeight="normal" color="#707392" noOfLines={1}>No Submission</Text>}
                                 </Box>
                             </Box>

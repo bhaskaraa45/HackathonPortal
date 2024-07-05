@@ -125,6 +125,7 @@ import SignOutModal from './signOutModal';
 import makeApiCall from '../api/makeCall';
 import router from 'next/router';
 import CustomModal from './customModal';
+import TeamsModal from './teamsModal';
 
 type TeamsProp = {
   teamName: string;
@@ -138,19 +139,32 @@ type FinalProp = {
   tableProp: TeamsProp[];
 };
 
+interface TeamData {
+  name: string;
+  members_email: string[];
+  members_name: string[];
+}
+
+type Member = {
+  name: string;
+  email: string;
+  isLeader: boolean;
+};
+
+
 function TeamsTable({ tableProp }: FinalProp) {
   const [isPromoteVis, setIsPromoteVis] = useState<boolean>(false);
   const [selectedTeam, setSelectedTeam] = useState<number>();
   const [moreRound, setMoreRound] = useState<boolean>(false);
-  const [selectedTeamMembers, setSelectedTeamMembers] = useState<string[]>([]);
+  const [selectedTeamMembers, setSelectedTeamMembers] = useState<TeamsProp>();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleSeeMembers = (members: string[], emails: string[]) => {
-    const membersWithEmails = members.map((member, index) => {
-      const leaderTag = index === 0 ? " [LEADER]" : "";
-      return `${index + 1}. ${member} <${emails[index]}>${leaderTag}`;
-    });
-    setSelectedTeamMembers(membersWithEmails);
+  const handleSeeMembers = (team: TeamsProp) => {
+    // const membersWithEmails = members.map((member, index) => {
+    //   const leaderTag = index === 0 ? " [LEADER]" : "";
+    //   return `${index + 1}. ${member} <${emails[index]}>${leaderTag}`;
+    // });
+    setSelectedTeamMembers(team);
     onOpen();
   };
 
@@ -177,14 +191,30 @@ function TeamsTable({ tableProp }: FinalProp) {
     }
   }
 
+  function makeMembersList(): Member[] {
+    const oneTeam = selectedTeamMembers;
+    if (!oneTeam) return [];
+    return oneTeam.membersName.map((name, index) => ({
+      name,
+      email: oneTeam.membersEmail[index],
+      isLeader: index === 0,
+    }));
+  }
+
   return (
     <>
-      <CustomModal //TODO: change this
+      {/* <CustomModal //TODO: change this
         description={selectedTeamMembers.join(' \n\n')}
         title="Team Members"
         onClose={onClose}
         isOpen={isOpen}
-      />
+      /> */}
+
+      <TeamsModal
+        name={selectedTeamMembers?.teamName ?? ''}
+        onClose={onClose}
+        isOpen={isOpen}
+        members={makeMembersList()} />
 
       <SignOutModal
         isVisible={isPromoteVis}
@@ -238,7 +268,7 @@ function TeamsTable({ tableProp }: FinalProp) {
                 <Text fontSize="1rem" fontWeight="semibold" color="white" noOfLines={1}>{resp.teamName}</Text>
               </Box>
               <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
-                <Text onClick={() => { handleSeeMembers(resp.membersName, resp.membersEmail) }} _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>SEE</Text>
+                <Text onClick={() => { handleSeeMembers(resp) }} _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>SEE</Text>
               </Box>
               <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
                 <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">

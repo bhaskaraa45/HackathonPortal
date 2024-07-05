@@ -63,24 +63,10 @@ const Responses: React.FC = () => {
                             RESPONSES
                         </Heading>
                         <ResponseTable tableProp={jsonData} />
-
-                        {/* <LeaderboardTable teams={teams} /> */}
                     </>
                 )}
 
             </AdminLayout>
-
-            {/* <Flex height="100vh">
-                <AdminSideBar />
-                <Box minHeight="100vh" flex="1" className="contentContainer">
-                    <Heading as="h1" size="lg" mb="36px" textAlign="center" className="heading">
-                        RESPONSES
-                    </Heading>
-                    <div className='conainerWithMargin'>
-                        <ResponseTable tableProp={jsonData} />
-                    </div>
-                </Box>
-            </Flex> */}
         </div>
     );
 }

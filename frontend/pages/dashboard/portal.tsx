@@ -7,6 +7,10 @@ import SubmitAnswer from "@/app/components/submitAnswer";
 import makeApiCall from "@/app/api/makeCall";
 import DashboardLayout from "@/app/components/DashboardLayout";
 import RoundSelector from "@/app/components/roundHeading";
+import Navbar from "@/app/components/Navbar";
+import CustomModal from "@/app/components/customModal";
+import styles from '@/styles/home.module.css'
+import router from "next/router";
 
 interface QuestionData {
     problem: string;
@@ -16,24 +20,49 @@ interface QuestionData {
 
 function Portal() {
     const [jsonData, setJsonData] = useState<QuestionData | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [activeRound, setActiveRound] = useState(1);
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
 
     const getData = async () => {
         setIsLoading(true);
         try {
             const resp = await makeApiCall('question', { method: 'GET' });
+            if (resp.status === 418) {
+                setModalMessage(resp.data.msg);
+                setShowModal(true);
+            }
             setJsonData(resp.data);
             setIsLoading(false);
         } catch (error) {
             console.error('Error fetching data:', error);
-        } finally {
+            if (error?.status === 418) {
+                setModalMessage(error.data.msg);
+                setShowModal(true);
+            }
+            setIsLoading(false);
         }
     };
 
     useEffect(() => {
         getData();
     }, []);
+
+
+    if (showModal && !isLoading) {
+        return (
+            <div className={styles.home}>
+                <Navbar />
+                <CustomModal
+                    title='Cannot Access!'
+                    isOpen={true}
+                    onClose={() => router.replace('/')}
+                    description={modalMessage}
+                />
+            </div>
+        );
+    }
 
     return (
         <Box>

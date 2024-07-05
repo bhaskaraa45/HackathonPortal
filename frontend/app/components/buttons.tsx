@@ -9,9 +9,10 @@ type ButtonProp = {
     fontSize: string | undefined
     fontWeightH: string
     isLoading: boolean
+    isDisabled: boolean | undefined
 }
 
-const PrimaryButton = ({ fontWeight, w, h, text, onClick, fontSize, fontWeightH, isLoading }: ButtonProp) => {
+const PrimaryButton = ({ fontWeight, w, h, text, onClick, fontSize, fontWeightH, isLoading, isDisabled }: ButtonProp) => {
     return (
         <Button
             background="#5134A4"
@@ -30,7 +31,8 @@ const PrimaryButton = ({ fontWeight, w, h, text, onClick, fontSize, fontWeightH,
                 fontWeight: fontWeightH,
             }}
             isLoading={isLoading}
-            // spinner={<BeatLoader size={8} color='white' />}
+            isDisabled={isDisabled}
+        // spinner={<BeatLoader size={8} color='white' />}
         >
             {text}
         </Button>

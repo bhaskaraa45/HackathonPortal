@@ -23,10 +23,11 @@ async function makeApiCall(endpoint: string, options: ApiCallOptions) {
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error('Error making API call:', error.response?.status, error.response?.data);
+            throw { status: error.response?.status, data: error.response?.data };
         } else {
             console.error('Error making API call:', error);
+            throw error;
         }
-        throw error;
     }
 }
 

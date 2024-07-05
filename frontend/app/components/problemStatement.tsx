@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import renderProblemData from './renderProblemData';
 import makeApiCall from '../api/makeCall';
-import { Flex, Spinner } from '@chakra-ui/react';
+import { Flex, Spinner, Text } from '@chakra-ui/react';
 
 type JSONData = {
     [key: string]: string | string[];
@@ -22,7 +22,7 @@ const ProblemStatementComponent: React.FC<props> = ({ isLoading, jsonData }: pro
             ) : jsonData ? (
                 renderProblemData(jsonData)
             ) : (
-                <p>Error fetching data (or no data available)</p>
+                <Text color="white">Error fetching data (or no data available)</Text>
             )}
         </div>
     );

@@ -24,9 +24,6 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
     const buttonFontSize = useBreakpointValue({ base: "1rem", md: "1.25rem" });
     const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
-    console.log(last_submission)
-    console.log(current_round)
-
     const handleSubmit = async () => {
         setIsSubmitting(true);
         try {
@@ -36,8 +33,8 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
             });
 
             if (response.status < 300) {
-                setTitle("Answer submitted!");
-                setDesc("Your answer has been submitted successfully.");
+                setTitle(response.data.heading);
+                setDesc(response.data.message);
             } else {
                 setTitle("Failed to submit!");
                 setDesc("Failed to submit your answer, Please refresh this page and try again.");
@@ -60,7 +57,11 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
         handleSubmit();
     };
 
-    const isSubmissionAllowed = last_submission !== current_round;
+    const handleInputChange = (event: any) => {
+        setAnswerUrl(event.target.value);
+    };
+
+    const isSubmissionAllowed = last_submission < current_round;
 
     return (
         <>
@@ -75,7 +76,7 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
                 isOpen={isOpen}
                 title={title}
                 description={desc}
-                time={3}
+                // time={3}
                 onClose={() => {
                     setIsOpen(false);
                     router.reload();
@@ -85,6 +86,7 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
                 {isSubmissionAllowed ? (
                     <Stack direction={"row"} spacing={8} align="center">
                         <Input
+                            onChange={handleInputChange}
                             bgColor="#06081A"
                             fontSize="1rem"
                             fontWeight="500"
@@ -97,6 +99,7 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
                             placeholder='Paste your url here' />
 
                         {isLargerThan768 ? (<PrimaryButton
+                            isDisabled={answerUrl.length === 0}
                             isLoading={isSubmitting}
                             onClick={() => { setIsSubmitVisible(true) }}
                             h="54px"
@@ -107,6 +110,7 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
                             fontWeightH="600"
                         />) : (
                             <IconButton
+                                isDisabled={answerUrl.length === 0}
                                 onClick={() => { setIsSubmitVisible(true) }}
                                 isLoading={isSubmitting}
                                 variant='solid'
@@ -122,7 +126,7 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
                             />)}
                     </Stack>
                 ) : (
-                    <Text style={{ background: "white" }} color="red" fontSize="lg" textAlign="center">
+                    <Text style={{ background: "white" }} fontWeight="600" color="#06081A" fontSize="1.25rem" textAlign="center">
                         You have already submitted your answer for this round.
                     </Text>
                 )}

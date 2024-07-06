@@ -4,6 +4,7 @@ import (
 	"HackathonNPCI/internal"
 	"HackathonNPCI/internal/database"
 	"HackathonNPCI/internal/email"
+	"HackathonNPCI/internal/utils"
 	"database/sql"
 	"encoding/json"
 	"errors"
@@ -38,6 +39,13 @@ func HandleTeamRegister(c *gin.Context) {
 	if data.TeamName == "" || len(data.MembersEmail) == 0 || len(data.MembersName) == 0 || len(data.MembersEmail) != len(data.MembersName) {
 		resp := internal.CustomResponse("invalid json data!", http.StatusBadRequest)
 		c.JSON(http.StatusBadRequest, resp)
+		return
+	}
+
+	r, _ := utils.WhatIsCurrentRound()
+
+	if r != 0 {
+		c.JSON(http.StatusTeapot, gin.H{"message": "Registration for the NPCI x E-Cell IIT Hyderabad Hackathon is now closed!"})
 		return
 	}
 

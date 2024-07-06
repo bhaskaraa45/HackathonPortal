@@ -3,24 +3,20 @@ package controllers
 import (
 	"HackathonNPCI/internal"
 	"HackathonNPCI/internal/database"
+	"HackathonNPCI/internal/email"
 	"database/sql"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/supertokens/supertokens-golang/recipe/session"
 	"github.com/supertokens/supertokens-golang/recipe/thirdparty"
 )
-
-type TeamData struct {
-	TeamName     string   `json:"team_name"`
-	MembersName  []string `json:"members_name"`
-	MembersEmail []string `json:"members_email"`
-}
 
 type TeamPromoteData struct {
 	TeamID int `json:"team_id"`
@@ -31,7 +27,7 @@ type TempStruct struct {
 }
 
 func HandleTeamRegister(c *gin.Context) {
-	var data TeamData
+	var data internal.TeamData
 	err := json.NewDecoder(c.Request.Body).Decode(&data)
 	if err != nil {
 		resp := internal.CustomResponse("invalid json data!", http.StatusBadRequest)
@@ -68,6 +64,14 @@ func HandleTeamRegister(c *gin.Context) {
 		return
 	}
 
+	content, err := email.LoadRegistrationTemplate(data)
+
+	if err != nil {
+		fmt.Println(err)
+		c.AbortWithError(http.StatusInternalServerError, errors.New("internal server error"))
+		return
+	}
+
 	res, err := database.CreateTeam(data.TeamName, data.MembersName, data.MembersEmail, ip, userAgent)
 
 	if err != nil || !res {
@@ -76,11 +80,11 @@ func HandleTeamRegister(c *gin.Context) {
 		return
 	}
 
-	if res {
-		resp := internal.CustomResponse("Successfully Team Registered", http.StatusOK)
-		c.JSON(http.StatusOK, resp)
-		return
-	}
+	subject := "Registration Successful! Welcome to the NPCI x E-Cell IITH Hackathon"
+	email.SendEmail(data.MembersEmail[0], data.MembersEmail[1:4], subject, content)
+
+	resp := internal.CustomResponse("Successfully Team Registered", http.StatusOK)
+	c.JSON(http.StatusOK, resp)
 }
 
 func HandleGetTeam(c *gin.Context) {
@@ -118,7 +122,7 @@ func HandleRoundPromotion(c *gin.Context) {
 	userID := sessionContainer.GetUserID()
 	info, err := thirdparty.GetUserByID(userID)
 	if err != nil {
-		resp := internal.CustomResponse(("session expired"), http.StatusBadRequest)
+		resp := internal.CustomResponse(("Session expired"), http.StatusBadRequest)
 		c.JSON(http.StatusBadRequest, resp)
 		return
 	}
@@ -127,13 +131,13 @@ func HandleRoundPromotion(c *gin.Context) {
 	user, err := database.GetUserByEmail(info.Email)
 
 	if err != nil {
-		resp := internal.CustomResponse(("unauthorized user"), http.StatusUnauthorized)
+		resp := internal.CustomResponse(("Unauthorized user"), http.StatusUnauthorized)
 		c.JSON(http.StatusUnauthorized, resp)
 		return
 	}
 
 	if !user.IsAdmin {
-		resp := internal.CustomResponse(("unauthorized user"), http.StatusUnauthorized)
+		resp := internal.CustomResponse(("Unauthorized user"), http.StatusUnauthorized)
 		c.JSON(http.StatusUnauthorized, resp)
 		return
 	}
@@ -141,20 +145,49 @@ func HandleRoundPromotion(c *gin.Context) {
 	var data TeamPromoteData
 	err = json.NewDecoder(c.Request.Body).Decode(&data)
 	if err != nil {
-		resp := internal.CustomResponse("invalid json data!", http.StatusBadRequest)
+		resp := internal.CustomResponse("Invalid json data!", http.StatusBadRequest)
 		c.JSON(http.StatusBadRequest, resp)
+		return
+	}
+
+	team, err := database.GetTeamByTeamId(data.TeamID)
+
+	if err != nil {
+		log.Println(err)
+		resp := internal.CustomResponse("Failed to promote data, please try again later", http.StatusInternalServerError)
+		c.JSON(http.StatusInternalServerError, resp)
+		return
+	}
+
+	if team.CurrentRound != team.LastSubmission {
+		c.JSON(http.StatusTeapot, gin.H{"message": "This team cannot be promoted as they didn't submit their answer for the last round yet."})
+		return
+	}
+
+	content, err := email.LoadSolutionAcceptedTemplate(team.TeamName, strconv.Itoa(team.CurrentRound+1))
+
+	if err != nil {
+		log.Println(err)
+		resp := internal.CustomResponse("Failed to promote data, please try again later", http.StatusInternalServerError)
+		c.JSON(http.StatusInternalServerError, resp)
 		return
 	}
 
 	result := database.PromoteTeam(data.TeamID)
 
 	if !result {
-		resp := internal.CustomResponse("failed to promote data, please try again later", http.StatusInternalServerError)
+		log.Println(err)
+		resp := internal.CustomResponse("Failed to promote data, please try again later", http.StatusInternalServerError)
 		c.JSON(http.StatusInternalServerError, resp)
 		return
 	}
 
-	msg := fmt.Sprintf("team_id: %v sucessfully promoted to next round!", data.TeamID)
+	if team.CurrentRound < 3 {
+		subject := fmt.Sprintf("Congratulations! You're Advancing to Round %v | NPCI x E-Cell IITH Hackathon", team.CurrentRound+1)
+		email.SendEmail(team.MembersEmail[0], team.MembersEmail[1:4], subject, content)
+	}
+
+	msg := fmt.Sprintf("team_id: %v Sucessfully promoted to next round!", data.TeamID)
 
 	resp := internal.CustomResponse(msg, http.StatusOK)
 	c.JSON(http.StatusOK, resp)

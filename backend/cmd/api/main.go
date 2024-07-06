@@ -2,6 +2,7 @@ package main
 
 import (
 	"HackathonNPCI/internal/config"
+	"HackathonNPCI/internal/cron"
 	"HackathonNPCI/internal/server"
 	"fmt"
 )
@@ -9,6 +10,9 @@ import (
 func main() {
 
 	config.InitSuperTokesn()
+	config.InitSMTP()
+
+	go cron.InitCronJob()
 
 	server := server.NewServer()
 	err := server.Run()

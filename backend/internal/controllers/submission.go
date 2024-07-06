@@ -3,11 +3,13 @@ package controllers
 import (
 	"HackathonNPCI/internal"
 	"HackathonNPCI/internal/database"
+	"HackathonNPCI/internal/email"
 	"HackathonNPCI/internal/utils"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/supertokens/supertokens-golang/recipe/session"
@@ -33,16 +35,25 @@ func HandleSubmussions(c *gin.Context) {
 		return
 	}
 
-	curr, last, err := database.GetCurrentRound(info.Email)
+	team, err := database.GetTeam(info.Email)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusInternalServerError, "Something Went Wrong. Please Try Again Later")
+		return
+	}
+
+	curr := team.CurrentRound
+	last := team.LastSubmission
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, "internal server error")
+		log.Println(err)
+		c.JSON(http.StatusInternalServerError, "Something Went Wrong. Please Try Again Later")
 		return
 	}
 
 	if curr <= last {
 		msg := fmt.Sprintf("An answer has already been submitted for round %v.", curr)
-		c.JSON(http.StatusOK, gin.H{"message": msg, "heading": "Submission Already Made"})
+		c.JSON(http.StatusOK, gin.H{"message": msg, "heading": "Error!"})
 		return
 	}
 
@@ -60,14 +71,33 @@ func HandleSubmussions(c *gin.Context) {
 		return
 	}
 
+	content, err := email.LoadSolutionSubmissionTemplate(team.TeamName, strconv.Itoa(team.CurrentRound), data.Answer)
+
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusInternalServerError, "Something Went Wrong. Please Try Again Later")
+		return
+	}
+
 	err = database.PostSubmission(info.Email, data.Answer)
 
 	if err != nil {
-		fmt.Println(err)
-		resp := internal.CustomResponse((err.Error()), http.StatusInternalServerError)
+		log.Println(err)
+		resp := internal.CustomResponse("Something Went Wrong. Please Try Again Later", http.StatusInternalServerError)
 		c.JSON(http.StatusInternalServerError, resp)
 		return
 	}
+
+	cc := []string{}
+
+	for _, email := range team.MembersEmail {
+		if email != info.Email {
+			cc = append(cc, email)
+		}
+	}
+	subject := fmt.Sprintf("Your Round %v Submission is Confirmed! | NPCI x E-Cell IITH Hackathon", team.CurrentRound)
+	email.SendEmail(info.Email, cc, subject, content)
+
 	c.JSON(http.StatusOK, gin.H{"message": "Your answer has been submitted successfully.", "heading": "Answer submitted!"})
 }
 

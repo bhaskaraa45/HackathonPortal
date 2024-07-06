@@ -10,11 +10,12 @@ import (
 )
 
 type Team struct {
-	TeamId       int      `json:"id"`
-	TeamName     string   `json:"name"`
-	MembersEmail []string `json:"members_email"`
-	MembersName  []string `json:"members_name"`
-	CurrentRound int      `json:"current_round"`
+	TeamId         int      `json:"id"`
+	TeamName       string   `json:"name"`
+	MembersEmail   []string `json:"members_email"`
+	MembersName    []string `json:"members_name"`
+	CurrentRound   int      `json:"current_round"`
+	LastSubmission int      `json:"last_submission"`
 }
 
 func CreateTeam(teamName string, membersName []string, membersEmail []string, signup_ip string, useragent string) (bool, error) {
@@ -103,6 +104,46 @@ func GetTeam(email string) (Team, error) {
 	return data, nil
 }
 
+func GetTeamByTeamId(id int) (Team, error) {
+	var data Team
+
+	tx, err := db.Begin()
+	if err != nil {
+		return data, err
+	}
+
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+			panic(r)
+		}
+	}()
+
+	query := `SELECT t.name, t.last_submission, t.current_round, array_agg(u.email_id) AS members_email, array_agg(u.name) AS members_name
+				FROM users u
+				JOIN teams t ON u.team_id = t.id
+				WHERE t.id = $1
+				GROUP BY t.name, t.current_round, t.last_submission `
+
+	var membersEmail pq.StringArray
+	var membersName pq.StringArray
+
+	err = tx.QueryRow(query, id).Scan(&data.TeamName, &data.LastSubmission, &data.CurrentRound, &membersEmail, &membersName)
+	if err != nil {
+		tx.Rollback()
+		return data, err
+	}
+
+	data.MembersEmail = membersEmail
+	data.MembersName = membersName
+
+	if err = tx.Commit(); err != nil {
+		return data, fmt.Errorf("could not commit transaction: %v", err)
+	}
+
+	return data, nil
+}
+
 func GetCurrentRound(email string) (int, int, error) {
 	var data int
 	var last int
@@ -120,10 +161,10 @@ func GetCurrentRound(email string) (int, int, error) {
 	}()
 
 	query := `SELECT t.current_round, t.last_submission
-				FROM users u 
-				JOIN teams t ON u.team_id = t.id 
-				WHERE t.id = (SELECT team_id FROM users WHERE email_id = $1)
-				GROUP BY t.id, t.name`
+				FROM teams t
+				JOIN users u ON u.team_id = t.id
+				WHERE u.email_id = $1
+				LIMIT 1`
 
 	err = tx.QueryRow(query, email).Scan(&data, &last)
 	if err != nil {
@@ -136,6 +177,37 @@ func GetCurrentRound(email string) (int, int, error) {
 	}
 
 	return data, last, nil
+}
+
+func GetCurrentRoundByTeamId(id int) (int, error) {
+	var data int
+
+	tx, err := db.Begin()
+	if err != nil {
+		return data, err
+	}
+
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+			panic(r)
+		}
+	}()
+
+	query := `SELECT current_round
+				FROM teams WHERE id = $1`
+
+	err = tx.QueryRow(query, id).Scan(&data)
+	if err != nil {
+		tx.Rollback()
+		return data, err
+	}
+
+	if err = tx.Commit(); err != nil {
+		return data, fmt.Errorf("could not commit transaction: %v", err)
+	}
+
+	return data, nil
 }
 
 func PromoteTeam(teamId int) bool {

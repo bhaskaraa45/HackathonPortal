@@ -82,7 +82,7 @@ func LoadLiveTemplate(teamName string, round string) ([]byte, error) {
 
 	// Replace placeholders in the template with actual data
 	htmlContent := string(template)
-	htmlContent = strings.ReplaceAll(htmlContent, "[Team name]", teamName)
+	htmlContent = strings.ReplaceAll(htmlContent, "[Team Name]", teamName)
 	htmlContent = strings.ReplaceAll(htmlContent, "[RCount]", round)
 
 	return []byte(htmlContent), nil

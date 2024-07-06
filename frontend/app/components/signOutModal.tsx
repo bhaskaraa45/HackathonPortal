@@ -16,9 +16,10 @@ interface SignOutModalProps {
     onClose: () => void;
     onConfirm: () => void;
     title: string;
+    isLoading?: boolean
 }
 
-const SignOutModal = ({ isVisible, onClose, onConfirm, title }: SignOutModalProps) => {
+const SignOutModal = ({ isVisible, onClose, onConfirm, title, isLoading }: SignOutModalProps) => {
 
     return (
         <>
@@ -61,6 +62,7 @@ const SignOutModal = ({ isVisible, onClose, onConfirm, title }: SignOutModalProp
                                 No
                             </Button>
                             <Button
+                                isLoading={isLoading}
                                 color="white"
                                 borderRadius={8}
                                 fontWeight="500"

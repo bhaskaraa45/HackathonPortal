@@ -3,6 +3,7 @@ import { Box, Flex, Text, VStack, HStack } from '@chakra-ui/react';
 import SignOutModal from './signOutModal';
 import makeApiCall from '../api/makeCall';
 import router from 'next/router';
+import CustomModal from './customModal';
 
 type ResponseProp = {
     teamName: string;
@@ -17,24 +18,39 @@ type FinalProp = {
     tableProp: ResponseProp[];
 };
 
+interface CustomApiError extends Error {
+    status?: number;
+    data?: any;
+}
+
 
 const ResponseTable: React.FC<FinalProp> = ({ tableProp }) => {
     const [isPromoteVis, setIsPromoteVis] = useState<boolean>(false);
     const [selectedTeam, setSelectedTeam] = useState<number>();
     const [moreRound, setMoreRound] = useState<boolean>(false);
+    const [isError, setIsError] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>("");
+    const [isButtonLoading, setisButtonLoading] = useState<boolean>(false);
 
 
     const onPromoteConfirm = async () => {
+        setisButtonLoading(true);
         try {
-            const response = await makeApiCall("promote", { method: "POST", body: { "team_id": selectedTeam } });
-            console.log(response);
+            await makeApiCall("promote", { method: "POST", body: { "team_id": selectedTeam } });
+            setIsPromoteVis(false)
+            router.reload();
         } catch (error) {
             console.error("Error fetching data:", error);
-        } finally {
             setIsPromoteVis(false)
+            if ((error as CustomApiError)?.status as number > 400) {
+                setErrorMessage((error as CustomApiError).data.message);
+                setIsError(true);
+            }
+
+        } finally {
+            setisButtonLoading(false)
         }
         console.log(`PROMOTED ID: ${selectedTeam}`)
-        router.reload();
     }
 
     const handlePromoteModal = (id: number, r: number) => {
@@ -47,13 +63,20 @@ const ResponseTable: React.FC<FinalProp> = ({ tableProp }) => {
         }
     }
 
-    const redirectToLink = (url:string) => {
+    const redirectToLink = (url: string) => {
         window.open(url, "_blank");
     }
 
     return (
         <>
+            <CustomModal
+                description={errorMessage}
+                title="Error!"
+                onClose={() => { setIsError(false) }}
+                isOpen={isError}
+            />
             <SignOutModal
+                isLoading={isButtonLoading}
                 isVisible={isPromoteVis}
                 title={"Are you sure you want to promote this team to next round?"}
                 onClose={() => {
@@ -108,18 +131,18 @@ const ResponseTable: React.FC<FinalProp> = ({ tableProp }) => {
                                 <Text fontSize="1rem" fontWeight="semibold" color="white" noOfLines={1}>{resp.teamName}</Text>
                             </Box>
                             <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
-                                {resp.round_one && <Text onClick={()=>{redirectToLink(resp.round_one ?? '')}} _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>Open</Text>}
+                                {resp.round_one && <Text onClick={() => { redirectToLink(resp.round_one ?? '') }} _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>Open</Text>}
                                 {!resp.round_one && <Text fontSize="1rem" fontWeight="normal" color="#707392" noOfLines={1}>No Submission</Text>}
                             </Box>
                             <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
                                 <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
-                                    {resp.round_two && <Text onClick={()=>{redirectToLink(resp.round_two ?? '')}}  _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>Open</Text>}
+                                    {resp.round_two && <Text onClick={() => { redirectToLink(resp.round_two ?? '') }} _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>Open</Text>}
                                     {!resp.round_two && <Text fontSize="1rem" fontWeight="normal" color="#707392" noOfLines={1}>No Submission</Text>}
                                 </Box>
                             </Box>
                             <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
                                 <Box display="flex" justifyContent="center" alignItems="center" minW="180px" maxW="180px">
-                                    {resp.round_three && <Text onClick={()=>{redirectToLink(resp.round_three ?? '')}} _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>Open</Text>}
+                                    {resp.round_three && <Text onClick={() => { redirectToLink(resp.round_three ?? '') }} _hover={{ cursor: "pointer", textDecoration: "underline" }} fontSize="1rem" fontWeight="normal" color="#5465FF" noOfLines={1}>Open</Text>}
                                     {!resp.round_three && <Text fontSize="1rem" fontWeight="normal" color="#707392" noOfLines={1}>No Submission</Text>}
                                 </Box>
                             </Box>

@@ -1,10 +1,14 @@
 import axios from "axios";
-import Session from "supertokens-web-js/recipe/session";
 
 interface ApiCallOptions {
     method?: string;
     headers?: { [key: string]: string };
     body?: any;
+}
+
+interface CustomApiError extends Error {
+    status?: number;
+    data?: any;
 }
 
 async function makeApiCall(endpoint: string, options: ApiCallOptions) {
@@ -23,7 +27,10 @@ async function makeApiCall(endpoint: string, options: ApiCallOptions) {
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error('Error making API call:', error.response?.status, error.response?.data);
-            throw { status: error.response?.status, data: error.response?.data };
+            const apiError: CustomApiError = new Error('API Error');
+            apiError.status = error.response?.status;
+            apiError.data = error.response?.data;
+            throw apiError;
         } else {
             console.error('Error making API call:', error);
             throw error;

@@ -1,123 +1,3 @@
-// import { Button, useDisclosure } from "@chakra-ui/react";
-// import React, { useState } from "react";
-// import CustomModal from "./customModal";
-// import SignOutModal from "./signOutModal";
-// import makeApiCall from "../api/makeCall";
-// import { useRouter } from "next/router";
-
-
-// export function TeamsTable({ tableProp }: FinalProp) {
-//   const { isOpen, onOpen, onClose } = useDisclosure();
-//   const [selectedTeamMembers, setSelectedTeamMembers] = useState<string[]>([]);
-//   const [isPromoteVis, setIsPromoteVis] = useState<boolean>(false);
-//   const [selectedTeam, setSelectedTeam] = useState<number>();
-//   const [moreRound, setMoreRound] = useState<boolean>(false);
-
-//   const router = useRouter();
-
-//   const handleSeeMembers = (members: string[], emails: string[]) => {
-//     const membersWithEmails = members.map((member, index) => {
-//       const leaderTag = index === 0 ? " [LEADER]" : "";
-//       return `${index + 1}. ${member} <${emails[index]}>${leaderTag}`;
-//     });
-//     setSelectedTeamMembers(membersWithEmails);
-//     onOpen();
-//   };
-
-//   const handlePromoteModal = (id: number, r: number) => {
-//     setSelectedTeam(id)
-//     if (r > 2) {
-//       setMoreRound(true)
-//     } else {
-//       setIsPromoteVis(true);
-//     }
-//   }
-
-//   const onPromoteConfirm = async () => {
-//     try {
-//       const response = await makeApiCall("promote", { method: "POST", body: { "team_id": selectedTeam } });
-//       console.log(response);
-//     } catch (error) {
-//       console.error("Error fetching data:", error);
-//     } finally {
-//       setIsPromoteVis(false)
-//     }
-//     console.log(`PROMOTED ID: ${selectedTeam}`)
-//     router.reload();
-//   }
-
-//   return (
-//     <>
-//       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-//         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-//           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-//             <tr>
-//               <th scope="col" className="px-6 py-3">
-//                 Team Name
-//               </th>
-//               <th scope="col" className="px-6 py-3">
-//                 Members
-//               </th>
-//               <th scope="col" className="px-6 py-3">
-//                 Current Round
-//               </th>
-//               <th scope="col" className="px-6 py-3">
-//                 Promote
-//               </th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {tableProp.map((team, index) => (
-//               <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-//                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-//                   {team.teamName}
-//                 </th>
-//                 <td className="px-6 py-4">
-//                   <Button onClick={() => handleSeeMembers(team.membersName, team.membersEmail)} className='underline text-blue-600'>
-//                     See
-//                   </Button>
-//                 </td>
-//                 <td className="px-6 py-4">
-//                   {team.currentRound}
-//                 </td>
-//                 <td className="px-6 py-4">
-//                   <Button onClick={() => handlePromoteModal(team.teamId, team.currentRound)} className='text-blue-600 underline'>
-//                     Promote
-//                   </Button>
-//                 </td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       </div>
-
-//       <CustomModal
-//         description={selectedTeamMembers.join('\n')}
-//         title="Team Members"
-//         onClose={onClose}
-//         isOpen={isOpen}
-//       />
-//       <SignOutModal
-//         isVisible={isPromoteVis}
-//         title={"Are you sure you want to promote this team to next round?"}
-//         onClose={() => {
-//           setIsPromoteVis(false)
-//         }}
-//         onConfirm={onPromoteConfirm}
-//       />
-//       <SignOutModal
-//         isVisible={moreRound}
-//         title={"This team is already in round 3, they cannot be promoted. Ignore the YES button."}
-//         onClose={() => {
-//           setMoreRound(false)
-//         }}
-//         onConfirm={() => { setMoreRound(false) }}
-//       />
-//     </>
-//   );
-// }
-
-// export default TeamsTable;
 
 import React, { useState } from 'react';
 import { Box, Flex, Text, VStack, HStack, useDisclosure } from '@chakra-ui/react';
@@ -151,13 +31,20 @@ type Member = {
   isLeader: boolean;
 };
 
+interface CustomApiError extends Error {
+  status?: number;
+  data?: any;
+}
 
 function TeamsTable({ tableProp }: FinalProp) {
   const [isPromoteVis, setIsPromoteVis] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [selectedTeam, setSelectedTeam] = useState<number>();
   const [moreRound, setMoreRound] = useState<boolean>(false);
   const [selectedTeamMembers, setSelectedTeamMembers] = useState<TeamsProp>();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isButtonLoading, setisButtonLoading] = useState<boolean>(false);
 
   const handleSeeMembers = (team: TeamsProp) => {
     // const membersWithEmails = members.map((member, index) => {
@@ -169,16 +56,23 @@ function TeamsTable({ tableProp }: FinalProp) {
   };
 
   const onPromoteConfirm = async () => {
+    setisButtonLoading(true)
     try {
       const response = await makeApiCall("promote", { method: "POST", body: { "team_id": selectedTeam } });
-      console.log(response);
+      setIsPromoteVis(false)
+      router.reload();
     } catch (error) {
       console.error("Error fetching data:", error);
-    } finally {
       setIsPromoteVis(false)
+      if ((error as CustomApiError)?.status as number > 400) {
+        setErrorMessage((error as CustomApiError).data.message);
+        setIsError(true);
+      }
+
+    } finally {
+      setisButtonLoading(false)
     }
-    console.log(`PROMOTED ID: ${selectedTeam}`)
-    router.reload();
+    // router.reload();
   }
 
   const handlePromoteModal = (id: number, r: number) => {
@@ -210,6 +104,13 @@ function TeamsTable({ tableProp }: FinalProp) {
         isOpen={isOpen}
       /> */}
 
+      <CustomModal
+        description={errorMessage}
+        title="Error!"
+        onClose={() => { setIsError(false) }}
+        isOpen={isError}
+      />
+
       <TeamsModal
         name={selectedTeamMembers?.teamName ?? ''}
         onClose={onClose}
@@ -217,6 +118,7 @@ function TeamsTable({ tableProp }: FinalProp) {
         members={makeMembersList()} />
 
       <SignOutModal
+        isLoading={isButtonLoading}
         isVisible={isPromoteVis}
         title={"Are you sure you want to promote this team to next round?"}
         onClose={() => {

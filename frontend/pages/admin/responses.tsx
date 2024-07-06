@@ -17,6 +17,7 @@ type ResponseProp = {
 };
 
 
+
 const Responses: React.FC = () => {
     const [jsonData, setJsonData] = useState<ResponseProp[]>([]);
     const [isLoading, setIsLoading] = useState(false);

@@ -39,7 +39,7 @@ const Timeline = () => {
 
     return (
         <>
-            <Stack direction="row">
+            <Stack width="100svw" overflowX="scroll" direction="row">
                 <Box _hover={{ cursor: "pointer" }} mr={{ base: "0px", md: "80px", lg: "140px" }} onClick={() => { handleState(1) }}>
                     {active === 1 ? (<svg width="150" height="67" viewBox="0 0 150 67" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="150" height="53" rx="8" fill="#5134A4" />

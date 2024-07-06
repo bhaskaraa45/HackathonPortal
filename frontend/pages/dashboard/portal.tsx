@@ -18,6 +18,11 @@ interface QuestionData {
     last_submission: number | null;
 }
 
+interface CustomApiError extends Error {
+    status?: number;
+    data?: any;
+}
+
 function Portal() {
     const [jsonData, setJsonData] = useState<QuestionData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -37,8 +42,8 @@ function Portal() {
             setIsLoading(false);
         } catch (error) {
             console.error('Error fetching data:', error);
-            if (error?.status === 418) {
-                setModalMessage(error.data.msg);
+            if ((error as CustomApiError)?.status === 418) {
+                setModalMessage((error as CustomApiError).data.msg);
                 setShowModal(true);
             }
             setIsLoading(false);

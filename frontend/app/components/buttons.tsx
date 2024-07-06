@@ -9,7 +9,7 @@ type ButtonProp = {
     fontSize: string | undefined
     fontWeightH: string
     isLoading: boolean
-    isDisabled: boolean | undefined
+    isDisabled?: boolean
 }
 
 const PrimaryButton = ({ fontWeight, w, h, text, onClick, fontSize, fontWeightH, isLoading, isDisabled }: ButtonProp) => {

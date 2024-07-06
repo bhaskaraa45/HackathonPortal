@@ -21,10 +21,12 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
     const [isSubmitVisible, setIsSubmitVisible] = useState<boolean>(false);
     const router = useRouter();
 
+
     const buttonFontSize = useBreakpointValue({ base: "1rem", md: "1.25rem" });
     const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
     const handleSubmit = async () => {
+
         setIsSubmitting(true);
         try {
             const response = await makeApiCall('question', {
@@ -40,7 +42,7 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
                 setDesc("Failed to submit your answer, Please refresh this page and try again.");
             }
             setIsOpen(true);
-            setIsSubmitting(false);
+
 
         } catch (error) {
             setTitle("Failed to submit!");
@@ -48,7 +50,7 @@ export default function SubmitAnswer({ last_submission, current_round }: SubmitA
             setIsOpen(true);
             console.error('Error submitting answer:', error);
         } finally {
-
+            setIsSubmitting(false);
         }
     };
 

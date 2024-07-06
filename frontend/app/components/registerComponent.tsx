@@ -64,6 +64,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ email }) => {
   const [nameError, setNameError] = useState<string>('');
   const [teamNameError, setTeamNameError] = useState<string>('');
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [isButtonLoading, setisButtonLoading] = useState<boolean>(false);
+
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLeaderName(e.target.value);
@@ -90,6 +92,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ email }) => {
   };
 
   const handleSecondNext = async () => {
+    setisButtonLoading(true);
     try {
       const response = await makeApiCall('validteam', { method: "POST", body: JSON.stringify({ "team_name": teamName }) })
       if (response.status === 200) {
@@ -103,10 +106,13 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ email }) => {
     } catch (error) {
       setTeamNameError("This name has already been taken, please consider different team name.")
       console.log(error)
+    } finally {
+      setisButtonLoading(false)
     }
   }
 
-  const checkSession = async () => {isLargerThan1010
+  const checkSession = async () => {
+    isLargerThan1010
     if (email.length === 0) {
       setShowModal(true);
     } else {
@@ -135,59 +141,43 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ email }) => {
         onClose={onClose}
       />
       <Flex justifyContent="center">
-          <Stepper alignContent="center" w="80%" className='Stepper' index={activeStep} size='lg' colorScheme='purple' orientation={"horizontal"}>
-            {steps.map((step, index) => (
-              <Step key={index}>
-                <StepIndicator
-                  color='black'
-                  sx={{
-                    '[data-status=complete] &': {
-                      background: '#5134A4',
-                      borderColor: 'white',
-                    },
-                    '[data-status=active] &': {
-                      background: 'white',
-                      borderColor: 'white',
-                    },
-                    '[data-status=incomplete] &': {
-                      borderColor: 'white',
-                      background: 'transparent'
-                    },
-                  }}
-                >
-                  <StepStatus complete={<StepIcon />} incomplete={<Text color="white" fontSize="20px" fontWeight="600" fontFamily="Montserrat, sans-serif">{index + 1}</Text>} active={<Text fontSize="20px" fontWeight="600" fontFamily="Montserrat, sans-serif">{index + 1}</Text>} />
-                </StepIndicator>
+        <Stepper alignContent="center" w="80%" className='Stepper' index={activeStep} size='lg' colorScheme='purple' orientation={"horizontal"}>
+          {steps.map((step, index) => (
+            <Step key={index}>
+              <StepIndicator
+                color='black'
+                sx={{
+                  '[data-status=complete] &': {
+                    background: '#5134A4',
+                    borderColor: 'white',
+                  },
+                  '[data-status=active] &': {
+                    background: 'white',
+                    borderColor: 'white',
+                  },
+                  '[data-status=incomplete] &': {
+                    borderColor: 'white',
+                    background: 'transparent'
+                  },
+                }}
+              >
+                <StepStatus complete={<StepIcon />} incomplete={<Text color="white" fontSize="20px" fontWeight="600" fontFamily="Montserrat, sans-serif">{index + 1}</Text>} active={<Text fontSize="20px" fontWeight="600" fontFamily="Montserrat, sans-serif">{index + 1}</Text>} />
+              </StepIndicator>
 
-                <Box flexShrink="0">
-                  <StepTitle className='StepTitle'>
-                    
-                    {isLargerThan1010 && <Text fontSize="1.25rem" >{step.description}</Text>}
-                    {!isLargerThan1010 && index===0 && <Text fontSize="0.75rem" > Email<br></br> Verifcation</Text>}
-                    {!isLargerThan1010 && index===1 && <Text fontSize="0.75rem" > Team<br></br> Info</Text>}
-                    {!isLargerThan1010 && index===2 && <Text fontSize="0.75rem" > Members<br></br> Info </Text>}
-                  </StepTitle>
-                </Box>
-                {activeStep > index && <StepSeparator />}
-              </Step>
-            ))}
-          </Stepper>
+              <Box flexShrink="0">
+                <StepTitle className='StepTitle'>
 
-          {/* {!isLargerThan1010 && <Box>
-            <HStack >
-              <Text color="white" mr="12px" fontSize="1rem" align="center">
-                Email
-                <br></br>Verification
-              </Text>
-              <Text color="white" mr="12px" fontSize="1rem" align="center">
-                Team
-                <br></br>Info
-              </Text>
-              <Text color="white" fontSize="1rem" align="center">
-                Members
-                <br></br>Info
-              </Text>
-            </HStack>
-          </Box>} */}
+                  {isLargerThan1010 && <Text fontSize="1.25rem" >{step.description}</Text>}
+                  {!isLargerThan1010 && index === 0 && <Text fontSize="0.75rem" > Email<br></br> Verifcation</Text>}
+                  {!isLargerThan1010 && index === 1 && <Text fontSize="0.75rem" > Team<br></br> Info</Text>}
+                  {!isLargerThan1010 && index === 2 && <Text fontSize="0.75rem" > Members<br></br> Info </Text>}
+                </StepTitle>
+              </Box>
+              {activeStep > index && <StepSeparator />}
+            </Step>
+          ))}
+        </Stepper>
+
       </Flex>
       <Flex justifyContent='center'>
         <Box alignContent='center' mt={6}>
@@ -325,6 +315,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ email }) => {
                     Back
                   </Button>
                   <Button
+                    isLoading={isButtonLoading}
                     background="#5134A4"
                     colorScheme="#5134A4"
                     variant="solid"
@@ -373,6 +364,8 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
   const [isOpenDup, setIsOpenDup] = useState<boolean>(false);
   const [isAlreadyOpen, setIsAlreadyOpen] = useState<boolean>(false);
   const [isAlreadyMsg, setIsAlreadyMsg] = useState<string>('');
+  const [isButtonLoading, setisButtonLoading] = useState<boolean>(false);
+
 
   const handleMemberChange = async (index: number, field: 'name' | 'email', value: string) => {
     const updatedMembers = [...membersData];
@@ -389,6 +382,7 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
 
 
   const handleSubmit = async () => {
+    setisButtonLoading(true);
     const allEmails = [leaderEmail, ...membersData.map(member => member.email)];
 
     const updatedErrors = [...errors];
@@ -425,6 +419,8 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
       }
     } catch (error) {
       console.error('Error submitting form:', error);
+    } finally {
+      setisButtonLoading(false)
     }
   };
 
@@ -563,6 +559,7 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
             Back
           </Button>
           <Button
+            isLoading={isButtonLoading}
             background="#5134A4"
             colorScheme="#5134A4"
             variant="solid"

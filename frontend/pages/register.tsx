@@ -5,15 +5,34 @@ import React, { useEffect, useState } from "react";
 import Session from 'supertokens-auth-react/recipe/session';
 import { getSessionUser } from '@/app/api/auth';
 import { useRouter } from "next/router";
+import axios from "axios";
+import CustomModal from "@/app/components/customModal";
+import styles from '@/styles/home.module.css'
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 
 const Register: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [closed, setClosed] = useState<boolean>(false);
   const router = useRouter();
 
-  const handleMenuClick = (newMenuState: boolean) => {
-    setMenuOpen(newMenuState);
+
+  const fetchDate = async () => {
+    try {
+      const response = await axios.get(`${backendUrl}/date`);
+      const date = new Date(response.data).getTime();
+
+      const now = new Date().getTime();
+      const distance = date - now;
+
+      if (distance <= 0) {
+        setClosed(true);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching date:', error);
+    }
   };
 
   const checkSession = async () => {
@@ -29,7 +48,7 @@ const Register: React.FC = () => {
         } else {
           setEmail(user.email);
         }
-        setLoading(false);
+        await fetchDate();
       } else {
         router.replace('/login');
       }
@@ -42,6 +61,15 @@ const Register: React.FC = () => {
     checkSession();
   }, []);
 
+  if (closed) {
+    return (
+      <div className={styles.home}>
+        <Navbar />
+        <CustomModal title='Registration Closed' isOpen={true} onClose={() => router.replace('/')} description='Registration for the NPCI x E-Cell IIT Hyderabad Hackathon is closed!' />
+      </div>
+    );
+  }
+
   return (
     <div>
       <Navbar />
@@ -53,7 +81,7 @@ const Register: React.FC = () => {
         ) : (
           <Flex height="100vh">
             <Box minHeight="100vh" flex="1" className="">
-              <Heading fontSize={{base:'1.75rem', md:"2rem"}} fontWeight="500" className="registration_heading">Register your team</Heading>
+              <Heading fontSize={{ base: '1.75rem', md: "2rem" }} fontWeight="500" className="registration_heading">Register your team</Heading>
               <RegistrationForm email={email} />
             </Box>
           </Flex>

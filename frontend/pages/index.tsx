@@ -33,7 +33,7 @@ export default function Home() {
             if (distance <= 0) {
                 setCountdownEnded(true);
             }
-
+            
             setTargetDate(date);
             setLoading(false);
         } catch (error) {

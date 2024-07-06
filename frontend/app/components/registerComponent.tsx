@@ -365,7 +365,13 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
   const [isAlreadyOpen, setIsAlreadyOpen] = useState<boolean>(false);
   const [isAlreadyMsg, setIsAlreadyMsg] = useState<string>('');
   const [isButtonLoading, setisButtonLoading] = useState<boolean>(false);
+  const [isErroFromAPi, setisErroFromAPi] = useState<boolean>(false);
+  const [errorMessage, seterrorMessage] = useState<string>("");
 
+  interface CustomApiError extends Error {
+    status?: number;
+    data?: any;
+  }
 
   const handleMemberChange = async (index: number, field: 'name' | 'email', value: string) => {
     const updatedMembers = [...membersData];
@@ -418,7 +424,15 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
         setIsOpen(true);
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
+      if (axios.isAxiosError(error)) {
+        console.error('Error making API call:', error.response?.status, error.response?.data);
+        seterrorMessage(error?.response?.data.message)
+        setisErroFromAPi(true)
+      } else {
+        console.error('Error making API call:', error);
+        seterrorMessage("Something went wrong! Please try again")
+        setisErroFromAPi(true)
+      }
     } finally {
       setisButtonLoading(false)
     }
@@ -453,6 +467,13 @@ function MembersDataCollectionComponent({ count, teamName, leaderName, leaderEma
           description={'Congratulations, your team has been successfully registered.'}
           time={3}
           onClose={onClose}
+        />
+
+        <CustomModal
+          isOpen={isErroFromAPi}
+          title={'Error!'}
+          description={errorMessage}
+          onClose={() => { setisErroFromAPi(false) }}
         />
 
         <CustomModal

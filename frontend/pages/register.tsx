@@ -15,6 +15,7 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [closed, setClosed] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const router = useRouter();
 
 
@@ -40,7 +41,10 @@ const Register: React.FC = () => {
       if (await Session.doesSessionExist()) {
         const user = await getSessionUser();
         if (user.isRegisterd) {
-          user.isAdmin ? router.replace('/admin') : router.replace('/dashboard');
+
+          setShowModal(true)
+
+          // user.isAdmin ? router.replace('/admin') : router.replace('/dashboard');
           return;
         }
         if (!user.isEligible) {
@@ -70,9 +74,15 @@ const Register: React.FC = () => {
     );
   }
 
+  const onClose = async () => {
+    setShowModal(false);
+    window.location.href = '/';
+  };
+
   return (
     <div>
       <Navbar />
+
       <Box mt={{ base: "64px", lg: "94px" }}>
         {loading ? (
           <Flex direction="column" align="center" justify="center" height="100vh" textAlign="center">
@@ -80,6 +90,12 @@ const Register: React.FC = () => {
           </Flex>
         ) : (
           <Flex height="100vh">
+            <CustomModal
+              isOpen={showModal}
+              title={'Email Already Registered'}
+              description={'The email is already registered with a team.'}
+              onClose={onClose}
+            />
             <Box minHeight="100vh" flex="1" className="">
               <Heading fontSize={{ base: '1.75rem', md: "2rem" }} fontWeight="500" className="registration_heading">Register your team</Heading>
               <RegistrationForm email={email} />

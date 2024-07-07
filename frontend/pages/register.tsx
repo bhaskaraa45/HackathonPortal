@@ -43,7 +43,8 @@ const Register: React.FC = () => {
         if (user.isRegisterd) {
 
           setShowModal(true)
-
+          setEmail(user.email);
+          setLoading(false);
           // user.isAdmin ? router.replace('/admin') : router.replace('/dashboard');
           return;
         }

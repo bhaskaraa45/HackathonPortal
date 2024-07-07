@@ -106,7 +106,7 @@ func LogResponse(round int, sol string, user string, team string) {
 		log.Printf("Error occured while logging response: %v", err)
 	}
 
-	ResponseLogger.Info("", zap.Int("Round", round), zap.String("Response", sol), zap.String("Submitted By", user), zap.String("Team", team))
+	ResponseLogger.Info("New Response", zap.Int("Round", round), zap.String("Response", sol), zap.String("Submitted By", user), zap.String("Team", team))
 }
 
 func LogPromote(round int, byWhom string, team string) {
@@ -116,12 +116,12 @@ func LogPromote(round int, byWhom string, team string) {
 		log.Printf("Error occured while logging promotion: %v", err)
 	}
 
-	PromoteLogger.Info("", zap.Int("Round", round), zap.String("By", byWhom), zap.String("Team", team))
+	PromoteLogger.Info("Team Advancement", zap.Int("Round", round), zap.String("By", byWhom), zap.String("Team", team))
 }
 
 func LogEmails(to string, cc []string, mail string, isSent bool) {
 	EmailLogger.Info("", zap.String("To", to), zap.String("CC", strings.Join(cc, ", ")), zap.String("Mail", mail), zap.Bool("isSent", isSent))
 }
 func LogTeams(teamName string, members []string) {
-	TeamLogger.Info("", zap.String("Team Name", teamName), zap.String("Members", strings.Join(members, ", ")))
+	TeamLogger.Info("New Team", zap.String("Team Name", teamName), zap.String("Members", strings.Join(members, ", ")))
 }

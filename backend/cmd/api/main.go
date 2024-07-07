@@ -11,6 +11,7 @@ func main() {
 
 	config.InitSuperTokesn()
 	config.InitSMTP()
+	config.InitLogger()
 
 	go cron.InitCronJob()
 

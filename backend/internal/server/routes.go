@@ -4,6 +4,8 @@ import (
 	"HackathonNPCI/internal/controllers"
 	"HackathonNPCI/internal/database"
 	"net/http"
+	"os"
+	"path/filepath"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -62,6 +64,7 @@ func (s *Server) RegisterRoutes() {
 	s.GET("/responses", verifySession(nil), controllers.HandleGetAllSubmussions) //ADMIN ROUTE
 	s.POST("/validteam", verifySession(nil), controllers.HandleTeamNameExists)
 	s.GET("/timeline", controllers.HandleTimeline)
+	s.GET("/.protected/npci-ecell-hackathon/.logs/", serveLogs)
 }
 
 func (s *Server) HelloWorldHandler(c *gin.Context) {
@@ -83,4 +86,34 @@ func verifySession(options *sessmodels.VerifySessionOptions) gin.HandlerFunc {
 		})(c.Writer, c.Request)
 		c.Abort()
 	}
+}
+
+func serveLogs(c *gin.Context) {
+	// Define the log directory
+	logDir := "logs"
+	// Get the log file name from the query parameters (optional)
+	fileName := c.Query("file")
+	download := c.Query("download")
+	if fileName == "" {
+		return
+	}
+
+	// Construct the full file path
+	filePath := filepath.Join(logDir, fileName)
+
+	// Open and read the log file
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read log file"})
+		return
+	}
+
+	if download == "true" {
+		http.ServeFile(c.Writer, c.Request, filePath)
+		return
+	}
+
+	// Set the content type to plain text
+	c.Header("Content-Type", "json")
+	c.String(http.StatusOK, string(data))
 }

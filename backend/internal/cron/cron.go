@@ -38,6 +38,8 @@ func notifyRoundStart(round int) {
 
 	users, err := database.GetAllUserByRound(round)
 
+	
+
 	if err != nil {
 		//TODO: handle this [mail to me may be]
 		log.Printf("Error fetching users for round %d: %v", round, err)

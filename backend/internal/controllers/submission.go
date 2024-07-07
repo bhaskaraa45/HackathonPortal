@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"HackathonNPCI/internal"
+	"HackathonNPCI/internal/config"
 	"HackathonNPCI/internal/database"
 	"HackathonNPCI/internal/email"
 	"HackathonNPCI/internal/utils"
@@ -44,12 +45,6 @@ func HandleSubmussions(c *gin.Context) {
 
 	curr := team.CurrentRound
 	last := team.LastSubmission
-
-	if err != nil {
-		log.Println(err)
-		c.JSON(http.StatusInternalServerError, "Something Went Wrong. Please Try Again Later")
-		return
-	}
 
 	if curr <= last {
 		msg := fmt.Sprintf("An answer has already been submitted for round %v.", curr)
@@ -97,6 +92,8 @@ func HandleSubmussions(c *gin.Context) {
 	}
 	subject := fmt.Sprintf("Your Round %v Submission is Confirmed! | NPCI x E-Cell IITH Hackathon", team.CurrentRound)
 	email.SendEmail(info.Email, cc, subject, content)
+
+	config.LogResponse(team.CurrentRound, data.Answer, info.Email, team.TeamName)
 
 	c.JSON(http.StatusOK, gin.H{"message": "Your answer has been submitted successfully.", "heading": "Answer submitted!"})
 }

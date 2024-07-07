@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"HackathonNPCI/internal"
+	"HackathonNPCI/internal/config"
 	"HackathonNPCI/internal/database"
 	"HackathonNPCI/internal/email"
 	"HackathonNPCI/internal/utils"
@@ -31,13 +32,13 @@ func HandleTeamRegister(c *gin.Context) {
 	var data internal.TeamData
 	err := json.NewDecoder(c.Request.Body).Decode(&data)
 	if err != nil {
-		resp := internal.CustomResponse("invalid json data!", http.StatusBadRequest)
+		resp := internal.CustomResponse("Invalid json data!", http.StatusBadRequest)
 		c.JSON(http.StatusBadRequest, resp)
 		return
 	}
 
 	if data.TeamName == "" || len(data.MembersEmail) == 0 || len(data.MembersName) == 0 || len(data.MembersEmail) != len(data.MembersName) {
-		resp := internal.CustomResponse("invalid json data!", http.StatusBadRequest)
+		resp := internal.CustomResponse("Invalid json data!", http.StatusBadRequest)
 		c.JSON(http.StatusBadRequest, resp)
 		return
 	}
@@ -56,7 +57,7 @@ func HandleTeamRegister(c *gin.Context) {
 
 	if err != nil {
 		fmt.Println(err)
-		c.AbortWithError(http.StatusInternalServerError, errors.New("internal server error"))
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "Something went wrong! Please try again."})
 		return
 	}
 
@@ -76,7 +77,7 @@ func HandleTeamRegister(c *gin.Context) {
 
 	if err != nil {
 		fmt.Println(err)
-		c.AbortWithError(http.StatusInternalServerError, errors.New("internal server error"))
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "Something went wrong! Please try again."})
 		return
 	}
 
@@ -84,12 +85,14 @@ func HandleTeamRegister(c *gin.Context) {
 
 	if err != nil || !res {
 		fmt.Println(err)
-		c.AbortWithError(http.StatusInternalServerError, errors.New("internal server error"))
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "Something went wrong! Please try again."})
 		return
 	}
 
 	subject := "Registration Successful! Welcome to the NPCI x E-Cell IITH Hackathon"
 	email.SendEmail(data.MembersEmail[0], data.MembersEmail[1:4], subject, content)
+
+	config.LogTeams(data.TeamName, data.MembersEmail)
 
 	resp := internal.CustomResponse("Successfully Team Registered", http.StatusOK)
 	c.JSON(http.StatusOK, resp)
@@ -194,6 +197,8 @@ func HandleRoundPromotion(c *gin.Context) {
 		subject := fmt.Sprintf("Congratulations! You're Advancing to Round %v | NPCI x E-Cell IITH Hackathon", team.CurrentRound+1)
 		email.SendEmail(team.MembersEmail[0], team.MembersEmail[1:4], subject, content)
 	}
+
+	config.LogPromote(team.CurrentRound+1, info.Email, team.TeamName)
 
 	msg := fmt.Sprintf("team_id: %v Sucessfully promoted to next round!", data.TeamID)
 

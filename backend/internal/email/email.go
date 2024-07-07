@@ -5,6 +5,7 @@ import (
 	"HackathonNPCI/internal/config"
 	"bytes"
 	"fmt"
+	"log"
 	"net/smtp"
 	"os"
 	"strings"
@@ -44,10 +45,12 @@ func SendEmail(to string, cc []string, subject string, body []byte) (bool, error
 	// Sending email
 	err := smtp.SendMail(smtpHost+":"+smtpPort, config.SmtpAuth, from, recipients, msg.Bytes())
 	if err != nil {
-		fmt.Printf("Failed to send email: %v\n", err)
+		log.Printf("Failed to send email: %v\n", err)
+		config.LogEmails(to, cc, subject, false)
 		return false, err
 	}
-	fmt.Println("Email sent successfully!")
+	config.LogEmails(to, cc, subject, true)
+	log.Println("Email sent successfully!")
 	return true, nil
 }
 
@@ -104,7 +107,7 @@ func LoadSolutionSubmissionTemplate(teamName string, round string, sol string) (
 	return []byte(htmlContent), nil
 }
 
-func LoadSolutionAcceptedTemplate(teamName string, nextRound string, ) ([]byte, error) {
+func LoadSolutionAcceptedTemplate(teamName string, nextRound string) ([]byte, error) {
 	filePath := "internal/email/templates/accepted.html"
 	template, err := os.ReadFile(filePath)
 	if err != nil {
